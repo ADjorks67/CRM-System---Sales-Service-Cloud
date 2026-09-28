@@ -1,3 +1,0 @@
-Be concise. Show clear before/after when changing code.
-Stack is fixed: Laravel 11+ (PHP), Blade/HTML/CSS/vanilla JS, PostgreSQL. Never suggest Vue, Inertia, React, TypeScript or MySQL.
-Follow the CRM SRS strictly and cite requirement IDs. Use artisan generators, FormRequests, Policies and transactions.
