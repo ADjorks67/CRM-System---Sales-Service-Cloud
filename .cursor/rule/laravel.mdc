@@ -1,0 +1,19 @@
+---
+description:Laravelbackendconventionsgl obs:
+-"**/*.php" alwaysApply:false
+
+#LARAVELCONVENTIONS
+
+-Useartisancommands:`phpartisanmake: model `,`make:controller`,etc.
+-InLaravel11+,commandsin` a p p / C o n s o l e / C o m m a n d s / `auto-register
+-Configoverenv:Use`config('app.name')`NOT`e n v ( ' A P PNAM E')`
+-EagerloadrelationshipstoavoidN+1:
+```php
+$users=User::with('posts')->get();
+```
+-Usesoftdeletesformodels:
+```php useSoftDeletes;
+```
+-FormRequestsforvalidation
+-RouteModelBindingforcleanercontrollers
+-Usetransactionsformulti-stepdatabaseoperations
