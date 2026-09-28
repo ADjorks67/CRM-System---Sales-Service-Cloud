@@ -2,8 +2,74 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/* SRS section 6 design tokens */
+:root {
+    --color-primary: #032d60;
+    --color-secondary: #0176d3;
+    --color-page: #f3f3f3;
+    --color-card: #ffffff;
+    --color-text: #181818;
+    --color-success: #2e844a;
+    --color-error: #ba0517;
+    --color-warning: #fe9339;
+    --color-info: #0176d3;
+    --color-priority-high: #ba0517;
+    --color-priority-medium: #fe9339;
+    --color-priority-low: #2e844a;
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --font-size-h1: 24px;
+    --font-size-h2: 20px;
+    --font-size-h3: 16px;
+    --font-size-body: 14px;
+    --font-size-small: 12px;
+    --line-height-body: 1.5;
+}
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --color-primary: #032d60;
+    --color-secondary: #0176d3;
+    --color-page: #f3f3f3;
+    --color-card: #ffffff;
+    --color-text: #181818;
+    --color-success: #2e844a;
+    --color-error: #ba0517;
+    --color-warning: #fe9339;
+    --color-info: #0176d3;
+}
+
+@layer base {
+    body {
+        @apply bg-page text-text font-sans antialiased;
+        font-size: var(--font-size-body);
+        line-height: var(--line-height-body);
+    }
+
+    h1 {
+        font-size: var(--font-size-h1);
+        @apply font-bold text-primary;
+    }
+
+    h2 {
+        font-size: var(--font-size-h2);
+        @apply font-semibold text-primary;
+    }
+
+    h3 {
+        font-size: var(--font-size-h3);
+        @apply font-semibold text-primary;
+    }
+
+    a {
+        @apply text-secondary;
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible {
+        @apply outline-2 outline-offset-2 outline-secondary;
+    }
 }
