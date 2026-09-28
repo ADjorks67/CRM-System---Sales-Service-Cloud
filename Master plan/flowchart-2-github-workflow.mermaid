@@ -1,0 +1,25 @@
+flowchart TD
+    A([Start of day]) --> B["git checkout develop and git pull"]
+    B --> C["Pick task from GitHub Project board, assigned to me"]
+    C --> D["git checkout -b feature/REQ-ID-name"]
+    D --> E["Open Cursor, rules load automatically, reference SRS ID in prompt"]
+    E --> F["Build in small steps: migration, model, policy, request, controller, view, test"]
+    F --> G{"Tests + Pint pass locally?"}
+    G -- No --> F
+    G -- Yes --> H["Commit: feat(module): summary REQ-ID"]
+    H --> I["git pull --rebase origin develop"]
+    I --> J{"Conflicts?"}
+    J -- Yes --> K["Resolve, re-run tests, message teammate if shared file"]
+    K --> I
+    J -- No --> L["Push branch and open Pull Request"]
+    L --> M["GitHub Actions CI: tests, Pint"]
+    M --> N{"CI green?"}
+    N -- No --> F
+    N -- Yes --> O["Teammate reviews: SRS match, security, policy, tests"]
+    O --> P{"Approved?"}
+    P -- Changes requested --> F
+    P -- Yes --> Q["Squash merge into develop, delete branch"]
+    Q --> R{"End of sprint?"}
+    R -- No --> C
+    R -- Yes --> S["Sprint demo, retro, merge develop into main, tag release"]
+    S --> T([Next sprint])

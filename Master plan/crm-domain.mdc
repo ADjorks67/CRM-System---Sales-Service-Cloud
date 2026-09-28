@@ -1,0 +1,40 @@
+---
+description: CRM business rules taken directly from the SRS - apply when touching any CRM module
+globs:
+  - "app/**/*.php"
+  - "resources/views/**/*.blade.php"
+  - "tests/**/*.php"
+alwaysApply: false
+---
+# CRM DOMAIN RULES (SRS)
+## Roles (FR-AUTH-003)
+System Administrator, Sales Manager, Sales Representative, Service Representative, Read-Only User.
+CRUD permission per entity per role; record sharing: Private, Public Read Only, Public Read/Write.
+Users see only records they own or were granted access to.
+
+## Authentication (FR-AUTH-001/002)
+Password >= 8 chars with upper/lower/number; lockout after 5 failed attempts; 2-hour inactivity timeout;
+optional 30-day remember-me; reset token valid 1 hour; cannot reuse last 5 passwords.
+
+## Leads
+Statuses: New (default), Working, Nurturing, Qualified, Unqualified, Converted. Required: Last Name, Company, Status.
+Convert: match/create Account, create Contact, optional Opportunity (name required), optionally transfer open
+tasks/events, set status Converted, converted leads become read-only, keep links to resulting records. Wrap in a transaction.
+
+## Accounts / Contacts
+Account required: Name. Contact required: Last Name + Account. Roll-ups for account hierarchy (employees, revenue).
+
+## Opportunities
+Stages -> probability: Qualification 10, Meeting Scheduled 20, Proposal/Price Quote 65, Negotiation/Review 80,
+Closed Won 100, Closed Lost 0. Probability auto-updates on stage change; record stage history.
+Validation: close date not in the past, amount positive, probability 0-100. Expected revenue = amount x probability.
+Delete = archive with confirmation. Clone optionally includes related records.
+
+## Cases
+Statuses: New, Working, Escalated, Closed. Required: Status, Origin (Phone/Email/Web/Chat). Closed cases are read-only;
+Reopen action available. Priority colours: High red, Medium yellow, Low green.
+
+## Tasks / Events
+Task required: Subject; status Not Started/In Progress/Completed/Deferred; priority High/Normal/Low; reminders.
+Event required: Subject, start, end (end after start); all-day, private (owner only), show-time-as.
+Ownership changes must be logged in the activity timeline and can notify the new owner.

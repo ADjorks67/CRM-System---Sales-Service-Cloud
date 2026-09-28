@@ -1,0 +1,73 @@
+flowchart TD
+    S([Start: SRS signed off]) --> P0
+
+    subgraph P0["PHASE 0 - Setup and Governance - both devs, Week 1"]
+        A0["Create GitHub repo, branch protection, main and develop"]
+        B0["Laravel + MySQL + Docker dev env, CI pipeline"]
+        C0["Add Cursor rules, base layout shell, design tokens"]
+        A0 --> B0 --> C0
+    end
+
+    P0 --> P1
+
+    subgraph P1["PHASE 1 - Foundation - Weeks 2-3"]
+        direction LR
+        A1["DEV A: Login, lockout, session timeout, password reset, RBAC, policies, users admin"]
+        B1["DEV B: Layout, nav tabs, Blade components, list-view and form helpers, audit trait, seeders"]
+    end
+
+    P1 --> G1{"Gate 1: Auth + layout merged to develop?"}
+    G1 -- No --> P1
+    G1 -- Yes --> P2
+
+    subgraph P2["PHASE 2 - Core Objects P0 - Weeks 4-7"]
+        direction LR
+        A2["DEV A: Accounts then Contacts: CRUD, lists, detail pages, related lists"]
+        B2["DEV B: Leads: CRUD, list, detail, statuses, assignment, bulk actions"]
+    end
+
+    P2 --> G2{"Gate 2: Accounts, Contacts, Leads demo-ready?"}
+    G2 -- No --> P2
+    G2 -- Yes --> P3
+
+    subgraph P3["PHASE 3 - Sales, Service, Search and Basic Reports P0 - Weeks 8-9"]
+        direction LR
+        A3["DEV A: Cases + status workflow, global search, lead and case reports"]
+        B3["DEV B: Opportunities + stages, home dashboard widgets, pipeline reports"]
+    end
+
+    P3 --> G3{"Gate 3: All P0 features working and tested?"}
+    G3 -- No --> P3
+    G3 -- Yes --> P4
+
+    subgraph P4["PHASE 4 - Productivity and Analytics P1 - Weeks 10-13"]
+        direction LR
+        A4["DEV A: Tasks, email notifications, queues + scheduler, import/export"]
+        B4["DEV B: Events + calendar, lead conversion, report builder, dashboard builder"]
+    end
+
+    P4 --> G4{"Gate 4: P1 complete, sprint demo approved?"}
+    G4 -- No --> P4
+    G4 -- Yes --> P5
+
+    subgraph P5["PHASE 5 - Enhancements P2 - Weeks 14-15"]
+        direction LR
+        A5["DEV A: MFA, attachments + scan, advanced search, report subscriptions, REST API"]
+        B5["DEV B: Account hierarchy, dashboard auto-refresh, assistant recommendations"]
+    end
+
+    P5 --> P6
+
+    subgraph P6["PHASE 6 - Hardening and QA - Week 16"]
+        T1["Coverage 80%, security and load tests, WCAG AA, cross-browser, GDPR features"]
+    end
+
+    P6 --> G5{"Gate 5: All tests green, no critical bugs?"}
+    G5 -- No --> P6
+    G5 -- Yes --> P7
+
+    subgraph P7["PHASE 7 - Deployment and Handover - Week 17"]
+        D1["Docker images, staging, UAT, production release, docs"]
+    end
+
+    P7 --> E([Go-live and handover])

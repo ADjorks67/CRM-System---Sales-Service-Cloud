@@ -1,0 +1,45 @@
+---
+description: Core standards for the CRM System (Sales & Service Cloud)
+globs:
+  - "**/*.php"
+  - "**/*.blade.php"
+  - "**/*.js"
+  - "**/*.css"
+alwaysApply: true
+---
+# CRM PROJECT - CORE STANDARDS
+
+## Locked technology stack (from the SRS - NEVER change)
+- Backend: Laravel (PHP). Frontend: HTML rendered with Blade templates + CSS + vanilla JavaScript.
+- Database: MySQL (InnoDB, utf8mb4).
+- FORBIDDEN unless both developers and the SRS owner approve in writing: Vue, Inertia, React, Livewire,
+  TypeScript, PostgreSQL/SQLite-only features, any SPA framework.
+- Allowed tooling: Laravel's default Vite pipeline, Composer/npm packages that do NOT replace the stack
+  (e.g. Chart.js for charts, FullCalendar for the calendar, a PHP spreadsheet/PDF export library).
+- Before adding ANY new package: state why, check it is maintained, and get the other developer's OK in the PR.
+
+## Source of truth
+- The SRS (CRM_Requirements_Specification.docx) wins over guesses. Follow it strictly.
+- Reference requirement IDs (e.g. FR-LEAD-005, NFR-SEC-004) in code comments, tests, commits and PR titles.
+- Priority order: P0 > P1 > P2. Never build P3 (Won't Have): native apps, workflow builder,
+  AI insights, custom objects, integrations marketplace.
+- If the SRS is ambiguous or you are tempted to deviate, STOP and ask; do not invent behaviour.
+
+## Context first - no guesswork
+- List the files you will read/modify before changing anything. Follow existing patterns.
+- Never rewrite or reformat files outside the current task (two developers share this repo).
+- Ask at most one clarifying question, and only when the SRS does not answer it.
+
+## Challenge requests
+- Point out edge cases (permissions, empty states, validation, concurrency) before coding.
+- If a request conflicts with the SRS or the locked stack, say so and propose a compliant alternative.
+
+## Quality
+- Modular, testable code; small controllers; logic in Services/Actions; comments on non-obvious logic.
+- Think beyond the file: migration + model + policy + request + controller + view + test are one feature.
+- Every feature ships with: validation, authorization, audit fields, empty/error states, and tests.
+
+## Two-developer collaboration
+- Work only inside your owned module (see docs/PROJECT_PLAN.md). Shared files (layout, routes/web.php,
+  navigation, base traits, config) are changed only in small, separate PRs that are merged fast.
+- Never edit a migration that is already on `develop`; add a new one.

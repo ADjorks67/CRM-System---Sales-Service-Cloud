@@ -1,0 +1,23 @@
+---
+description: Laravel backend conventions for the CRM
+globs:
+  - "app/**/*.php"
+  - "routes/**/*.php"
+  - "database/**/*.php"
+  - "tests/**/*.php"
+alwaysApply: false
+---
+# LARAVEL CONVENTIONS
+- Generate with `php artisan make:*` (model -mfs, controller --resource, request, policy, seeder, test, job, mail).
+- Laravel 11+: no `app/Console/Kernel.php`. Middleware/exceptions/schedule live in `bootstrap/app.php` and `routes/console.php`.
+- Use `config('...')`, never `env()` outside config files.
+- Thin controllers -> FormRequest for validation -> Service/Action class for business logic -> Eloquent models.
+- Authorization via Policies + Gates for every controller action (RBAC at server level, NFR-SEC-003). Never rely on hidden buttons.
+- Route model binding; named routes (`leads.index`, `leads.convert`); group by module with `->middleware('auth')`.
+- Eager load (`with()`) to avoid N+1; paginate lists (default 25, hard max 200 - NFR-SCAL-002).
+- Wrap multi-step operations (lead conversion, clone, bulk owner change, import) in `DB::transaction()`.
+- Use Eloquent/Query Builder bindings only - no string-concatenated SQL (NFR-SEC-004).
+- Emails, reminders, digests, report subscriptions: queued Jobs/Mailables + scheduler, never inline in requests.
+- Use a shared `HasAuditFields` trait (created_by, updated_by) and Laravel timestamps on every business table.
+- Return flash messages (`with('success', ...)`) for toasts; JSON only from dedicated `/api` or AJAX endpoints.
+- Code style: PSR-12, run `./vendor/bin/pint` before every commit.
