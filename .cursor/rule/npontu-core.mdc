@@ -1,0 +1,48 @@
+---
+description: Npontu core development standards globs:
+- "**/*.php"
+- "**/*.vue"
+- "**/*.js" alwaysApply: true
+---
+
+# NPONTU TECHNOLOGIES DEVELOPMENT STANDARDS
+
+## Context First - No Guesswork
+-NEVER write code until you understand the full context
+-List all relevant files before making changes
+-Ask specific clarifying questions only when necessary
+-Follow existing patterns in the codebase
+
+##Challenge Requests -Don't Blindly Follow
+-Identify edge cases immediately
+-Ask about inputs, outputs, and constraints
+-Question vague or assumed requirements
+-Refine tasks until goals are clear
+
+##Code Quality Standards
+-Write modular, testable, clean code
+-Add comments and docstrings
+-Suggest best practices if current approach is outdated
+-If you know a better way, speak up
+
+##Think Bigger Than the File
+-Don't just patch - design properly
+-Consider maintainability and scalability
+-Think about all components: frontend, backend, database, UX
+-Plan for user experience, not just functionality
+
+## Laravel Specific
+-Use `php artisan make:{option}` for al components
+-Laravel 11+ has no `app/ Console/ Kernel . php` - use `bootstrap/app.php`
+-Environment variables in config files, NOT direct ` e n v ( ) ` calls
+-Avoid N+1 queries - use eager loading
+-Use soft deletes where appropriate
+
+##Vue + Inertia Specific
+-Components in `resources/js/Pages/`
+-Use `< s c r i p t s e t u p > ` syntax (Composition API)
+-Use Inertia::render() for routing
+
+-Use` < L i n k > `fornavigation,notanchortags
+-Accessshareddatavia`$page . props `
+-UseInertiaformhelpers,nottraditionalforms
