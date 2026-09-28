@@ -11,9 +11,9 @@ alwaysApply: true
 
 ## Locked technology stack (from the SRS - NEVER change)
 - Backend: Laravel (PHP). Frontend: HTML rendered with Blade templates + CSS + vanilla JavaScript.
-- Database: MySQL (InnoDB, utf8mb4).
+- Database: PostgreSQL (UTF-8).
 - FORBIDDEN unless both developers and the SRS owner approve in writing: Vue, Inertia, React, Livewire,
-  TypeScript, PostgreSQL/SQLite-only features, any SPA framework.
+  TypeScript, MySQL, SQLite-only features, any SPA framework.
 - Allowed tooling: Laravel's default Vite pipeline, Composer/npm packages that do NOT replace the stack
   (e.g. Chart.js for charts, FullCalendar for the calendar, a PHP spreadsheet/PDF export library).
 - Before adding ANY new package: state why, check it is maintained, and get the other developer's OK in the PR.

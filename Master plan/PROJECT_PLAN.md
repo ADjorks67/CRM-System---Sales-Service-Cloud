@@ -2,7 +2,7 @@
 
 **Team:** 2 developers (Dev A, Dev B) working in parallel through GitHub
 **Source of truth:** CRM Requirements Specification v1.0 (SRS)
-**Locked stack (SRS cover page):** Laravel, HTML, PHP, MySQL
+**Locked stack:** Laravel, HTML, PHP, PostgreSQL
 
 ---
 
@@ -12,7 +12,7 @@
 |---|---|---|
 | Backend | Laravel 11 | Laravel (11+), PHP |
 | Frontend | Vue 3 + Inertia.js | **Blade + HTML + CSS + vanilla JS** |
-| Database | PostgreSQL | **MySQL** |
+| Database | MySQL (older drafts) | **PostgreSQL** |
 | Cursor rules, prompting, Composer, commit-often, review checklist | Yes | **Kept and tailored** (see `cursor-rules/`) |
 
 - The SRS asks for a "single-page" feel. With HTML/Blade this is met through server-rendered pages plus `fetch()` for live pieces (search suggestions, inline task completion, calendar drag-and-drop, dashboard widgets). No SPA framework is introduced.
@@ -40,13 +40,13 @@ Shared files (layout, nav, `routes/web.php`, `bootstrap/app.php`) are edited onl
 - Project board columns: Backlog, In Progress, In Review, Done. One issue per requirement ID.
 - 2-week sprints, 15-minute daily sync, sprint demo + retro, tag a release at each sprint end.
 - Rebase on `develop` daily. Migrations already on `develop` are never edited.
-- CI (GitHub Actions): `composer install`, MySQL service, `php artisan test`, `pint --test`.
+- CI (GitHub Actions): `composer install`, PostgreSQL service, `php artisan test`, `pint --test`.
 
 ## 4. Phases
 
 ### Phase 0 - Setup and Governance (Week 1, both devs)
 - Create GitHub repo, branch protection, issue templates, project board, PR template.
-- Create Laravel project with MySQL; Docker Compose (php, mysql, mailpit for local email).
+- Create Laravel project with PostgreSQL; Docker Compose (php, postgres, mailpit for local email).
 - Copy `cursor-rules/*.mdc` into `.cursor/rules/`, paste `USER_RULES.txt` into Cursor Settings, commit.
 - Add CSS design tokens from SRS section 6, base layout skeleton, GitHub Actions CI.
 - Turn the SRS into GitHub issues (one per FR/NFR ID) and label P0/P1/P2.
@@ -134,7 +134,7 @@ Estimated ~17 weeks for two developers; adjust once you set your real deadline a
 |---|---|
 | Merge conflicts in shared files | Ownership table, per-module routes, small PRs, daily rebase |
 | Dev B blocked by Accounts (lead conversion, opportunities) | Dev A merges Accounts schema on day 1 of Phase 2 |
-| Cursor generating Vue/Inertia/Postgres code from habit | `crm-core.mdc` locks the stack; reviewer checks in every PR |
+| Cursor generating Vue/Inertia/MySQL code from habit | `crm-core.mdc` locks the stack; reviewer checks in every PR |
 | Report builder and dashboards are the most complex | Start after pre-built reports exist; reuse their query layer |
 | Record-level security missed in some queries | Central query scope per model + authorization tests per role |
 | Scope creep into P3 | Any P3 request needs both devs' approval |
@@ -150,7 +150,7 @@ Follow the guide's approach: Composer for multi-file features, `@file` reference
 ```
 Using @docs/SRS and the crm rules, implement FR-OPP-003 (stages and probability).
 Files: migration for stage_history, Opportunity model, StageService, OpportunityController@updateStage,
-Blade stage-path component, feature tests. Stack: Laravel + Blade + MySQL only.
+Blade stage-path component, feature tests. Stack: Laravel + Blade + PostgreSQL only.
 ```
 
 ---
@@ -166,7 +166,7 @@ flowchart TD
 
     subgraph P0["PHASE 0 - Setup and Governance - both devs, Week 1"]
         A0["Create GitHub repo, branch protection, main and develop"]
-        B0["Laravel + MySQL + Docker dev env, CI pipeline"]
+        B0["Laravel + PostgreSQL + Docker dev env, CI pipeline"]
         C0["Add Cursor rules, base layout shell, design tokens"]
         A0 --> B0 --> C0
     end

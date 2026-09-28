@@ -17,7 +17,7 @@ alwaysApply: false
 # PERFORMANCE
 - Page < 3s, save < 2s, simple search < 1s, report < 5s (<10k rows). Index for tables > 100k rows; paginate; cache hot lookups.
 
-# TESTING (PHPUnit / Pest with MySQL)
+# TESTING (PHPUnit / Pest with PostgreSQL)
 - Minimum 80% coverage of business logic. Each requirement ID has at least one feature test.
 - Required tests per module: authorization by role, validation rules, happy path, edge cases (e.g. lead conversion,
   stage probability change, closed-case read-only, lockout after 5 attempts).
