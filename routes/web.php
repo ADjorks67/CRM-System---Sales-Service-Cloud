@@ -26,3 +26,5 @@ require __DIR__.'/attachments.php';
 require __DIR__.'/mfa.php';
 require __DIR__.'/api_tokens.php';
 require __DIR__.'/api_docs.php';
+require __DIR__.'/gdpr.php';
+require __DIR__.'/health.php';

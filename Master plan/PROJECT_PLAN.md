@@ -109,6 +109,7 @@ Shared files (layout, nav, `routes/web.php`, `bootstrap/app.php`) are edited onl
 - Security: OWASP checks, authorization tests, dependency scan.
 - Accessibility (WCAG 2.1 AA), responsive (320px+), Chrome/Firefox/Safari/Edge.
 - GDPR: export and delete personal data, audit trail review.
+- **Working docs:** `docs/PHASE_6.md` (sub-phases 6.0–6.6), `docs/PHASE_6_CHECKLIST.md`.
 
 ### Phase 7 - Deployment and Handover (Week 17, both)
 - Production Dockerfile, environments (dev/staging/prod), CI/CD deploy, rollback procedure.

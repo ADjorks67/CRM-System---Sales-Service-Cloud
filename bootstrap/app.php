@@ -31,4 +31,5 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('crm:send-overdue-task-notifications')->dailyAt('07:15');
         $schedule->command('crm:send-task-reminders')->everyFiveMinutes();
         $schedule->command('crm:send-report-subscriptions')->everyFiveMinutes();
+        $schedule->command('crm:archive-old-records')->dailyAt('02:30');
     })->create();

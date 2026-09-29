@@ -71,7 +71,7 @@ Week 15 late    5A.5 REST API            ‖  5B.4 Polish
 
 ## Exit (phase)
 
-Both tracks’ exit checklists complete; sprint demo covers: saved search, subscription in Mailpit, attachment preview, optional MFA, one API call, account tree + roll-ups, timed dashboard refresh, dismissable assistant. Then Phase 6 hardening.
+Both tracks’ exit checklists complete; sprint demo covers: saved search, subscription in Mailpit, attachment preview, optional MFA, one API call, account tree + roll-ups, timed dashboard refresh, dismissable assistant. Then Phase 6 hardening — see [PHASE_6.md](PHASE_6.md).
 
 ## Status
 

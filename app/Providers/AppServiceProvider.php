@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\AttachmentScanner;
+use App\Enums\RoleSlug;
 use App\Models\Account;
 use App\Models\Attachment;
 use App\Models\Contact;
@@ -14,6 +15,7 @@ use App\Models\Task;
 use App\Models\User;
 use App\Services\EicarAttachmentScanner;
 use Illuminate\Auth\SessionGuard;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -28,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Model::preventLazyLoading(! $this->app->isProduction() && ! $this->app->runningUnitTests());
+
         Relation::enforceMorphMap([
             'account' => Account::class,
             'contact' => Contact::class,
@@ -59,6 +63,11 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('permission', function (User $user, string $permission): bool {
             return $user->hasPermission($permission);
+        });
+
+        // NFR-SEC-005: admin-only GDPR export / anonymize tools.
+        Gate::define('manageGdpr', function (User $user): bool {
+            return $user->hasRole(RoleSlug::SystemAdministrator);
         });
     }
 }

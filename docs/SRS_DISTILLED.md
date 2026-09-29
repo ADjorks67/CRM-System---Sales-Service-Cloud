@@ -47,7 +47,23 @@ Default **25** rows; hard maximum **200**.
 | 4 P1 — Dev A | Done | [PHASE_4_DEV_A.md](PHASE_4_DEV_A.md) |
 | 4 P1 — Dev B | Done | [PHASE_4_DEV_B.md](PHASE_4_DEV_B.md) |
 | **5 P2** | Done | [PHASE_5.md](PHASE_5.md) · [PHASE_5_DEV_A.md](PHASE_5_DEV_A.md) · [PHASE_5_DEV_B.md](PHASE_5_DEV_B.md) |
-| 6–7 | Later | Hardening, deploy, handover |
+| **6 QA** | Plan ready | [PHASE_6.md](PHASE_6.md) · [PHASE_6_CHECKLIST.md](PHASE_6_CHECKLIST.md) |
+| 7 | Later | Deploy, UAT, handover |
+
+## Phase 6 — NFR quick index (hardening)
+
+| ID | Sub-phase | One-liner |
+|---|---|---|
+| Coverage / FR matrix | 6.1 | Feature tests per FR; ≥80% coverage (tooling TBD) |
+| NFR-PERF-001..004 | 6.2 | Response budgets, 100 concurrent users, 100k+ row tuning |
+| NFR-SCAL-002 (indexes + archive) | 6.2 | Indexes; pagination max 200; configurable archive **in Phase 6** |
+| NFR-SEC-001..004 | 6.3 | TLS plan, authn/authz, validation, OWASP checklist |
+| NFR-SEC-005 | 6.5 | GDPR admin export + anonymize erase; audit review |
+| NFR-USE-002/003 | 6.4 | Responsive ≥320px; WCAG 2.1 AA + axe automation |
+| NFR-REL-005 health | 6.3 | App/DB health endpoint (APM/backups still Phase 7) |
+| NFR-REL / infra rest | →7 | Backups, uptime SLO, APM SaaS, CDN |
+
+Full task breakdown: [PHASE_6.md](PHASE_6.md).
 
 ## Phase 5 — SRS quick index
 

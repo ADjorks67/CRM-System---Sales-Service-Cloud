@@ -310,6 +310,17 @@ Event table uses Dev B schema (`is_all_day`, `show_as`, `calendar_type`, …). D
 
 **Why:** Hardening without complete features wastes effort; load/security tests need realistic data and routes.
 
+**Status (2026-09-29):** Phase 5 exit is met. Phase 6 **implementation plan** is ready; coding not started until 6.0 freeze + permission answers:
+
+- Index / sub-phases: [PHASE_6.md](PHASE_6.md)
+- Executable matrix: [PHASE_6_CHECKLIST.md](PHASE_6_CHECKLIST.md)
+
+**Sub-phases:** 6.0 freeze → 6.1 coverage → 6.2 performance → 6.3 security → 6.4 a11y → 6.5 GDPR (NFR-SEC-005) → 6.6 gate.
+
+**Permission required before some work:** coverage driver in CI, load-test tool, GDPR erase/export rules, `composer audit` CI step — see PHASE_6.md §5.
+
+**Locked (2026-09-29):** pcov+CI coverage; k6; axe a11y; GDPR admin anonymize; health in 6.3; archive in 6.2; no external pen-test; **`composer audit` in CI** (fail on high).
+
 ---
 
 ### Phase 7 — Deployment and handover
@@ -344,7 +355,7 @@ Phase 4  Dev B: calendar, conversion, report/dashboard builders
     ↓
 Phase 5  P2 polish (attachments, MFA, API, hierarchy, …)
     ↓
-Phase 6  QA / performance / security / a11y
+Phase 6  QA / performance / security / a11y / GDPR → docs/PHASE_6.md
     ↓
 Phase 7  staging → production → handover
 ```
@@ -358,6 +369,8 @@ Skipping a layer (for example building Opportunities before Accounts, or email b
 | Path | Role |
 |---|---|
 | `Master plan/PROJECT_PLAN.md` | Full phase plan and ownership |
+| `docs/PHASE_6.md` | Phase 6 sub-phases 6.0–6.6 |
+| `docs/PHASE_6_CHECKLIST.md` | FR/NFR matrix and gate checklist |
 | `Master plan/crm-*.mdc` | Domain / Laravel / Postgres / frontend rules |
 | `compose.yaml` | Local Postgres + Mailpit |
 | `.env.example` | Documented environment defaults |

@@ -42,6 +42,7 @@
                     <span class="hidden sm:inline text-white/90">{{ auth()->user()->name }}</span>
                     @can('viewAny', App\Models\User::class)
                         <a href="{{ route('users.index') }}" class="inline-flex min-h-11 items-center rounded px-2 text-white no-underline hover:bg-white/10">Users</a>
+                        <a href="{{ route('gdpr.index') }}" class="inline-flex min-h-11 items-center rounded px-2 text-white no-underline hover:bg-white/10">Privacy</a>
                     @endcan
                     <a href="{{ route('mfa.edit') }}" class="inline-flex min-h-11 items-center rounded px-2 text-white no-underline hover:bg-white/10">MFA</a>
                     <a href="{{ route('api-tokens.index') }}" class="inline-flex min-h-11 items-center rounded px-2 text-white no-underline hover:bg-white/10">API</a>
