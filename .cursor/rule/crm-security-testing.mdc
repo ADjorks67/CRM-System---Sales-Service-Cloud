@@ -1,0 +1,24 @@
+---
+description: Security, performance and testing requirements (SRS NFR sections 5 and 9.3)
+globs:
+  - "**/*.php"
+  - "**/*.blade.php"
+  - "**/*.js"
+alwaysApply: false
+---
+# SECURITY
+- Passwords hashed with bcrypt/argon (Laravel default). HTTP-only, SameSite cookies; session lifetime 120 min.
+- CSRF on every state-changing form/AJAX call; server-side validation on all input; escape all output.
+- File uploads: whitelist type (pdf, doc/docx, xls/xlsx, ppt/pptx, jpg/png/gif, txt), max 25MB, stored outside `public/`.
+- Sensitive fields (PII/financial) encrypted at rest where flagged; secrets only in `.env`, never committed.
+- Audit trail for create/update/delete/ownership change (who, what, when). Rate-limit login and API.
+- Review each feature for: missing policy, mass assignment (`$fillable`), IDOR (record-level access), N+1, unvalidated input.
+
+# PERFORMANCE
+- Page < 3s, save < 2s, simple search < 1s, report < 5s (<10k rows). Index for tables > 100k rows; paginate; cache hot lookups.
+
+# TESTING (PHPUnit / Pest with PostgreSQL)
+- Minimum 80% coverage of business logic. Each requirement ID has at least one feature test.
+- Required tests per module: authorization by role, validation rules, happy path, edge cases (e.g. lead conversion,
+  stage probability change, closed-case read-only, lockout after 5 attempts).
+- Run `php artisan test` and `./vendor/bin/pint --test` before opening a PR; CI must be green to merge.
