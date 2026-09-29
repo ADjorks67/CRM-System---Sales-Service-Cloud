@@ -3,6 +3,11 @@
 @section('title', $account->name.' — '.config('app.name'))
 
 @section('content')
+    <x-breadcrumbs :items="[
+        ['label' => 'Accounts', 'url' => route('accounts.index')],
+        ['label' => $account->name],
+    ]" />
+
     <div class="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
             <h1>{{ $account->name }}</h1>
@@ -88,6 +93,10 @@
         </section>
     </div>
 
+    <div class="mt-6">
+        @include('accounts.partials.hierarchy')
+    </div>
+
     <div class="mt-6 grid gap-4">
         <x-related-list title="Contacts" empty="No contacts for this account.">
             @if ($account->contacts->isNotEmpty())
@@ -141,5 +150,6 @@
                 · Events arrive with Dev B calendar
             </p>
         </x-related-list>
+        <x-attachments-related-list :attachable="$account" attachable-type="account" />
     </div>
 @endsection

@@ -44,9 +44,24 @@ Default **25** rows; hard maximum **200**.
 |---|---|---|
 | 0–2 | Done | PHASE_0 / PHASE_1 / PHASE_2 docs |
 | 3 MVP | Done | [PHASE_3_MVP.md](PHASE_3_MVP.md) |
-| **4 P1 — Dev B** | Kickoff | [PHASE_4_DEV_B.md](PHASE_4_DEV_B.md) |
-| 4 P1 — Dev A | Parallel (Tasks, email, import) | Not started in this track |
-| 5+ | Later | MFA, attachments, hierarchy, API, … |
+| 4 P1 — Dev A | Done | [PHASE_4_DEV_A.md](PHASE_4_DEV_A.md) |
+| 4 P1 — Dev B | Done | [PHASE_4_DEV_B.md](PHASE_4_DEV_B.md) |
+| **5 P2** | Done | [PHASE_5.md](PHASE_5.md) · [PHASE_5_DEV_A.md](PHASE_5_DEV_A.md) · [PHASE_5_DEV_B.md](PHASE_5_DEV_B.md) |
+| 6–7 | Later | Hardening, deploy, handover |
+
+## Phase 5 — SRS quick index
+
+| ID | Track | One-liner |
+|---|---|---|
+| FR-SRCH-003 | Dev A | Advanced search + saved searches (flat AND/OR) |
+| FR-RPT-006 | Dev A | Report subscriptions → email CSV |
+| SRS §8.2 | Dev A | Attachments 25MB, whitelist, preview, scanner interface |
+| NFR-SEC-002 | Dev A | Optional MFA via email OTP (no TOTP package) |
+| SRS §8.3 | Dev A | REST API v1 + tokens + OpenAPI yaml |
+| FR-ACCT-004 | Dev B | Hierarchy tree + employees/revenue roll-ups |
+| FR-DASH-003 | Dev B | Auto-refresh 5/10/30/60 (fetch widgets; pause when hidden) |
+| FR-HOME-007 | Dev B | Rule-based assistant (not AI); dismissable |
+| NFR-USE-001 | Dev B | Breadcrumbs, empty states, tooltips (polish last) |
 
 ## Phase 4 Dev B — SRS quick index
 

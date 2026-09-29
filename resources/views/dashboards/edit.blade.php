@@ -3,8 +3,13 @@
 @section('title', 'Edit '.$dashboard->name.' — '.config('app.name'))
 
 @section('content')
+    <x-breadcrumbs :items="[
+        ['label' => 'Dashboards', 'url' => route('dashboards.index')],
+        ['label' => $dashboard->name, 'url' => route('dashboards.show', $dashboard)],
+        ['label' => 'Edit'],
+    ]" />
+
     <div class="mb-4">
-        <p class="text-sm"><a href="{{ route('dashboards.show', $dashboard) }}" class="text-secondary no-underline">Back to dashboard</a></p>
         <h1>Edit Dashboard</h1>
     </div>
 

@@ -3,6 +3,11 @@
 @section('title', $lead->displayName().' — '.config('app.name'))
 
 @section('content')
+    <x-breadcrumbs :items="[
+        ['label' => 'Leads', 'url' => route('leads.index')],
+        ['label' => $lead->displayName()],
+    ]" />
+
     <div class="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
             <h1>{{ trim(($salutationLabel ? $salutationLabel.' ' : '').$lead->displayName()) }}</h1>
@@ -94,5 +99,9 @@
                 <div><dt class="text-text/60">Last Modified Date</dt><dd>{{ $lead->updated_at?->toDateTimeString() ?? '—' }}</dd></div>
             </dl>
         </section>
+    </div>
+
+    <div class="mt-4">
+        <x-attachments-related-list :attachable="$lead" attachable-type="lead" />
     </div>
 @endsection

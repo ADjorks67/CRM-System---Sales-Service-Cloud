@@ -284,6 +284,16 @@ Event table uses Dev B schema (`is_all_day`, `show_as`, `calendar_type`, …). D
 
 **Why:** Attachments, MFA, and API are cross-cutting; introducing them earlier delays MVP. Hierarchy needs existing account graph.
 
+**Status:** Phase 5 exit criteria met in-repo (Dev A + Dev B). See [PHASE_5.md](PHASE_5.md).
+
+**Status (kickoff):** Prerequisites above are met by Phase 4. Implementation plans with locked recommendations:
+
+- Index: [PHASE_5.md](PHASE_5.md)
+- Dev A: [PHASE_5_DEV_A.md](PHASE_5_DEV_A.md) — FR-SRCH-003, FR-RPT-006, attachments, email MFA, REST API + hand-written OpenAPI
+- Dev B: [PHASE_5_DEV_B.md](PHASE_5_DEV_B.md) — FR-ACCT-004, FR-DASH-003 auto-refresh, FR-HOME-007, UI polish
+
+**Locked approach highlights:** no new Composer packages without approval; MFA = email OTP; API = first-party tokens (not Sanctum/OAuth); attachments use private disk + `AttachmentScanner` (EICAR in tests); subscriptions reuse CSV `ReportExportService`; assistant is rule-based only.
+
 ---
 
 ### Phase 6 — Hardening and QA

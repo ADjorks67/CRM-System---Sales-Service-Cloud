@@ -101,7 +101,7 @@ class LeadController extends Controller
     {
         $this->authorize('view', $lead);
 
-        $lead->load(['owner', 'creator', 'updater']);
+        $lead->load(['owner', 'creator', 'updater', 'attachments']);
 
         return view('leads.show', [
             'lead' => $lead,

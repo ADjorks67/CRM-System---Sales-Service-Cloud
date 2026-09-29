@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/js/accounts.js',
                 'resources/js/charts.js',
                 'resources/js/calendar.js',
+                'resources/js/dashboard-refresh.js',
             ],
             refresh: true,
         }),

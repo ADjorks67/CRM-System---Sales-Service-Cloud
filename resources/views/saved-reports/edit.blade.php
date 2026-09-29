@@ -3,8 +3,13 @@
 @section('title', 'Edit '.$savedReport->name.' — '.config('app.name'))
 
 @section('content')
+    <x-breadcrumbs :items="[
+        ['label' => 'Custom Reports', 'url' => route('saved-reports.index')],
+        ['label' => $savedReport->name, 'url' => route('saved-reports.show', $savedReport)],
+        ['label' => 'Edit'],
+    ]" />
+
     <div class="mb-4">
-        <p class="text-sm"><a href="{{ route('saved-reports.show', $savedReport) }}" class="text-secondary no-underline">Back to report</a></p>
         <h1>Edit Report</h1>
     </div>
 

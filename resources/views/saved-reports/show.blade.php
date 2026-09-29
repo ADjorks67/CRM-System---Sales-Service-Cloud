@@ -3,15 +3,20 @@
 @section('title', $savedReport->name.' — '.config('app.name'))
 
 @section('content')
+    <x-breadcrumbs :items="[
+        ['label' => 'Custom Reports', 'url' => route('saved-reports.index')],
+        ['label' => $savedReport->name],
+    ]" />
+
     <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
-            <p class="text-sm"><a href="{{ route('saved-reports.index') }}" class="text-secondary no-underline">Custom Reports</a></p>
             <h1>{{ $savedReport->name }}</h1>
             <p class="text-sm text-text/70">{{ $result['rows']->count() }} row(s)</p>
         </div>
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('saved-reports.export', $savedReport) }}" class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm no-underline">Download CSV</a>
             <a href="{{ route('saved-reports.print', $savedReport) }}" target="_blank" rel="noopener" class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm no-underline">Print / PDF</a>
+            <a href="{{ route('subscriptions.create', $savedReport) }}" class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm no-underline">Subscribe</a>
             @can('update', $savedReport)
                 <a href="{{ route('saved-reports.edit', $savedReport) }}" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white no-underline">Edit</a>
             @endcan

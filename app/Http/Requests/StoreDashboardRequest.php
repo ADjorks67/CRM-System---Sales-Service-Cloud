@@ -26,6 +26,7 @@ class StoreDashboardRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:500'],
             'folder' => ['nullable', 'string', 'max:64'],
             'is_private' => ['sometimes', 'boolean'],
+            'refresh_interval_minutes' => ['nullable', 'integer', Rule::in(Dashboard::REFRESH_INTERVALS)],
             'widgets' => ['nullable', 'array', 'max:20'],
             'widgets.*.title' => ['required', 'string', 'max:120'],
             'widgets.*.widget_type' => ['required', 'string', Rule::in(['chart', 'table', 'metric', 'gauge'])],
@@ -41,7 +42,7 @@ class StoreDashboardRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->nullifyBlankStrings(['description', 'folder']);
+        $this->nullifyBlankStrings(['description', 'folder', 'refresh_interval_minutes']);
         $this->merge([
             'is_private' => $this->boolean('is_private', true),
             'folder' => $this->input('folder') ?: 'private',

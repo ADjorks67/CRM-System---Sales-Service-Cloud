@@ -12,6 +12,11 @@
         };
     @endphp
 
+    <x-breadcrumbs :items="[
+        ['label' => 'Cases', 'url' => route('cases.index')],
+        ['label' => $crmCase->displayName()],
+    ]" />
+
     <div class="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
             <h1>{{ $crmCase->displayName() }}</h1>
@@ -146,6 +151,6 @@
                 <a href="{{ route('tasks.create', ['related_type' => 'case', 'related_id' => $crmCase->id]) }}">New Task</a>
             </p>
         </x-related-list>
-        <x-related-list title="Attachments" empty="No attachments yet." />
+        <x-attachments-related-list :attachable="$crmCase" attachable-type="case" />
     </div>
 @endsection

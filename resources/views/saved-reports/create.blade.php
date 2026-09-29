@@ -3,8 +3,12 @@
 @section('title', 'New Custom Report — '.config('app.name'))
 
 @section('content')
+    <x-breadcrumbs :items="[
+        ['label' => 'Custom Reports', 'url' => route('saved-reports.index')],
+        ['label' => 'New Report'],
+    ]" />
+
     <div class="mb-4">
-        <p class="text-sm"><a href="{{ route('saved-reports.index') }}" class="text-secondary no-underline">Custom Reports</a></p>
         <h1>New Report — {{ $reportTypes[$reportType] ?? ucfirst($reportType) }}</h1>
     </div>
 

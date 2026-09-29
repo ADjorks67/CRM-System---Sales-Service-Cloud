@@ -17,12 +17,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'folder',
     'is_private',
     'layout',
+    'refresh_interval_minutes',
     'owner_id',
 ])]
 class Dashboard extends Model
 {
     /** @use HasFactory<DashboardFactory> */
     use HasAuditFields, HasFactory, HasOwnerPrivacy;
+
+    public const REFRESH_INTERVALS = [5, 10, 30, 60];
 
     protected $attributes = [
         'folder' => 'private',
@@ -34,6 +37,7 @@ class Dashboard extends Model
         return [
             'layout' => 'array',
             'is_private' => 'boolean',
+            'refresh_interval_minutes' => 'integer',
         ];
     }
 

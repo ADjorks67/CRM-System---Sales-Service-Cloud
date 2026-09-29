@@ -3,9 +3,12 @@
 @section('title', 'Search — '.config('app.name'))
 
 @section('content')
-    <div class="mb-4">
-        <h1>Search</h1>
-        <p class="text-sm text-text/70">Global search across Leads, Accounts, Contacts, Opportunities, and Cases (FR-SRCH-001).</p>
+    <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+        <div>
+            <h1>Search</h1>
+            <p class="text-sm text-text/70">Global search across Leads, Accounts, Contacts, Opportunities, and Cases (FR-SRCH-001).</p>
+        </div>
+        <a href="{{ route('search.advanced.create') }}" class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm no-underline">Advanced search</a>
     </div>
 
     <form method="get" action="{{ route('search.index') }}" class="mb-6 flex flex-wrap gap-2 rounded bg-card p-4 shadow-[var(--shadow-card)]">

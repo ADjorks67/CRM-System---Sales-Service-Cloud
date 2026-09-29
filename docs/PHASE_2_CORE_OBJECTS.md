@@ -23,7 +23,7 @@
 | Item | Phase |
 |---|---|
 | FR-LEAD-005 Convert Lead wizard | Phase 4 (Convert button disabled with tooltip) |
-| FR-ACCT-004 hierarchy tree / roll-ups | Phase 5 (`parent_account_id` field exists) |
+| FR-ACCT-004 hierarchy tree / roll-ups | Phase 5 — [PHASE_5_DEV_B.md](PHASE_5_DEV_B.md) (`parent_account_id` field exists) |
 | Import / Campaigns | Phase 4+ |
 | Opportunities / Cases / Activities related lists | Phase 3/4 — Opportunities & Cases wired in Phase 3; Activities remain Phase 4 |
 | Owner-change email + activity transfer | Phase 4 (UI flags stored only) |

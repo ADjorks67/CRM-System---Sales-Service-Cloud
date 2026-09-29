@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'role_id', 'is_active', 'failed_login_attempts', 'locked_until'])]
+#[Fillable(['name', 'email', 'password', 'role_id', 'is_active', 'failed_login_attempts', 'locked_until', 'mfa_enabled'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -29,6 +29,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'mfa_enabled' => 'boolean',
             'locked_until' => 'datetime',
             'failed_login_attempts' => 'integer',
         ];
@@ -42,6 +43,16 @@ class User extends Authenticatable
     public function passwordHistories(): HasMany
     {
         return $this->hasMany(PasswordHistory::class);
+    }
+
+    public function mfaBackupCodes(): HasMany
+    {
+        return $this->hasMany(MfaBackupCode::class);
+    }
+
+    public function apiTokens(): HasMany
+    {
+        return $this->hasMany(ApiToken::class);
     }
 
     public function hasRole(RoleSlug|string $role): bool

@@ -125,7 +125,7 @@ class OpportunityController extends Controller
 
         $this->recentRecordService->recordView($request->user(), $opportunity);
 
-        $opportunity->load(['owner', 'account', 'creator', 'updater', 'stageHistories.changedByUser']);
+        $opportunity->load(['owner', 'account', 'creator', 'updater', 'stageHistories.changedByUser', 'attachments']);
 
         return view('opportunities.show', [
             'opportunity' => $opportunity,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
+use App\Services\MfaService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,8 @@ use Illuminate\View\View;
 
 class LoginController extends Controller
 {
+    public function __construct(private readonly MfaService $mfa) {}
+
     public function create(): View
     {
         return view('auth.login');
@@ -39,7 +42,7 @@ class LoginController extends Controller
 
         $remember = $request->boolean('remember');
 
-        if (! Auth::attempt($request->only('email', 'password'), $remember)) {
+        if (! Auth::attempt($request->only('email', 'password'), false)) {
             RateLimiter::hit($this->throttleKey($request), 60);
 
             $user?->registerFailedLogin();
@@ -54,6 +57,20 @@ class LoginController extends Controller
         /** @var User $authenticated */
         $authenticated = Auth::user();
         $authenticated->clearLoginFailures();
+
+        if ($authenticated->mfa_enabled) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            $this->mfa->issueChallenge($authenticated, $remember);
+
+            return redirect()->route('mfa.challenge');
+        }
+
+        if ($remember) {
+            Auth::login($authenticated, true);
+        }
 
         $request->session()->regenerate();
 

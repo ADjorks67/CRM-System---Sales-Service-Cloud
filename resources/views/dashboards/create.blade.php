@@ -3,8 +3,12 @@
 @section('title', 'New Dashboard — '.config('app.name'))
 
 @section('content')
+    <x-breadcrumbs :items="[
+        ['label' => 'Dashboards', 'url' => route('dashboards.index')],
+        ['label' => 'New Dashboard'],
+    ]" />
+
     <div class="mb-4">
-        <p class="text-sm"><a href="{{ route('dashboards.index') }}" class="text-secondary no-underline">Dashboards</a></p>
         <h1>New Dashboard</h1>
     </div>
 

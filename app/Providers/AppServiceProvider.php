@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Contracts\AttachmentScanner;
 use App\Models\Account;
+use App\Models\Attachment;
 use App\Models\Contact;
 use App\Models\CrmCase;
 use App\Models\Event;
@@ -10,6 +12,7 @@ use App\Models\Lead;
 use App\Models\Opportunity;
 use App\Models\Task;
 use App\Models\User;
+use App\Services\EicarAttachmentScanner;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        $this->app->bind(AttachmentScanner::class, EicarAttachmentScanner::class);
     }
 
     public function boot(): void
@@ -34,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
             'task' => Task::class,
             'event' => Event::class,
             'user' => User::class,
+            'attachment' => Attachment::class,
         ]);
 
         // FR-AUTH-001: optional remember-me lasts 30 days.

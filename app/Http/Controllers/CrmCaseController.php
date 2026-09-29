@@ -118,7 +118,7 @@ class CrmCaseController extends Controller
         $viewer = $request->user();
         $this->recentRecordService->recordView($viewer, $crmCase);
 
-        $crmCase->load(['owner', 'account', 'contact', 'creator', 'updater']);
+        $crmCase->load(['owner', 'account', 'contact', 'creator', 'updater', 'attachments']);
 
         return view('cases.show', [
             'crmCase' => $crmCase,

@@ -4,9 +4,11 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Concerns\ClearsBlankStrings;
 use App\Models\Account;
+use App\Services\AccountHierarchyService;
 use App\Support\PicklistOptions;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class UpdateAccountRequest extends FormRequest
 {
@@ -57,6 +59,30 @@ class UpdateAccountRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'save_action' => ['nullable', 'in:save,save_new'],
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function (Validator $validator): void {
+            if ($validator->errors()->isNotEmpty()) {
+                return;
+            }
+
+            /** @var Account $account */
+            $account = $this->route('account');
+            $parentId = $this->input('parent_account_id');
+
+            if ($parentId === null || $parentId === '') {
+                return;
+            }
+
+            if (app(AccountHierarchyService::class)->wouldCreateCycle($account, (int) $parentId)) {
+                $validator->errors()->add(
+                    'parent_account_id',
+                    'Parent account cannot be this account or one of its descendants.'
+                );
+            }
+        });
     }
 
     protected function prepareForValidation(): void

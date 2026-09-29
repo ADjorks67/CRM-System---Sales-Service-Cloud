@@ -34,12 +34,20 @@
     <x-form-field name="name" label="Dashboard Name" :value="old('name', $dashboard?->name ?? '')" required />
     <x-form-field name="folder" label="Folder" :value="old('folder', $dashboard?->folder ?? 'private')" />
 </div>
+<div class="grid gap-3 sm:grid-cols-2">
+    <x-form-field
+        name="refresh_interval_minutes"
+        label="Auto-refresh"
+        :value="old('refresh_interval_minutes', $dashboard?->refresh_interval_minutes ?? '')"
+        :options="['' => 'Off', 5 => '5 minutes', 10 => '10 minutes', 30 => '30 minutes', 60 => '60 minutes']"
+    />
+</div>
 <x-form-field name="description" label="Description" type="textarea" :value="old('description', $dashboard?->description ?? '')" />
 
 <div class="space-y-3" data-dashboard-widgets data-max-widgets="20">
     <div class="flex flex-wrap items-center justify-between gap-2">
         <h2 class="text-base font-semibold text-primary">Widgets <span class="text-sm font-normal text-text/60">(max 20)</span></h2>
-        <button type="button" class="inline-flex min-h-11 items-center rounded border border-black/20 px-3 py-2 text-sm" data-add-widget>
+        <button type="button" class="inline-flex min-h-11 items-center rounded border border-black/20 px-3 py-2 text-sm" data-add-widget title="Add widget" aria-label="Add widget">
             Add widget
         </button>
     </div>

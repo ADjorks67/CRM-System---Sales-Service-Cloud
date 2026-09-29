@@ -107,6 +107,7 @@ class ContactController extends Controller
             'creator',
             'updater',
             'cases' => fn ($q) => $q->with('owner')->latest('updated_at')->limit(10),
+            'attachments',
         ]);
 
         $accountOpportunities = $contact->account_id

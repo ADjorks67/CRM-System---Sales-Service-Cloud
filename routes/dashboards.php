@@ -9,6 +9,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/dashboards', [DashboardController::class, 'store'])->name('dashboards.store');
     Route::post('/dashboards/filters', [DashboardController::class, 'storeFilters'])->name('dashboards.filters.store');
     Route::get('/dashboards/{dashboard}', [DashboardController::class, 'show'])->name('dashboards.show');
+    Route::get('/dashboards/{dashboard}/refresh', [DashboardController::class, 'refresh'])->name('dashboards.refresh');
     Route::get('/dashboards/{dashboard}/edit', [DashboardController::class, 'edit'])->name('dashboards.edit');
     Route::put('/dashboards/{dashboard}', [DashboardController::class, 'update'])->name('dashboards.update');
     Route::delete('/dashboards/{dashboard}', [DashboardController::class, 'destroy'])->name('dashboards.destroy');

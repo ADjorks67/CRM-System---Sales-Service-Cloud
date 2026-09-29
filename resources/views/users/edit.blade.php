@@ -28,4 +28,11 @@
             <button type="submit" class="inline-flex min-h-11 items-center rounded bg-error px-4 py-2 text-sm font-semibold text-white">Delete user</button>
         </form>
     @endcan
+
+    @if ($user->mfa_enabled)
+        <form method="post" action="{{ route('users.mfa.disable', $user) }}" class="mt-4 max-w-2xl" onsubmit="return confirm('Disable MFA for this user?')">
+            @csrf
+            <button type="submit" class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm">Disable MFA (admin)</button>
+        </form>
+    @endif
 @endsection

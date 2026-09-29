@@ -23,11 +23,12 @@
 |---|---|
 | FR-LEAD-005 Convert Lead | Phase 4 |
 | FR-HOME-004/005 Tasks/Events widgets | Phase 4 |
-| FR-RPT-003 builder, FR-RPT-005 export, FR-RPT-006 subscriptions | Phase 4/5 |
-| FR-SRCH-003 advanced/saved search | Phase 5 |
-| Case Emails / Attachments / New Task | Phase 4/5 (empty shells) |
+| FR-RPT-003 builder, FR-RPT-005 export | Phase 4 (done) |
+| FR-RPT-006 subscriptions | Phase 5 — [PHASE_5_DEV_A.md](PHASE_5_DEV_A.md) |
+| FR-SRCH-003 advanced/saved search | Phase 5 — [PHASE_5_DEV_A.md](PHASE_5_DEV_A.md) |
+| Case Emails / Attachments / New Task | Tasks Phase 4; Attachments Phase 5 |
 | Opportunity Products / Quotes | Later (empty shells) |
-| FR-HOME-007 Assistant recommendations | Phase 5 (placeholder on Home) |
+| FR-HOME-007 Assistant recommendations | Phase 5 — [PHASE_5_DEV_B.md](PHASE_5_DEV_B.md) |
 
 ## Phase 3 decisions
 

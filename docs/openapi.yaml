@@ -1,0 +1,290 @@
+openapi: 3.0.3
+info:
+  title: CRM Sales Cloud API
+  version: 1.0.0
+  description: REST API v1 for Leads, Accounts, Contacts, Opportunities, and Cases (SRS §8.3).
+servers:
+  - url: /api/v1
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  parameters:
+    perPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        maximum: 200
+        default: 25
+    sort:
+      name: sort
+      in: query
+      schema:
+        type: string
+    direction:
+      name: direction
+      in: query
+      schema:
+        type: string
+        enum: [asc, desc]
+paths:
+  /accounts:
+    get:
+      summary: List accounts
+      parameters:
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/direction'
+        - name: filter[name]
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Paginated accounts
+    post:
+      summary: Create account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Created
+  /accounts/{id}:
+    get:
+      summary: Show account
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Account
+    put:
+      summary: Update account
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Updated
+    delete:
+      summary: Delete account
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Deleted
+  /leads:
+    get:
+      summary: List leads
+      responses:
+        '200':
+          description: Paginated leads
+    post:
+      summary: Create lead
+      responses:
+        '201':
+          description: Created
+  /leads/{id}:
+    get:
+      summary: Show lead
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Lead
+    put:
+      summary: Update lead
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Updated
+    delete:
+      summary: Delete lead
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Deleted
+  /contacts:
+    get:
+      summary: List contacts
+      responses:
+        '200':
+          description: Paginated contacts
+    post:
+      summary: Create contact
+      responses:
+        '201':
+          description: Created
+  /contacts/{id}:
+    get:
+      summary: Show contact
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Contact
+    put:
+      summary: Update contact
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Updated
+    delete:
+      summary: Delete contact
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Deleted
+  /opportunities:
+    get:
+      summary: List opportunities
+      responses:
+        '200':
+          description: Paginated opportunities
+    post:
+      summary: Create opportunity
+      responses:
+        '201':
+          description: Created
+  /opportunities/{id}:
+    get:
+      summary: Show opportunity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Opportunity
+    put:
+      summary: Update opportunity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Updated
+    delete:
+      summary: Delete opportunity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Deleted
+  /cases:
+    get:
+      summary: List cases
+      responses:
+        '200':
+          description: Paginated cases
+    post:
+      summary: Create case
+      responses:
+        '201':
+          description: Created
+  /cases/{id}:
+    get:
+      summary: Show case
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Case
+    put:
+      summary: Update case
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Updated
+    delete:
+      summary: Delete case
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Deleted
+  /metadata/{object}:
+    get:
+      summary: Object field metadata
+      parameters:
+        - name: object
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [leads, accounts, contacts, opportunities, cases]
+      responses:
+        '200':
+          description: Field catalog

@@ -13,25 +13,43 @@ class ReportExportService
      */
     public function csv(string $filename, array $columns, array $columnLabels, Collection $rows): StreamedResponse
     {
-        return response()->streamDownload(function () use ($columns, $columnLabels, $rows): void {
-            $handle = fopen('php://output', 'w');
-            if ($handle === false) {
-                return;
-            }
+        $content = $this->csvContent($columns, $columnLabels, $rows);
 
-            fputcsv($handle, $columnLabels);
-
-            foreach ($rows as $row) {
-                $line = [];
-                foreach ($columns as $column) {
-                    $line[] = $row[$column] ?? '';
-                }
-                fputcsv($handle, $line);
-            }
-
-            fclose($handle);
+        return response()->streamDownload(function () use ($content): void {
+            echo $content;
         }, $filename, [
             'Content-Type' => 'text/csv; charset=UTF-8',
         ]);
+    }
+
+    /**
+     * Build CSV string content for email attachments (FR-RPT-006).
+     *
+     * @param  list<string>  $columns
+     * @param  list<string>  $columnLabels
+     * @param  Collection<int, array<string, mixed>>  $rows
+     */
+    public function csvContent(array $columns, array $columnLabels, Collection $rows): string
+    {
+        $handle = fopen('php://temp', 'r+');
+        if ($handle === false) {
+            return '';
+        }
+
+        fputcsv($handle, $columnLabels);
+
+        foreach ($rows as $row) {
+            $line = [];
+            foreach ($columns as $column) {
+                $line[] = $row[$column] ?? '';
+            }
+            fputcsv($handle, $line);
+        }
+
+        rewind($handle);
+        $content = stream_get_contents($handle) ?: '';
+        fclose($handle);
+
+        return $content;
     }
 }

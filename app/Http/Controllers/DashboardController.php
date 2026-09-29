@@ -11,8 +11,10 @@ use App\Models\User;
 use App\Reports\ReportCatalog;
 use App\Services\DashboardFilterService;
 use App\Services\DashboardWidgetDataService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -57,6 +59,7 @@ class DashboardController extends Controller
                 'description' => $validated['description'] ?? null,
                 'folder' => $validated['folder'] ?? 'private',
                 'is_private' => $validated['is_private'] ?? true,
+                'refresh_interval_minutes' => $validated['refresh_interval_minutes'] ?? null,
                 'owner_id' => $request->user()->id,
             ]);
 
@@ -77,28 +80,29 @@ class DashboardController extends Controller
         $dashboard->load('widgets.savedReport');
         $filters = $this->dashboardFilters->get($request);
 
-        $widgetPayloads = $dashboard->widgets->map(function (DashboardWidget $widget) use ($request): array {
-            try {
-                return $this->widgetData->resolve($request->user(), $widget, $request);
-            } catch (\Throwable) {
-                return [
-                    'title' => $widget->title,
-                    'widget_type' => $widget->widget_type,
-                    'error' => 'Unable to load widget.',
-                    'columns' => [],
-                    'column_labels' => [],
-                    'rows' => collect(),
-                    'chart' => null,
-                    'metric' => null,
-                ];
-            }
-        });
-
         return view('dashboards.show', [
             'dashboard' => $dashboard,
-            'widgetPayloads' => $widgetPayloads,
+            'widgetPayloads' => $this->resolveWidgetPayloads($request, $dashboard),
             'filters' => $filters,
             'owners' => User::query()->orderBy('name')->get(['id', 'name']),
+        ]);
+    }
+
+    public function refresh(Request $request, Dashboard $dashboard): JsonResponse
+    {
+        $this->authorize('view', $dashboard);
+
+        $dashboard->load('widgets.savedReport');
+        $widgetPayloads = $this->resolveWidgetPayloads($request, $dashboard);
+
+        $html = view('dashboards.partials.widget-grid', [
+            'dashboard' => $dashboard,
+            'widgetPayloads' => $widgetPayloads,
+        ])->render();
+
+        return response()->json([
+            'html' => $html,
+            'refreshed_at' => now()->toIso8601String(),
         ]);
     }
 
@@ -124,6 +128,7 @@ class DashboardController extends Controller
                 'description' => $validated['description'] ?? null,
                 'folder' => $validated['folder'] ?? 'private',
                 'is_private' => $validated['is_private'] ?? true,
+                'refresh_interval_minutes' => $validated['refresh_interval_minutes'] ?? null,
             ]);
 
             $dashboard->widgets()->delete();
@@ -159,6 +164,7 @@ class DashboardController extends Controller
                 'folder' => $dashboard->folder,
                 'is_private' => $dashboard->is_private,
                 'layout' => $dashboard->layout,
+                'refresh_interval_minutes' => $dashboard->refresh_interval_minutes,
                 'owner_id' => $request->user()->id,
             ]);
 
@@ -193,6 +199,29 @@ class DashboardController extends Controller
         $redirect = $validated['redirect'] ?? route('dashboards.index');
 
         return redirect($redirect)->with('success', 'Dashboard filters updated.');
+    }
+
+    /**
+     * @return Collection<int, array<string, mixed>>
+     */
+    private function resolveWidgetPayloads(Request $request, Dashboard $dashboard)
+    {
+        return $dashboard->widgets->map(function (DashboardWidget $widget) use ($request): array {
+            try {
+                return $this->widgetData->resolve($request->user(), $widget, $request);
+            } catch (\Throwable) {
+                return [
+                    'title' => $widget->title,
+                    'widget_type' => $widget->widget_type,
+                    'error' => 'Unable to load widget.',
+                    'columns' => [],
+                    'column_labels' => [],
+                    'rows' => collect(),
+                    'chart' => null,
+                    'metric' => null,
+                ];
+            }
+        });
     }
 
     /**

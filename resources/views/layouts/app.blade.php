@@ -43,9 +43,11 @@
                     @can('viewAny', App\Models\User::class)
                         <a href="{{ route('users.index') }}" class="inline-flex min-h-11 items-center rounded px-2 text-white no-underline hover:bg-white/10">Users</a>
                     @endcan
+                    <a href="{{ route('mfa.edit') }}" class="inline-flex min-h-11 items-center rounded px-2 text-white no-underline hover:bg-white/10">MFA</a>
+                    <a href="{{ route('api-tokens.index') }}" class="inline-flex min-h-11 items-center rounded px-2 text-white no-underline hover:bg-white/10">API</a>
                     <form method="post" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="inline-flex min-h-11 items-center rounded px-2 text-white hover:bg-white/10">
+                        <button type="submit" class="inline-flex min-h-11 items-center rounded px-2 text-white hover:bg-white/10" title="Sign out" aria-label="Sign out">
                             Sign out
                         </button>
                     </form>

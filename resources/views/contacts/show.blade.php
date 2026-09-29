@@ -3,6 +3,11 @@
 @section('title', $contact->displayName().' — '.config('app.name'))
 
 @section('content')
+    <x-breadcrumbs :items="[
+        ['label' => 'Contacts', 'url' => route('contacts.index')],
+        ['label' => $contact->displayName()],
+    ]" />
+
     <div class="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
             <h1>{{ trim(($salutationLabel ? $salutationLabel.' ' : '').$contact->displayName()) }}</h1>
@@ -131,5 +136,6 @@
                 · Events arrive with Dev B calendar
             </p>
         </x-related-list>
+        <x-attachments-related-list :attachable="$contact" attachable-type="contact" />
     </div>
 @endsection

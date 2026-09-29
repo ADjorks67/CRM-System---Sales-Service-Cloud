@@ -87,6 +87,11 @@ class Lead extends Model
         return $this->morphMany(OwnershipHistory::class, 'ownable');
     }
 
+    public function attachments(): MorphMany
+    {
+        return $this->morphMany(Attachment::class, 'attachable')->latest();
+    }
+
     public function displayName(): string
     {
         $name = trim(implode(' ', array_filter([

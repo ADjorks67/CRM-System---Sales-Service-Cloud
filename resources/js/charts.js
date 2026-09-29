@@ -23,9 +23,13 @@ function parseConfig(el) {
     }
 }
 
-function bootCharts() {
-    document.querySelectorAll('[data-crm-chart]').forEach((el) => {
+function bootCharts(root = document) {
+    root.querySelectorAll('[data-crm-chart]').forEach((el) => {
         if (! (el instanceof HTMLCanvasElement)) {
+            return;
+        }
+
+        if (el.dataset.crmChartReady === '1') {
             return;
         }
 
@@ -38,33 +42,33 @@ function bootCharts() {
 
         if (kind === 'donut' || kind === 'doughnut') {
             createDonutChart(el, config);
-            return;
-        }
-
-        if (kind === 'funnel') {
+        } else if (kind === 'funnel') {
             createFunnelChart(el, config);
-            return;
+        } else {
+            createCrmChart(el, {
+                type: kind,
+                data: {
+                    labels: config.labels || [],
+                    datasets: [
+                        {
+                            label: config.label || 'Series',
+                            data: config.values || [],
+                            backgroundColor: config.backgroundColor || crmChartColors.series,
+                            borderWidth: 0,
+                        },
+                    ],
+                },
+            });
         }
 
-        createCrmChart(el, {
-            type: kind,
-            data: {
-                labels: config.labels || [],
-                datasets: [
-                    {
-                        label: config.label || 'Series',
-                        data: config.values || [],
-                        backgroundColor: config.backgroundColor || crmChartColors.series,
-                        borderWidth: 0,
-                    },
-                ],
-            },
-        });
+        el.dataset.crmChartReady = '1';
     });
 }
 
+window.crmBootCharts = bootCharts;
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bootCharts);
+    document.addEventListener('DOMContentLoaded', () => bootCharts());
 } else {
     bootCharts();
 }

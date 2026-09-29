@@ -9,6 +9,7 @@ use App\Http\Requests\StoreAccountRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Models\Account;
 use App\Models\User;
+use App\Services\AccountHierarchyService;
 use App\Services\BulkRecordActionService;
 use App\Services\OwnershipHistoryService;
 use App\Services\TaskQueryService;
@@ -26,6 +27,7 @@ class AccountController extends Controller
         private readonly OwnershipHistoryService $ownershipHistoryService,
         private readonly BulkRecordActionService $bulkRecordActionService,
         private readonly TaskQueryService $taskQueryService,
+        private readonly AccountHierarchyService $accountHierarchy,
     ) {}
 
     protected function ownershipHistory(): OwnershipHistoryService
@@ -104,14 +106,34 @@ class AccountController extends Controller
             'contacts.owner',
             'opportunities' => fn ($q) => $q->notArchived()->with('owner')->latest('updated_at')->limit(10),
             'cases' => fn ($q) => $q->with('owner')->latest('updated_at')->limit(10),
+            'attachments',
         ]);
+
+        $user = $request->user();
 
         return view('accounts.show', [
             'account' => $account,
-            'openTasks' => $this->taskQueryService->openRelatedTo('account', $account->id, $request->user()),
+            'openTasks' => $this->taskQueryService->openRelatedTo('account', $account->id, $user),
             'owners' => User::query()->orderBy('name')->get(['id', 'name']),
             'typeLabel' => PicklistOptions::options('account_type')[$account->type] ?? $account->type,
             'industryLabel' => PicklistOptions::options('industry')[$account->industry] ?? $account->industry,
+            'hierarchyTree' => $this->accountHierarchy->tree($account, $user),
+            'hierarchyRollUp' => $this->accountHierarchy->rollUp($account, $user),
+        ]);
+    }
+
+    public function hierarchy(Request $request, Account $account): View
+    {
+        $this->authorize('view', $account);
+
+        $user = $request->user();
+        $root = $this->accountHierarchy->visibleRoot($account, $user);
+
+        return view('accounts.hierarchy', [
+            'account' => $account,
+            'root' => $root,
+            'hierarchyTree' => $this->accountHierarchy->hierarchyTree($account, $user),
+            'hierarchyRollUp' => $this->accountHierarchy->rollUp($root, $user),
         ]);
     }
 

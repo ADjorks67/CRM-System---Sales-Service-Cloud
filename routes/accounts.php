@@ -9,6 +9,7 @@ Route::middleware('auth')->group(function (): void {
     Route::post('/accounts', [AccountController::class, 'store'])->name('accounts.store');
     Route::post('/accounts/bulk', [AccountController::class, 'bulk'])->name('accounts.bulk');
     Route::get('/accounts/{account}', [AccountController::class, 'show'])->name('accounts.show');
+    Route::get('/accounts/{account}/hierarchy', [AccountController::class, 'hierarchy'])->name('accounts.hierarchy');
     Route::get('/accounts/{account}/edit', [AccountController::class, 'edit'])->name('accounts.edit');
     Route::put('/accounts/{account}', [AccountController::class, 'update'])->name('accounts.update');
     Route::delete('/accounts/{account}', [AccountController::class, 'destroy'])->name('accounts.destroy');

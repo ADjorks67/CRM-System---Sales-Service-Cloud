@@ -60,7 +60,31 @@
 
         <section class="rounded bg-card p-4 shadow-[var(--shadow-card)]" aria-labelledby="assistant-heading">
             <h2 id="assistant-heading" class="mb-3 text-base font-semibold text-primary">Assistant</h2>
-            <p class="text-sm text-text/70">Rule-based recommendations arrive in Phase 5 (FR-HOME-007).</p>
+            @if ($recommendations->isEmpty())
+                <p class="text-sm text-text/70">No recommendations right now. Keep working your pipeline and activities.</p>
+            @else
+                <ul class="divide-y divide-black/10 text-sm">
+                    @foreach ($recommendations as $item)
+                        <li class="flex flex-wrap items-start justify-between gap-3 py-3">
+                            <div class="min-w-0 flex-1">
+                                <a href="{{ $item['url'] }}" class="font-medium">{{ $item['title'] }}</a>
+                                <p class="text-text/60">{{ $item['reason'] }}</p>
+                                <a href="{{ $item['url'] }}" class="mt-1 inline-block text-secondary no-underline">{{ $item['action_label'] }}</a>
+                            </div>
+                            <form method="post" action="{{ route('home.assistant.dismiss') }}" class="shrink-0">
+                                @csrf
+                                <input type="hidden" name="recommendation_key" value="{{ $item['key'] }}">
+                                <button
+                                    type="submit"
+                                    class="inline-flex min-h-11 items-center rounded border border-black/20 px-3 py-1.5 text-xs"
+                                    title="Dismiss recommendation"
+                                    aria-label="Dismiss recommendation for {{ $item['title'] }}"
+                                >Dismiss</button>
+                            </form>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </section>
 
         <section class="rounded bg-card p-4 shadow-[var(--shadow-card)]" aria-labelledby="events-heading">

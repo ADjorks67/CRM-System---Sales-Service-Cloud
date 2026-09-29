@@ -3,6 +3,11 @@
 @section('title', $opportunity->displayName().' — '.config('app.name'))
 
 @section('content')
+    <x-breadcrumbs :items="[
+        ['label' => 'Opportunities', 'url' => route('opportunities.index')],
+        ['label' => $opportunity->displayName()],
+    ]" />
+
     <div class="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
             <h1>{{ $opportunity->displayName() }}</h1>
@@ -148,5 +153,7 @@
                 </ul>
             @endif
         </x-related-list>
+
+        <x-attachments-related-list :attachable="$opportunity" attachable-type="opportunity" />
     </div>
 @endsection
