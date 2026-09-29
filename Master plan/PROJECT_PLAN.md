@@ -16,7 +16,9 @@
 | Cursor rules, prompting, Composer, commit-often, review checklist | Yes | **Kept and tailored** (see `cursor-rules/`) |
 
 - The SRS asks for a "single-page" feel. With HTML/Blade this is met through server-rendered pages plus `fetch()` for live pieces (search suggestions, inline task completion, calendar drag-and-drop, dashboard widgets). No SPA framework is introduced.
-- Charts (funnel, donut) and calendar need a JS library. Suggested: Chart.js and FullCalendar. These are plain JS libraries, not a stack change, but agree on them in Phase 0.
+- Charts (funnel, donut) and calendar use **Chart.js** and **FullCalendar** (agreed and installed in Phase 0).
+  Registered under `resources/js/lib/charts.js` and `resources/js/lib/calendar.js`, with Blade `<x-chart>` / `<x-calendar>`
+  and Vite entries `resources/js/charts.js` / `resources/js/calendar.js`. No alternate chart/calendar libraries.
 - Priorities follow SRS 9.2: P0 first, then P1, then P2. **P3 is out of scope.**
 - FR-HOME-007 (Assistant recommendations) is built as simple rule-based queries (30+ days inactive, stale close dates), not AI, so it does not conflict with the P3 "AI insights" exclusion.
 

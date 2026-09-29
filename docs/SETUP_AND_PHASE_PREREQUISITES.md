@@ -219,6 +219,8 @@ Each phase assumes **all previous phases’ exit criteria** are met. Below: what
 
 **Exit:** Accounts, Contacts, Leads usable with RBAC and tests.
 
+**Status:** Phase 2 exit criteria are met in-repo. See [PHASE_2_CORE_OBJECTS.md](PHASE_2_CORE_OBJECTS.md).
+
 ---
 
 ### Phase 3 — Sales, service, search, basic reports (MVP)

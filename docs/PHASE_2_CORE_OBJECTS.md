@@ -67,4 +67,4 @@ composer run dev
 - `tests/Feature/ContactsTest.php`
 - `tests/Feature/LeadsTest.php`
 - `tests/Feature/RecordSharingTest.php`
-- `tests/Feature/AccountsStubTest.php` (smoke)
+- `tests/Feature/CoreObjectsGateTest.php` (role matrix + sharing gate)
