@@ -44,6 +44,27 @@ trait HasRecordAccess
         });
     }
 
+    public function isVisibleBy(User $user): bool
+    {
+        if ($user->hasRole(RoleSlug::SystemAdministrator)) {
+            return true;
+        }
+
+        $default = SharingDefault::accessLevelFor($this->getMorphClass());
+
+        if ($default->allowsReadForEveryone()) {
+            return true;
+        }
+
+        if ((int) $this->getAttribute('owner_id') === (int) $user->id) {
+            return true;
+        }
+
+        return $this->shares()
+            ->where('user_id', $user->id)
+            ->exists();
+    }
+
     public function isWritableBy(User $user): bool
     {
         if ($user->hasRole(RoleSlug::SystemAdministrator)) {

@@ -53,9 +53,9 @@
                 @php
                     $tabs = [
                         'Home' => 'home',
-                        'Leads' => null,
+                        'Leads' => 'leads.index',
                         'Accounts' => 'accounts.index',
-                        'Contacts' => null,
+                        'Contacts' => 'contacts.index',
                         'Opportunities' => null,
                         'Cases' => null,
                         'Tasks' => null,

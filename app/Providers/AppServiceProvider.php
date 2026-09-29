@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\Account;
+use App\Models\Contact;
+use App\Models\Lead;
 use App\Models\User;
 use Illuminate\Auth\SessionGuard;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -17,6 +21,13 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Relation::enforceMorphMap([
+            'account' => Account::class,
+            'contact' => Contact::class,
+            'lead' => Lead::class,
+            'user' => User::class,
+        ]);
+
         // FR-AUTH-001: optional remember-me lasts 30 days.
         Auth::resolved(function ($auth): void {
             $guard = $auth->guard('web');

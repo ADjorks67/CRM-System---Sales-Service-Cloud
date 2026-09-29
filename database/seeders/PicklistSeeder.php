@@ -10,7 +10,7 @@ class PicklistSeeder extends Seeder
     public function run(): void
     {
         $rows = [
-            // Lead statuses (FR / domain)
+            // Lead statuses (FR-LEAD-006)
             ['category' => 'lead_status', 'value' => 'new', 'label' => 'New', 'sort_order' => 1],
             ['category' => 'lead_status', 'value' => 'working', 'label' => 'Working', 'sort_order' => 2],
             ['category' => 'lead_status', 'value' => 'nurturing', 'label' => 'Nurturing', 'sort_order' => 3],
@@ -18,12 +18,31 @@ class PicklistSeeder extends Seeder
             ['category' => 'lead_status', 'value' => 'unqualified', 'label' => 'Unqualified', 'sort_order' => 5],
             ['category' => 'lead_status', 'value' => 'converted', 'label' => 'Converted', 'sort_order' => 6],
 
-            // Lead sources
-            ['category' => 'lead_source', 'value' => 'web', 'label' => 'Web', 'sort_order' => 1],
-            ['category' => 'lead_source', 'value' => 'phone', 'label' => 'Phone Inquiry', 'sort_order' => 2],
-            ['category' => 'lead_source', 'value' => 'partner', 'label' => 'Partner Referral', 'sort_order' => 3],
-            ['category' => 'lead_source', 'value' => 'purchased_list', 'label' => 'Purchased List', 'sort_order' => 4],
-            ['category' => 'lead_source', 'value' => 'other', 'label' => 'Other', 'sort_order' => 5],
+            // Lead sources (SRS-aligned)
+            ['category' => 'lead_source', 'value' => 'advertisement', 'label' => 'Advertisement', 'sort_order' => 1],
+            ['category' => 'lead_source', 'value' => 'external_referral', 'label' => 'External Referral', 'sort_order' => 2],
+            ['category' => 'lead_source', 'value' => 'social', 'label' => 'Social', 'sort_order' => 3],
+            ['category' => 'lead_source', 'value' => 'trade_show', 'label' => 'Trade Show', 'sort_order' => 4],
+            ['category' => 'lead_source', 'value' => 'web', 'label' => 'Web', 'sort_order' => 5],
+            ['category' => 'lead_source', 'value' => 'other', 'label' => 'Other', 'sort_order' => 6],
+
+            // Account types (FR-ACCT-002)
+            ['category' => 'account_type', 'value' => 'customer', 'label' => 'Customer', 'sort_order' => 1],
+            ['category' => 'account_type', 'value' => 'prospect', 'label' => 'Prospect', 'sort_order' => 2],
+            ['category' => 'account_type', 'value' => 'partner', 'label' => 'Partner', 'sort_order' => 3],
+            ['category' => 'account_type', 'value' => 'other', 'label' => 'Other', 'sort_order' => 4],
+
+            // Salutation
+            ['category' => 'salutation', 'value' => 'mr', 'label' => 'Mr.', 'sort_order' => 1],
+            ['category' => 'salutation', 'value' => 'ms', 'label' => 'Ms.', 'sort_order' => 2],
+            ['category' => 'salutation', 'value' => 'mrs', 'label' => 'Mrs.', 'sort_order' => 3],
+            ['category' => 'salutation', 'value' => 'dr', 'label' => 'Dr.', 'sort_order' => 4],
+            ['category' => 'salutation', 'value' => 'prof', 'label' => 'Prof.', 'sort_order' => 5],
+
+            // Rating
+            ['category' => 'rating', 'value' => 'hot', 'label' => 'Hot', 'sort_order' => 1],
+            ['category' => 'rating', 'value' => 'warm', 'label' => 'Warm', 'sort_order' => 2],
+            ['category' => 'rating', 'value' => 'cold', 'label' => 'Cold', 'sort_order' => 3],
 
             // Industries
             ['category' => 'industry', 'value' => 'agriculture', 'label' => 'Agriculture', 'sort_order' => 1],
@@ -78,5 +97,11 @@ class PicklistSeeder extends Seeder
                 ],
             );
         }
+
+        // Retire legacy lead_source values that are no longer SRS-aligned.
+        Picklist::query()
+            ->where('category', 'lead_source')
+            ->whereIn('value', ['phone', 'partner', 'purchased_list'])
+            ->update(['is_active' => false]);
     }
 }

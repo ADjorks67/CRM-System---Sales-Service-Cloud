@@ -1,0 +1,7 @@
+name: CRM-System---Sales-Service-Cloud
+php: '8.5'
+secured: false
+aliases: {  }
+services: {  }
+integrations:
+    forge: {  }

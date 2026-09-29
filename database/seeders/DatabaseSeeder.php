@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             PicklistSeeder::class,
             DemoUserSeeder::class,
+            DemoCrmDataSeeder::class,
         ]);
     }
 }
