@@ -35,15 +35,21 @@ class LeadsConvertedThisFyReport extends PrebuiltReport
         return Lead::query()
             ->visibleTo($user)
             ->where('is_converted', true)
-            ->whereBetween('created_at', [$from, $to])
+            ->where(function ($query) use ($from, $to): void {
+                $query->whereBetween('converted_at', [$from, $to])
+                    ->orWhere(function ($inner) use ($from, $to): void {
+                        $inner->whereNull('converted_at')
+                            ->whereBetween('updated_at', [$from, $to]);
+                    });
+            })
             ->with('owner')
-            ->orderByDesc('updated_at')
+            ->orderByDesc('converted_at')
             ->get()
             ->map(fn (Lead $lead) => [
                 'Name' => $lead->displayName(),
                 'Company' => $lead->company,
                 'Owner' => $lead->owner?->name ?? '—',
-                'Created' => $lead->created_at?->toDateString() ?? '—',
+                'Created' => $lead->converted_at?->toDateString() ?? $lead->updated_at?->toDateString() ?? '—',
                 '_url' => route('leads.show', $lead),
             ]);
     }

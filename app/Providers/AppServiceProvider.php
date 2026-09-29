@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Account;
 use App\Models\Contact;
 use App\Models\CrmCase;
+use App\Models\Event;
 use App\Models\Lead;
 use App\Models\Opportunity;
 use App\Models\User;
@@ -29,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
             'lead' => Lead::class,
             'opportunity' => Opportunity::class,
             'case' => CrmCase::class,
+            'event' => Event::class,
+            // 'task' reserved for Dev A (FR-TASK-*)
             'user' => User::class,
         ]);
 

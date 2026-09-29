@@ -3,9 +3,14 @@
 @section('title', 'Reports — '.config('app.name'))
 
 @section('content')
-    <div class="mb-4">
-        <h1>Reports</h1>
-        <p class="text-sm text-text/70">Pre-built reports for leads, opportunities, and cases (FR-RPT-002). Export and builder arrive in Phase 4.</p>
+    <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+        <div>
+            <h1>Reports</h1>
+            <p class="text-sm text-text/70">Pre-built reports (FR-RPT-002) and custom saved reports (FR-RPT-003).</p>
+        </div>
+        @can('viewAny', App\Models\SavedReport::class)
+            <a href="{{ route('saved-reports.index') }}" class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm no-underline">Custom Reports</a>
+        @endcan
     </div>
 
     <div class="grid gap-4">

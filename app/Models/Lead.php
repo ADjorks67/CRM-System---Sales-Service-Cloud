@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
     'converted_account_id',
     'converted_contact_id',
     'converted_opportunity_id',
+    'converted_at',
     'owner_id',
 ])]
 class Lead extends Model
@@ -57,6 +58,7 @@ class Lead extends Model
             'annual_revenue' => 'decimal:2',
             'number_of_employees' => 'integer',
             'is_converted' => 'boolean',
+            'converted_at' => 'datetime',
         ];
     }
 
@@ -73,6 +75,11 @@ class Lead extends Model
     public function convertedContact(): BelongsTo
     {
         return $this->belongsTo(Contact::class, 'converted_contact_id');
+    }
+
+    public function convertedOpportunity(): BelongsTo
+    {
+        return $this->belongsTo(Opportunity::class, 'converted_opportunity_id');
     }
 
     public function ownershipHistories(): MorphMany

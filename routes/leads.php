@@ -14,4 +14,6 @@ Route::middleware('auth')->group(function (): void {
     Route::delete('/leads/{lead}', [LeadController::class, 'destroy'])->name('leads.destroy');
     Route::post('/leads/{lead}/change-owner', [LeadController::class, 'changeOwner'])->name('leads.change-owner');
     Route::post('/leads/{lead}/change-status', [LeadController::class, 'changeStatus'])->name('leads.change-status');
+    Route::get('/leads/{lead}/convert', [LeadController::class, 'convert'])->name('leads.convert');
+    Route::post('/leads/{lead}/convert', [LeadController::class, 'storeConversion'])->name('leads.convert.store');
 });

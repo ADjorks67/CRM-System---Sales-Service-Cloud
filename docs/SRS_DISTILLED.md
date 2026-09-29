@@ -38,6 +38,24 @@ Primary tabs: Home, Leads, Accounts, Contacts, Opportunities, Cases, Tasks, Cale
 
 Default **25** rows; hard maximum **200**.
 
-Out of Phase 1–2
+## Phase status (working index)
 
-MFA (Phase 5). Phase 3 MVP is implemented — see [PHASE_3_MVP.md](PHASE_3_MVP.md) (Opportunities, Cases, global search, Home widgets, pre-built reports).
+| Phase | Status | Doc |
+|---|---|---|
+| 0–2 | Done | PHASE_0 / PHASE_1 / PHASE_2 docs |
+| 3 MVP | Done | [PHASE_3_MVP.md](PHASE_3_MVP.md) |
+| **4 P1 — Dev B** | Kickoff | [PHASE_4_DEV_B.md](PHASE_4_DEV_B.md) |
+| 4 P1 — Dev A | Parallel (Tasks, email, import) | Not started in this track |
+| 5+ | Later | MFA, attachments, hierarchy, API, … |
+
+## Phase 4 Dev B — SRS quick index
+
+| ID | One-liner |
+|---|---|
+| FR-CAL-001..004 | Events + calendar views, DnD reschedule, My Calendars |
+| FR-LEAD-005 | Convert Lead → Account / Contact / optional Opportunity (transaction, then read-only) |
+| FR-RPT-003 | Custom report builder (no free SQL; allow-listed fields) |
+| FR-RPT-005 | Export CSV / Excel / PDF |
+| FR-DASH-001..004 | Dashboard CRUD, widgets from reports, filters (auto-refresh → Phase 5) |
+| FR-HOME-005 | Today’s Events widget |
+| FR-HOME-004 | Today’s Tasks widget — **depends on Dev A Tasks** |

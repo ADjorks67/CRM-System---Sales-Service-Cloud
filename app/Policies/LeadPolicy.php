@@ -61,4 +61,17 @@ class LeadPolicy
     {
         return $this->update($user, $lead);
     }
+
+    public function convert(User $user, Lead $lead): bool
+    {
+        if (! $user->hasPermission('leads.update')) {
+            return false;
+        }
+
+        if ($lead->isReadOnlyConverted()) {
+            return false;
+        }
+
+        return $lead->isWritableBy($user);
+    }
 }

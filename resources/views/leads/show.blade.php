@@ -19,14 +19,11 @@
                     <button type="submit" class="inline-flex min-h-11 items-center rounded border border-error px-4 py-2 text-sm font-semibold text-error">Delete</button>
                 </form>
             @endcan
-            <button
-                type="button"
-                class="inline-flex min-h-11 cursor-not-allowed items-center rounded border border-black/20 px-4 py-2 text-sm text-text/50"
-                disabled
-                title="Lead conversion arrives in Phase 4 (FR-LEAD-005)"
-            >
-                Convert
-            </button>
+            @can('convert', $lead)
+                <a href="{{ route('leads.convert', $lead) }}" class="inline-flex min-h-11 items-center rounded bg-primary px-4 py-2 text-sm font-semibold text-white no-underline">Convert</a>
+            @elseif ($lead->isReadOnlyConverted())
+                <span class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm text-text/70">Converted</span>
+            @endcan
         </div>
     </div>
 

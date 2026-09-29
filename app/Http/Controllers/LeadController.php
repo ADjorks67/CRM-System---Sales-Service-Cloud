@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Concerns\HandlesRecordOwnership;
 use App\Http\Requests\BulkRecordActionRequest;
 use App\Http\Requests\ChangeOwnerRequest;
+use App\Http\Requests\ConvertLeadRequest;
 use App\Http\Requests\StoreLeadRequest;
 use App\Http\Requests\UpdateLeadRequest;
 use App\Models\Lead;
 use App\Models\User;
 use App\Services\BulkRecordActionService;
+use App\Services\LeadConversionService;
 use App\Services\OwnershipHistoryService;
 use App\Support\ListQuery;
 use App\Support\PicklistOptions;
@@ -25,6 +27,7 @@ class LeadController extends Controller
     public function __construct(
         private readonly OwnershipHistoryService $ownershipHistoryService,
         private readonly BulkRecordActionService $bulkRecordActionService,
+        private readonly LeadConversionService $leadConversionService,
     ) {}
 
     protected function ownershipHistory(): OwnershipHistoryService
@@ -170,6 +173,34 @@ class LeadController extends Controller
     public function bulk(BulkRecordActionRequest $request): RedirectResponse
     {
         return $this->runBulkAction($request, Lead::class, 'leads.index');
+    }
+
+    public function convert(Request $request, Lead $lead): View|RedirectResponse
+    {
+        $this->authorize('convert', $lead);
+
+        return view('leads.convert', [
+            'lead' => $lead,
+            'matchingAccounts' => $this->leadConversionService->matchingAccounts($lead, $request->user()),
+            'stageOptions' => $this->leadConversionService->opportunityStageOptions(),
+        ]);
+    }
+
+    public function storeConversion(ConvertLeadRequest $request, Lead $lead): RedirectResponse
+    {
+        $result = $this->leadConversionService->convert($lead, $request->user(), $request->validated());
+
+        $message = 'Lead converted successfully.';
+        if ($result['events_transferred'] > 0) {
+            $message .= " {$result['events_transferred']} open event(s) transferred.";
+        }
+        if ($result['task_note'] !== null) {
+            $message .= ' '.$result['task_note'];
+        }
+
+        return redirect()
+            ->route('leads.show', $lead)
+            ->with('success', $message);
     }
 
     /**

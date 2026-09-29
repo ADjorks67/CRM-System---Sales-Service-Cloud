@@ -115,6 +115,10 @@ class PicklistSeeder extends Seeder
             ['category' => 'case_reason', 'value' => 'new_problem', 'label' => 'New Problem', 'sort_order' => 4],
             ['category' => 'case_reason', 'value' => 'user_didnt_attend_training', 'label' => 'User Didn\'t Attend Training', 'sort_order' => 5],
             ['category' => 'case_reason', 'value' => 'other', 'label' => 'Other', 'sort_order' => 6],
+
+            ['category' => 'event_show_as', 'value' => 'busy', 'label' => 'Busy', 'sort_order' => 1],
+            ['category' => 'event_show_as', 'value' => 'free', 'label' => 'Free', 'sort_order' => 2],
+            ['category' => 'event_show_as', 'value' => 'out_of_office', 'label' => 'Out of Office', 'sort_order' => 3],
         ];
 
         foreach ($rows as $row) {

@@ -2,7 +2,7 @@
 
 **Document purpose:** Record what has already been set up (Phase 0), and what must be in place before each later phase — including *why* each prerequisite exists.  
 **Aligned with:** `Master plan/PROJECT_PLAN.md` and the locked stack (Laravel + Blade + PostgreSQL).  
-**Last updated:** 2026-09-28
+**Last updated:** 2026-09-29
 
 ---
 
@@ -261,6 +261,20 @@ Each phase assumes **all previous phases’ exit criteria** are met. Below: what
 
 **Exit:** all P1 items; critical journeys covered by tests.
 
+**Status (2026-09-29):** Phase 3 MVP exit is met. **Dev B Phase 4 implementation** is in-repo — see [PHASE_4_DEV_B.md](PHASE_4_DEV_B.md) §10 (calendar, conversion, report/dashboard builders, Home events). Dev A Phase 4 (tasks, email, import/export) remains parallel. Full Phase 4 exit is not signed off until both developers finish.
+
+**Dev B prerequisite check**
+
+| Prerequisite | Ready? |
+|---|---|
+| MVP objects + opportunities | Yes |
+| FullCalendar registered (`<x-calendar>`) | Yes |
+| Pre-built reports reusable (`app/Reports/`) | Yes |
+| Morph map planned (extend with `event` only on Dev B) | Yes — `task` reserved for Dev A |
+| `DB::transaction()` for conversion | Pattern ready; implement in FR-LEAD-005 |
+| Queue + Mailpit | Ready for Dev A email; Dev B must not block on mail |
+| Excel/PDF packages for FR-RPT-005 | **Not installed — needs approval** (see PHASE_4_DEV_B §6) |
+
 ---
 
 ### Phase 5 — Enhancements (P2)
@@ -322,7 +336,8 @@ Phase 2  Accounts → Contacts + Leads
     ↓
 Phase 3  Cases + Opportunities + search + home reports  = MVP
     ↓
-Phase 4  tasks, calendar, conversion, email, builders
+Phase 4  Dev B: calendar, conversion, report/dashboard builders
+         Dev A (parallel): tasks, email/queues, import/export
     ↓
 Phase 5  P2 polish (attachments, MFA, API, hierarchy, …)
     ↓

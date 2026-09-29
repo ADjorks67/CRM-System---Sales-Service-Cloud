@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Account;
 use App\Models\Contact;
 use App\Models\CrmCase;
+use App\Models\Event;
 use App\Models\Lead;
 use App\Models\Opportunity;
 use App\Models\User;
@@ -185,6 +186,37 @@ class DemoCrmDataSeeder extends Seeder
                 'description' => 'Resolved invoice clarification.',
                 'closed_at' => now()->subDays(3),
                 'owner_id' => $service->id,
+            ],
+        );
+
+        Event::query()->updateOrCreate(
+            ['subject' => 'Acme renewal sync', 'owner_id' => $manager->id],
+            [
+                'starts_at' => now()->setTime(10, 0),
+                'ends_at' => now()->setTime(11, 0),
+                'is_all_day' => false,
+                'location' => 'Zoom',
+                'show_as' => 'busy',
+                'is_private' => false,
+                'calendar_type' => 'my_events',
+                'related_type' => 'opportunity',
+                'related_id' => $acmeOpp->id,
+                'name_contact_id' => $jane->id,
+            ],
+        );
+
+        Event::query()->updateOrCreate(
+            ['subject' => 'Globex site visit', 'owner_id' => $rep->id],
+            [
+                'starts_at' => now()->addDay()->setTime(14, 0),
+                'ends_at' => now()->addDay()->setTime(16, 0),
+                'is_all_day' => false,
+                'location' => 'Globex HQ',
+                'show_as' => 'busy',
+                'is_private' => false,
+                'calendar_type' => 'my_events',
+                'related_type' => 'account',
+                'related_id' => $globex->id,
             ],
         );
     }

@@ -61,6 +61,7 @@ class LeadFactory extends Factory
         return $this->state(fn () => [
             'status' => 'converted',
             'is_converted' => true,
+            'converted_at' => now(),
         ]);
     }
 }

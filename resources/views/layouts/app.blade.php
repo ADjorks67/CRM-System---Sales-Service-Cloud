@@ -64,9 +64,9 @@
                         'Opportunities' => 'opportunities.index',
                         'Cases' => 'cases.index',
                         'Tasks' => null,
-                        'Calendar' => null,
+                        'Calendar' => 'calendar.index',
                         'Reports' => 'reports.index',
-                        'Dashboards' => null,
+                        'Dashboards' => 'dashboards.index',
                     ];
                 @endphp
                 @foreach ($tabs as $label => $routeName)

@@ -67,15 +67,14 @@ test('converted lead is read only for updates', function () {
         ->assertForbidden();
 });
 
-test('convert button is disabled pending phase 4', function () {
+test('convert wizard is available for open leads', function () {
     $user = User::factory()->withRole(RoleSlug::SalesRepresentative->value)->create();
     $lead = Lead::factory()->ownedBy($user)->create();
 
     $this->actingAs($user)
         ->get(route('leads.show', $lead))
         ->assertOk()
-        ->assertSee('Lead conversion arrives in Phase 4', false)
-        ->assertSee('Convert', false);
+        ->assertSee(route('leads.convert', $lead), false);
 });
 
 test('change owner records ownership history', function () {

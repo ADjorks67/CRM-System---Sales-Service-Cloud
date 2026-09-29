@@ -30,7 +30,8 @@
 
 ## Next
 
-See [PHASE_3_MVP.md](PHASE_3_MVP.md).
+Phase 3 MVP: [PHASE_3_MVP.md](PHASE_3_MVP.md).  
+Phase 4 Dev B (conversion + calendar + builders): [PHASE_4_DEV_B.md](PHASE_4_DEV_B.md).
 
 ## Local verify
 

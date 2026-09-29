@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Event;
 use App\Models\Opportunity;
 use App\Models\User;
 use App\Support\PicklistOptions;
@@ -19,6 +20,7 @@ class HomeDashboardService
      *     funnel: array{labels: list<string>, values: list<float>, total: float},
      *     revenueBySource: array{labels: list<string>, values: list<float>, total: float},
      *     keyDeals: Collection<int, Opportunity>,
+     *     todayEvents: Collection<int, Event>,
      *     period: string,
      *     from: CarbonInterface,
      *     to: CarbonInterface
@@ -38,10 +40,27 @@ class HomeDashboardService
             'funnel' => $this->pipelineFunnel(clone $base),
             'revenueBySource' => $this->revenueBySource(clone $base),
             'keyDeals' => $this->keyDeals($user),
+            'todayEvents' => $this->todaysEvents($user),
             'period' => $period,
             'from' => $from,
             'to' => $to,
         ];
+    }
+
+    /**
+     * Today's events for the current user (FR-HOME-005).
+     *
+     * @return Collection<int, Event>
+     */
+    public function todaysEvents(User $user): Collection
+    {
+        return Event::query()
+            ->visibleTo($user)
+            ->occurringOn(now())
+            ->with(['related', 'nameContact'])
+            ->orderBy('starts_at')
+            ->limit(10)
+            ->get();
     }
 
     /**

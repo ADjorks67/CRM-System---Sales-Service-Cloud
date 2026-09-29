@@ -16,3 +16,5 @@ require __DIR__.'/opportunities.php';
 require __DIR__.'/cases.php';
 require __DIR__.'/search.php';
 require __DIR__.'/reports.php';
+require __DIR__.'/events.php';
+require __DIR__.'/dashboards.php';
