@@ -8,6 +8,7 @@ use App\Models\Contact;
 use App\Models\Event;
 use App\Models\Lead;
 use App\Models\Opportunity;
+use App\Models\Task;
 use App\Models\User;
 use App\Support\PicklistOptions;
 use Illuminate\Support\Collection;
@@ -148,9 +149,9 @@ class LeadConversionService
         $relatedId = $opportunity?->id ?? $account->id;
 
         return Event::query()
+            ->open()
             ->where('related_type', 'lead')
             ->where('related_id', $lead->id)
-            ->where('ends_at', '>=', now())
             ->update([
                 'related_type' => $relatedType,
                 'related_id' => $relatedId,
@@ -160,11 +161,20 @@ class LeadConversionService
 
     private function transferOpenTasks(Lead $lead, Account $account, Contact $contact, ?Opportunity $opportunity): ?string
     {
-        if (! class_exists('App\\Models\\Task')) {
-            return 'Open tasks were not transferred (Task module pending Dev A).';
-        }
+        $relatedType = $opportunity !== null ? 'opportunity' : 'account';
+        $relatedId = $opportunity?->id ?? $account->id;
 
-        return null;
+        $count = Task::query()
+            ->open()
+            ->where('related_type', 'lead')
+            ->where('related_id', $lead->id)
+            ->update([
+                'related_type' => $relatedType,
+                'related_id' => $relatedId,
+                'contact_id' => $contact->id,
+            ]);
+
+        return $count > 0 ? "{$count} open task(s) transferred." : null;
     }
 
     /**

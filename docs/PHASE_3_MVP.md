@@ -77,5 +77,5 @@ composer run dev
 
 Phase 4 — Productivity and Analytics (P1).
 
-- **Dev B (start here):** [PHASE_4_DEV_B.md](PHASE_4_DEV_B.md) — calendar/events, lead conversion, report builder + export, dashboards, Home events widget.
-- **Dev A (parallel, do not overlap):** Tasks, email/queues/scheduler, import/export, task queries for Home.
+- **Dev A:** [PHASE_4_DEV_A.md](PHASE_4_DEV_A.md) — tasks, email/queues, CSV import/export, TaskQueryService / EventQueryService.
+- **Dev B:** [PHASE_4_DEV_B.md](PHASE_4_DEV_B.md) — calendar/events UI, lead conversion, report/dashboard builders, Home widgets.

@@ -261,19 +261,12 @@ Each phase assumes **all previous phases’ exit criteria** are met. Below: what
 
 **Exit:** all P1 items; critical journeys covered by tests.
 
-**Status (2026-09-29):** Phase 3 MVP exit is met. **Dev B Phase 4 implementation** is in-repo — see [PHASE_4_DEV_B.md](PHASE_4_DEV_B.md) §10 (calendar, conversion, report/dashboard builders, Home events). Dev A Phase 4 (tasks, email, import/export) remains parallel. Full Phase 4 exit is not signed off until both developers finish.
+**Status (2026-09-29):** Phase 3 MVP exit is met. Phase 4 tracks merged locally:
 
-**Dev B prerequisite check**
+- **Dev A:** [PHASE_4_DEV_A.md](PHASE_4_DEV_A.md) — Tasks, email/queues, CSV import/export, `TaskQueryService` / `EventQueryService`.
+- **Dev B:** [PHASE_4_DEV_B.md](PHASE_4_DEV_B.md) — Calendar UI, lead conversion, report/dashboard builders, Home widgets.
 
-| Prerequisite | Ready? |
-|---|---|
-| MVP objects + opportunities | Yes |
-| FullCalendar registered (`<x-calendar>`) | Yes |
-| Pre-built reports reusable (`app/Reports/`) | Yes |
-| Morph map planned (extend with `event` only on Dev B) | Yes — `task` reserved for Dev A |
-| `DB::transaction()` for conversion | Pattern ready; implement in FR-LEAD-005 |
-| Queue + Mailpit | Ready for Dev A email; Dev B must not block on mail |
-| Excel/PDF packages for FR-RPT-005 | **Not installed — needs approval** (see PHASE_4_DEV_B §6) |
+Event table uses Dev B schema (`is_all_day`, `show_as`, `calendar_type`, …). Dev A’s thinner `create_events` migration is a no-op when that table already exists. Morph map includes both `task` and `event`. FR-RPT-005 remains CSV + browser print (no Excel package).
 
 ---
 

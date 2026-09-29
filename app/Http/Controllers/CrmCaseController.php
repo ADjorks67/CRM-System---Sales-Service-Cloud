@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Services\BulkRecordActionService;
 use App\Services\OwnershipHistoryService;
 use App\Services\RecentRecordService;
+use App\Services\TaskQueryService;
 use App\Support\ListQuery;
 use App\Support\PicklistOptions;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,6 +31,7 @@ class CrmCaseController extends Controller
         private readonly OwnershipHistoryService $ownershipHistoryService,
         private readonly BulkRecordActionService $bulkRecordActionService,
         private readonly RecentRecordService $recentRecordService,
+        private readonly TaskQueryService $taskQueryService,
     ) {}
 
     protected function ownershipHistory(): OwnershipHistoryService
@@ -114,12 +116,13 @@ class CrmCaseController extends Controller
 
         /** @var User $viewer */
         $viewer = $request->user();
-        $this->recentRecordService->recordView($crmCase, $viewer);
+        $this->recentRecordService->recordView($viewer, $crmCase);
 
         $crmCase->load(['owner', 'account', 'contact', 'creator', 'updater']);
 
         return view('cases.show', [
             'crmCase' => $crmCase,
+            'openTasks' => $this->taskQueryService->openRelatedTo('case', $crmCase->id, $viewer),
             'owners' => User::query()->orderBy('name')->get(['id', 'name']),
             'statuses' => PicklistOptions::options('case_status'),
             'statusLabel' => PicklistOptions::options('case_status')[$crmCase->status] ?? $crmCase->status,

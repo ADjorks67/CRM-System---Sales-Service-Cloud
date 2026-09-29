@@ -14,6 +14,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+/**
+ * Calendar Event (FR-CAL-*). Schema + UI owned by Dev B.
+ * Dev A consumes scopes via EventQueryService / ownership transfer.
+ */
 #[Fillable([
     'subject',
     'starts_at',
@@ -135,6 +139,28 @@ class Event extends Model
     public function scopePublicTeam(Builder $query): Builder
     {
         return $query->where('is_private', false);
+    }
+
+    /**
+     * Open = not ended yet (ownership transfer / related lists — Dev A).
+     *
+     * @param  Builder<Event>  $query
+     * @return Builder<Event>
+     */
+    public function scopeOpen(Builder $query): Builder
+    {
+        return $query->where('ends_at', '>=', now());
+    }
+
+    /**
+     * Events that start on the current calendar day (EventQueryService).
+     *
+     * @param  Builder<Event>  $query
+     * @return Builder<Event>
+     */
+    public function scopeStartingToday(Builder $query): Builder
+    {
+        return $query->whereDate('starts_at', now()->toDateString());
     }
 
     /**

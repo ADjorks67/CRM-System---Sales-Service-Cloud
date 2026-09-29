@@ -63,7 +63,7 @@
                         'Contacts' => 'contacts.index',
                         'Opportunities' => 'opportunities.index',
                         'Cases' => 'cases.index',
-                        'Tasks' => null,
+                        'Tasks' => 'tasks.index',
                         'Calendar' => 'calendar.index',
                         'Reports' => 'reports.index',
                         'Dashboards' => 'dashboards.index',
@@ -96,8 +96,13 @@
     </main>
 
     <footer class="border-t border-black/10 bg-card py-4 text-center text-xs text-text/70">
-        <div class="mx-auto max-w-7xl px-4">
-            {{ config('app.name', 'CRM System') }} &mdash; Sales &amp; Service Cloud
+        <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-3 px-4">
+            <span>{{ config('app.name', 'CRM System') }} &mdash; Sales &amp; Service Cloud</span>
+            @auth
+                @can('permission', 'leads.create')
+                    <a href="{{ route('imports.index') }}" class="text-secondary no-underline">Import / Export</a>
+                @endcan
+            @endauth
         </div>
     </footer>
 

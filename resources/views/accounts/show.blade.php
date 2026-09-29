@@ -125,6 +125,21 @@
                 </ul>
             @endif
         </x-related-list>
-        <x-related-list title="Activities" empty="Activities arrive in Phase 4." />
+        <x-related-list title="Activities" empty="No open tasks for this account.">
+            @if (($openTasks ?? collect())->isNotEmpty())
+                <ul class="divide-y divide-black/10 text-sm">
+                    @foreach ($openTasks as $task)
+                        <li class="flex flex-wrap items-center justify-between gap-2 py-2">
+                            <a href="{{ route('tasks.show', $task) }}">{{ $task->subject }}</a>
+                            <span class="text-text/60">{{ $task->due_date?->toDateString() ?? 'No due date' }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+            <p class="mt-2 text-xs text-text/60">
+                <a href="{{ route('tasks.create', ['related_type' => 'account', 'related_id' => $account->id]) }}">New Task</a>
+                · Events arrive with Dev B calendar
+            </p>
+        </x-related-list>
     </div>
 @endsection

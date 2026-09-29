@@ -17,7 +17,7 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
-        $start = fake()->dateTimeBetween('now', '+2 weeks');
+        $start = fake()->dateTimeBetween('now', '+14 days');
 
         return [
             'subject' => fake()->sentence(3),

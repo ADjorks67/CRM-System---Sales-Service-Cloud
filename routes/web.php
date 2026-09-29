@@ -14,6 +14,8 @@ require __DIR__.'/contacts.php';
 require __DIR__.'/leads.php';
 require __DIR__.'/opportunities.php';
 require __DIR__.'/cases.php';
+require __DIR__.'/tasks.php';
+require __DIR__.'/imports.php';
 require __DIR__.'/search.php';
 require __DIR__.'/reports.php';
 require __DIR__.'/events.php';

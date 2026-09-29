@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Event;
 use App\Models\Opportunity;
+use App\Models\Task;
 use App\Models\User;
 use App\Support\PicklistOptions;
 use Carbon\CarbonInterface;
@@ -12,7 +13,11 @@ use Illuminate\Support\Collection;
 
 class HomeDashboardService
 {
-    public function __construct(private readonly RecentRecordService $recentRecords) {}
+    public function __construct(
+        private readonly RecentRecordService $recentRecords,
+        private readonly TaskQueryService $taskQueries,
+        private readonly EventQueryService $eventQueries,
+    ) {}
 
     /**
      * @return array{
@@ -21,6 +26,7 @@ class HomeDashboardService
      *     revenueBySource: array{labels: list<string>, values: list<float>, total: float},
      *     keyDeals: Collection<int, Opportunity>,
      *     todayEvents: Collection<int, Event>,
+     *     todayTasks: Collection<int, Task>,
      *     period: string,
      *     from: CarbonInterface,
      *     to: CarbonInterface
@@ -40,27 +46,12 @@ class HomeDashboardService
             'funnel' => $this->pipelineFunnel(clone $base),
             'revenueBySource' => $this->revenueBySource(clone $base),
             'keyDeals' => $this->keyDeals($user),
-            'todayEvents' => $this->todaysEvents($user),
+            'todayEvents' => $this->eventQueries->todayForUser($user, 10),
+            'todayTasks' => $this->taskQueries->dueToday($user, 10),
             'period' => $period,
             'from' => $from,
             'to' => $to,
         ];
-    }
-
-    /**
-     * Today's events for the current user (FR-HOME-005).
-     *
-     * @return Collection<int, Event>
-     */
-    public function todaysEvents(User $user): Collection
-    {
-        return Event::query()
-            ->visibleTo($user)
-            ->occurringOn(now())
-            ->with(['related', 'nameContact'])
-            ->orderBy('starts_at')
-            ->limit(10)
-            ->get();
     }
 
     /**

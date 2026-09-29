@@ -76,7 +76,7 @@
                         <li class="py-2">
                             <a href="{{ route('events.show', $event) }}" class="font-medium">{{ $event->subject }}</a>
                             <p class="text-text/60">
-                                {{ $event->starts_at->format('g:i A') }} – {{ $event->ends_at->format('g:i A') }}
+                                {{ $event->is_all_day ? 'All day' : $event->starts_at->format('g:i A').' – '.$event->ends_at->format('g:i A') }}
                                 @if ($event->location)
                                     · {{ $event->location }}
                                 @endif
@@ -87,10 +87,28 @@
             @endif
         </section>
 
-        {{-- Dev A: FR-HOME-004 Today's Tasks widget --}}
-        <section class="rounded border border-dashed border-black/20 bg-card/50 p-4" aria-labelledby="tasks-heading">
-            <h2 id="tasks-heading" class="mb-2 text-base font-semibold text-primary">Today’s Tasks</h2>
-            <p class="text-sm text-text/70">Tasks widget will appear when Dev A ships the Task model and home API (FR-HOME-004).</p>
+        <section class="rounded bg-card p-4 shadow-[var(--shadow-card)]" aria-labelledby="tasks-heading">
+            <div class="mb-3 flex items-center justify-between gap-2">
+                <h2 id="tasks-heading" class="text-base font-semibold text-primary">Today’s Tasks</h2>
+                <a href="{{ route('tasks.index', ['filter' => 'today']) }}" class="text-sm text-secondary no-underline">View tasks</a>
+            </div>
+            @if ($todayTasks->isEmpty())
+                <p class="text-sm text-text/70">No tasks due today.</p>
+            @else
+                <ul class="divide-y divide-black/10 text-sm">
+                    @foreach ($todayTasks as $task)
+                        <li class="py-2">
+                            <a href="{{ route('tasks.show', $task) }}" class="font-medium">{{ $task->subject }}</a>
+                            <p class="text-text/60">
+                                {{ $task->due_date?->toDateString() ?? '—' }}
+                                @if ($task->related)
+                                    · {{ ucfirst($task->related_type) }}
+                                @endif
+                            </p>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </section>
 
         <section class="rounded bg-card p-4 shadow-[var(--shadow-card)] lg:col-span-2" aria-labelledby="funnel-heading">

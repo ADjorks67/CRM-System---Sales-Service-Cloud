@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -19,4 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+    })
+    ->withSchedule(function (Schedule $schedule): void {
+        $schedule->command('crm:send-task-digests')->dailyAt('07:00');
+        $schedule->command('crm:send-overdue-task-notifications')->dailyAt('07:15');
+        $schedule->command('crm:send-task-reminders')->everyFiveMinutes();
     })->create();

@@ -119,6 +119,16 @@ class PicklistSeeder extends Seeder
             ['category' => 'event_show_as', 'value' => 'busy', 'label' => 'Busy', 'sort_order' => 1],
             ['category' => 'event_show_as', 'value' => 'free', 'label' => 'Free', 'sort_order' => 2],
             ['category' => 'event_show_as', 'value' => 'out_of_office', 'label' => 'Out of Office', 'sort_order' => 3],
+
+            // Task status / priority (FR-TASK-002)
+            ['category' => 'task_status', 'value' => 'not_started', 'label' => 'Not Started', 'sort_order' => 1],
+            ['category' => 'task_status', 'value' => 'in_progress', 'label' => 'In Progress', 'sort_order' => 2],
+            ['category' => 'task_status', 'value' => 'completed', 'label' => 'Completed', 'sort_order' => 3],
+            ['category' => 'task_status', 'value' => 'deferred', 'label' => 'Deferred', 'sort_order' => 4],
+
+            ['category' => 'task_priority', 'value' => 'high', 'label' => 'High', 'sort_order' => 1],
+            ['category' => 'task_priority', 'value' => 'normal', 'label' => 'Normal', 'sort_order' => 2],
+            ['category' => 'task_priority', 'value' => 'low', 'label' => 'Low', 'sort_order' => 3],
         ];
 
         foreach ($rows as $row) {

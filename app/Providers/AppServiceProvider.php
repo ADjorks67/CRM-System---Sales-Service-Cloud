@@ -8,6 +8,7 @@ use App\Models\CrmCase;
 use App\Models\Event;
 use App\Models\Lead;
 use App\Models\Opportunity;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -30,8 +31,8 @@ class AppServiceProvider extends ServiceProvider
             'lead' => Lead::class,
             'opportunity' => Opportunity::class,
             'case' => CrmCase::class,
+            'task' => Task::class,
             'event' => Event::class,
-            // 'task' reserved for Dev A (FR-TASK-*)
             'user' => User::class,
         ]);
 
