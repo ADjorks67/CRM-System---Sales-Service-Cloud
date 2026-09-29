@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\LeadStatus;
+use App\Models\CrmCase;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -23,6 +24,7 @@ class BulkRecordActionService
         return match ($action) {
             'change_owner' => $this->changeOwner($records, $actor, $newOwner, $options),
             'delete' => $this->delete($records, $actor),
+            'archive' => $this->archive($records, $actor),
             'change_status' => $this->changeStatus($records, $actor, $options['status'] ?? null),
             default => throw ValidationException::withMessages([
                 'action' => 'Unsupported bulk action.',
@@ -79,12 +81,54 @@ class BulkRecordActionService
                     continue;
                 }
 
-                $record->delete();
+                if ($this->shouldArchiveInsteadOfDelete($record)) {
+                    $record->forceFill(['archived_at' => now()])->save();
+                } else {
+                    $record->delete();
+                }
+
                 $processed++;
             }
         });
 
         return compact('processed', 'skipped');
+    }
+
+    /**
+     * @param  Collection<int, Model>  $records
+     * @return array{processed: int, skipped: int}
+     */
+    private function archive(Collection $records, User $actor): array
+    {
+        $processed = 0;
+        $skipped = 0;
+
+        DB::transaction(function () use ($records, $actor, &$processed, &$skipped): void {
+            foreach ($records as $record) {
+                if (! $actor->can('archive', $record)) {
+                    $skipped++;
+
+                    continue;
+                }
+
+                if (! $this->shouldArchiveInsteadOfDelete($record)) {
+                    $skipped++;
+
+                    continue;
+                }
+
+                $record->forceFill(['archived_at' => now()])->save();
+                $processed++;
+            }
+        });
+
+        return compact('processed', 'skipped');
+    }
+
+    private function shouldArchiveInsteadOfDelete(Model $record): bool
+    {
+        return method_exists($record, 'isArchived')
+            && in_array('archived_at', $record->getFillable(), true);
     }
 
     /**
@@ -116,7 +160,12 @@ class BulkRecordActionService
                     continue;
                 }
 
-                $record->forceFill(['status' => $status])->save();
+                $attributes = ['status' => $status];
+                if ($record instanceof CrmCase) {
+                    $attributes['closed_at'] = $status === 'closed' ? now() : null;
+                }
+
+                $record->forceFill($attributes)->save();
                 $processed++;
             }
         });

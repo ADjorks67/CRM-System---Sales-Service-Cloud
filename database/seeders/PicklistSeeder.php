@@ -77,6 +77,11 @@ class PicklistSeeder extends Seeder
             ['category' => 'industry', 'value' => 'utilities', 'label' => 'Utilities', 'sort_order' => 30],
             ['category' => 'industry', 'value' => 'other', 'label' => 'Other', 'sort_order' => 31],
 
+            // Opportunity types
+            ['category' => 'opportunity_type', 'value' => 'new_business', 'label' => 'New Business', 'sort_order' => 1],
+            ['category' => 'opportunity_type', 'value' => 'existing_business', 'label' => 'Existing Business', 'sort_order' => 2],
+            ['category' => 'opportunity_type', 'value' => 'renewal', 'label' => 'Renewal', 'sort_order' => 3],
+
             // Opportunity stages + probabilities (meta_int)
             ['category' => 'opportunity_stage', 'value' => 'qualification', 'label' => 'Qualification', 'sort_order' => 1, 'meta_int' => 10],
             ['category' => 'opportunity_stage', 'value' => 'meeting_scheduled', 'label' => 'Meeting Scheduled', 'sort_order' => 2, 'meta_int' => 20],
@@ -84,6 +89,32 @@ class PicklistSeeder extends Seeder
             ['category' => 'opportunity_stage', 'value' => 'negotiation_review', 'label' => 'Negotiation/Review', 'sort_order' => 4, 'meta_int' => 80],
             ['category' => 'opportunity_stage', 'value' => 'closed_won', 'label' => 'Closed Won', 'sort_order' => 5, 'meta_int' => 100],
             ['category' => 'opportunity_stage', 'value' => 'closed_lost', 'label' => 'Closed Lost', 'sort_order' => 6, 'meta_int' => 0],
+
+            // Case statuses (FR-CASE-001)
+            ['category' => 'case_status', 'value' => 'new', 'label' => 'New', 'sort_order' => 1],
+            ['category' => 'case_status', 'value' => 'working', 'label' => 'Working', 'sort_order' => 2],
+            ['category' => 'case_status', 'value' => 'escalated', 'label' => 'Escalated', 'sort_order' => 3],
+            ['category' => 'case_status', 'value' => 'closed', 'label' => 'Closed', 'sort_order' => 4],
+
+            ['category' => 'case_origin', 'value' => 'phone', 'label' => 'Phone', 'sort_order' => 1],
+            ['category' => 'case_origin', 'value' => 'email', 'label' => 'Email', 'sort_order' => 2],
+            ['category' => 'case_origin', 'value' => 'web', 'label' => 'Web', 'sort_order' => 3],
+            ['category' => 'case_origin', 'value' => 'chat', 'label' => 'Chat', 'sort_order' => 4],
+
+            ['category' => 'case_type', 'value' => 'question', 'label' => 'Question', 'sort_order' => 1],
+            ['category' => 'case_type', 'value' => 'problem', 'label' => 'Problem', 'sort_order' => 2],
+            ['category' => 'case_type', 'value' => 'feature_request', 'label' => 'Feature Request', 'sort_order' => 3],
+
+            ['category' => 'case_priority', 'value' => 'high', 'label' => 'High', 'sort_order' => 1],
+            ['category' => 'case_priority', 'value' => 'medium', 'label' => 'Medium', 'sort_order' => 2],
+            ['category' => 'case_priority', 'value' => 'low', 'label' => 'Low', 'sort_order' => 3],
+
+            ['category' => 'case_reason', 'value' => 'complex_functionality', 'label' => 'Complex Functionality', 'sort_order' => 1],
+            ['category' => 'case_reason', 'value' => 'existing_problem', 'label' => 'Existing Problem', 'sort_order' => 2],
+            ['category' => 'case_reason', 'value' => 'instructions_not_clear', 'label' => 'Instructions Not Clear', 'sort_order' => 3],
+            ['category' => 'case_reason', 'value' => 'new_problem', 'label' => 'New Problem', 'sort_order' => 4],
+            ['category' => 'case_reason', 'value' => 'user_didnt_attend_training', 'label' => 'User Didn\'t Attend Training', 'sort_order' => 5],
+            ['category' => 'case_reason', 'value' => 'other', 'label' => 'Other', 'sort_order' => 6],
         ];
 
         foreach ($rows as $row) {

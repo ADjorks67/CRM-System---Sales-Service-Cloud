@@ -76,6 +76,11 @@ class Contact extends Model
         return $this->hasMany(self::class, 'reports_to_id');
     }
 
+    public function cases(): HasMany
+    {
+        return $this->hasMany(CrmCase::class, 'contact_id');
+    }
+
     public function ownershipHistories(): MorphMany
     {
         return $this->morphMany(OwnershipHistory::class, 'ownable');

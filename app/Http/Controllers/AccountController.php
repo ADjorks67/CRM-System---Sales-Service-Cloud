@@ -94,7 +94,15 @@ class AccountController extends Controller
     {
         $this->authorize('view', $account);
 
-        $account->load(['owner', 'parentAccount', 'creator', 'updater', 'contacts.owner']);
+        $account->load([
+            'owner',
+            'parentAccount',
+            'creator',
+            'updater',
+            'contacts.owner',
+            'opportunities' => fn ($q) => $q->notArchived()->with('owner')->latest('updated_at')->limit(10),
+            'cases' => fn ($q) => $q->with('owner')->latest('updated_at')->limit(10),
+        ]);
 
         return view('accounts.show', [
             'account' => $account,

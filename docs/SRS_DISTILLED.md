@@ -38,6 +38,6 @@ Primary tabs: Home, Leads, Accounts, Contacts, Opportunities, Cases, Tasks, Cale
 
 Default **25** rows; hard maximum **200**.
 
-## Out of Phase 1
+Out of Phase 1–2
 
-MFA (Phase 5), global search backend (Phase 3), Opportunities/Cases (Phase 3). Phase 2 Accounts/Contacts/Leads CRUD is implemented — see PHASE_2_CORE_OBJECTS.md.
+MFA (Phase 5). Phase 3 MVP is implemented — see [PHASE_3_MVP.md](PHASE_3_MVP.md) (Opportunities, Cases, global search, Home widgets, pre-built reports).

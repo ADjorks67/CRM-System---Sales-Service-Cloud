@@ -58,4 +58,4 @@ Lockout remains **5 attempts / 30 minutes** (FR-AUTH-001).
 
 See [PHASE_0_GOVERNANCE_CHECKLIST.md](PHASE_0_GOVERNANCE_CHECKLIST.md). No `develop` branch — PRs target `main`.
 
-**Next:** [PHASE_2_CORE_OBJECTS.md](PHASE_2_CORE_OBJECTS.md) — Accounts, Contacts, Leads.
+**Next:** [PHASE_3_MVP.md](PHASE_3_MVP.md) — Cases, Opportunities, search, home, basic reports.

@@ -68,6 +68,16 @@ class Account extends Model
         return $this->hasMany(Contact::class);
     }
 
+    public function opportunities(): HasMany
+    {
+        return $this->hasMany(Opportunity::class);
+    }
+
+    public function cases(): HasMany
+    {
+        return $this->hasMany(CrmCase::class, 'account_id');
+    }
+
     public function ownershipHistories(): MorphMany
     {
         return $this->morphMany(OwnershipHistory::class, 'ownable');

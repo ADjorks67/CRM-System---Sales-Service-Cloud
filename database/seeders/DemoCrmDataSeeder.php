@@ -4,8 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Account;
 use App\Models\Contact;
+use App\Models\CrmCase;
 use App\Models\Lead;
+use App\Models\Opportunity;
 use App\Models\User;
+use App\Services\StageService;
 use Illuminate\Database\Seeder;
 
 class DemoCrmDataSeeder extends Seeder
@@ -55,7 +58,7 @@ class DemoCrmDataSeeder extends Seeder
             ],
         );
 
-        Account::query()->updateOrCreate(
+        $initech = Account::query()->updateOrCreate(
             ['name' => 'Initech Support Co', 'owner_id' => $service->id],
             [
                 'type' => 'partner',
@@ -74,7 +77,7 @@ class DemoCrmDataSeeder extends Seeder
             ],
         );
 
-        Contact::query()->updateOrCreate(
+        $jane = Contact::query()->updateOrCreate(
             ['email' => 'jane.doe@acme.example', 'account_id' => $acme->id],
             [
                 'first_name' => 'Jane',
@@ -117,6 +120,71 @@ class DemoCrmDataSeeder extends Seeder
                 'lead_source' => 'trade_show',
                 'rating' => 'warm',
                 'owner_id' => $manager->id,
+            ],
+        );
+
+        $stageService = app(StageService::class);
+
+        $acmeOpp = Opportunity::query()->updateOrCreate(
+            ['name' => 'Acme Enterprise Renewal', 'account_id' => $acme->id],
+            [
+                'amount' => 120000,
+                'close_date' => now()->addMonths(2)->toDateString(),
+                'type' => 'renewal',
+                'lead_source' => 'external_referral',
+                'next_step' => 'Send proposal',
+                'owner_id' => $manager->id,
+            ],
+        );
+        $stageService->changeStage($acmeOpp, 'negotiation_review', $manager);
+
+        $globexOpp = Opportunity::query()->updateOrCreate(
+            ['name' => 'Globex Plant Expansion', 'account_id' => $globex->id],
+            [
+                'amount' => 45000,
+                'close_date' => now()->addMonths(1)->toDateString(),
+                'type' => 'new_business',
+                'lead_source' => 'web',
+                'owner_id' => $rep->id,
+            ],
+        );
+        $stageService->changeStage($globexOpp, 'proposal_price_quote', $rep);
+
+        $wonOpp = Opportunity::query()->updateOrCreate(
+            ['name' => 'Acme Pilot Win', 'account_id' => $acme->id],
+            [
+                'amount' => 25000,
+                'close_date' => now()->subDays(10)->toDateString(),
+                'type' => 'new_business',
+                'lead_source' => 'advertisement',
+                'owner_id' => $manager->id,
+            ],
+        );
+        $stageService->changeStage($wonOpp, 'closed_won', $manager);
+
+        CrmCase::query()->updateOrCreate(
+            ['subject' => 'Cannot reset password', 'account_id' => $initech->id],
+            [
+                'status' => 'working',
+                'priority' => 'high',
+                'origin' => 'email',
+                'type' => 'problem',
+                'description' => 'User locked out of portal.',
+                'owner_id' => $service->id,
+            ],
+        );
+
+        CrmCase::query()->updateOrCreate(
+            ['subject' => 'Billing question', 'account_id' => $acme->id],
+            [
+                'status' => 'closed',
+                'priority' => 'low',
+                'origin' => 'phone',
+                'type' => 'question',
+                'contact_id' => $jane->id,
+                'description' => 'Resolved invoice clarification.',
+                'closed_at' => now()->subDays(3),
+                'owner_id' => $service->id,
             ],
         );
     }

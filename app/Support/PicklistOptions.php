@@ -50,4 +50,14 @@ class PicklistOptions
 
         return $fromPicklist !== [] ? $fromPicklist : LeadStatus::editableOptions();
     }
+
+    public static function probabilityForStage(string $stage): int
+    {
+        $meta = Picklist::query()
+            ->category('opportunity_stage')
+            ->where('value', $stage)
+            ->value('meta_int');
+
+        return (int) ($meta ?? 0);
+    }
 }

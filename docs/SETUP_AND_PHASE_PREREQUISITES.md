@@ -239,6 +239,8 @@ Each phase assumes **all previous phases’ exit criteria** are met. Below: what
 
 **Exit:** all P0 items in SRS 9.2 work — **MVP demo**.
 
+**Status:** Phase 3 exit criteria are met in-repo. See [PHASE_3_MVP.md](PHASE_3_MVP.md).
+
 ---
 
 ### Phase 4 — Productivity and analytics (P1)

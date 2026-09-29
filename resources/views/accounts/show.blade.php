@@ -101,8 +101,30 @@
                 </ul>
             @endif
         </x-related-list>
-        <x-related-list title="Opportunities" empty="Opportunities arrive in Phase 3." />
-        <x-related-list title="Cases" empty="Cases arrive in Phase 3." />
+        <x-related-list title="Opportunities" empty="No opportunities for this account.">
+            @if ($account->opportunities->isNotEmpty())
+                <ul class="divide-y divide-black/10 text-sm">
+                    @foreach ($account->opportunities as $opportunity)
+                        <li class="flex flex-wrap items-center justify-between gap-2 py-2">
+                            <a href="{{ route('opportunities.show', $opportunity) }}">{{ $opportunity->name }}</a>
+                            <span class="text-text/60">{{ \App\Support\PicklistOptions::options('opportunity_stage')[$opportunity->stage] ?? $opportunity->stage }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </x-related-list>
+        <x-related-list title="Cases" empty="No cases for this account.">
+            @if ($account->cases->isNotEmpty())
+                <ul class="divide-y divide-black/10 text-sm">
+                    @foreach ($account->cases as $crmCase)
+                        <li class="flex flex-wrap items-center justify-between gap-2 py-2">
+                            <a href="{{ route('cases.show', $crmCase) }}">{{ $crmCase->case_number }} — {{ $crmCase->displayName() }}</a>
+                            <span class="text-text/60">{{ \App\Support\PicklistOptions::options('case_status')[$crmCase->status] ?? $crmCase->status }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </x-related-list>
         <x-related-list title="Activities" empty="Activities arrive in Phase 4." />
     </div>
 @endsection

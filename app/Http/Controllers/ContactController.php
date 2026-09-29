@@ -9,6 +9,7 @@ use App\Http\Requests\StoreContactRequest;
 use App\Http\Requests\UpdateContactRequest;
 use App\Models\Account;
 use App\Models\Contact;
+use App\Models\Opportunity;
 use App\Models\User;
 use App\Services\BulkRecordActionService;
 use App\Services\OwnershipHistoryService;
@@ -93,14 +94,33 @@ class ContactController extends Controller
             ->with('success', 'Contact created successfully.');
     }
 
-    public function show(Contact $contact): View
+    public function show(Request $request, Contact $contact): View
     {
         $this->authorize('view', $contact);
 
-        $contact->load(['owner', 'account', 'reportsTo', 'creator', 'updater']);
+        $contact->load([
+            'owner',
+            'account',
+            'reportsTo',
+            'creator',
+            'updater',
+            'cases' => fn ($q) => $q->with('owner')->latest('updated_at')->limit(10),
+        ]);
+
+        $accountOpportunities = $contact->account_id
+            ? Opportunity::query()
+                ->where('account_id', $contact->account_id)
+                ->notArchived()
+                ->visibleTo($request->user())
+                ->with('owner')
+                ->latest('updated_at')
+                ->limit(10)
+                ->get()
+            : collect();
 
         return view('contacts.show', [
             'contact' => $contact,
+            'accountOpportunities' => $accountOpportunities,
             'owners' => User::query()->orderBy('name')->get(['id', 'name']),
             'salutationLabel' => PicklistOptions::options('salutation')[$contact->salutation] ?? $contact->salutation,
             'leadSourceLabel' => PicklistOptions::options('lead_source')[$contact->lead_source] ?? $contact->lead_source,

@@ -19,18 +19,23 @@
                 {{ config('app.name', 'CRM System') }}
             </a>
 
-            <form action="#" method="get" role="search" class="ml-auto flex min-w-[12rem] flex-1 max-w-md" aria-label="Global search">
-                <label for="global-search" class="sr-only">Search</label>
-                <input
-                    id="global-search"
-                    type="search"
-                    name="q"
-                    placeholder="Search…"
-                    minlength="2"
-                    class="w-full rounded border-0 bg-white px-3 py-2 text-sm text-text placeholder:text-text/50"
-                    autocomplete="off"
-                >
-            </form>
+            <div class="relative ml-auto min-w-[12rem] flex-1 max-w-md">
+                <form action="{{ route('search.index') }}" method="get" role="search" class="flex" aria-label="Global search" id="global-search-form">
+                    <label for="global-search" class="sr-only">Search</label>
+                    <input
+                        id="global-search"
+                        type="search"
+                        name="q"
+                        value="{{ request('q') }}"
+                        placeholder="Search…"
+                        minlength="2"
+                        class="w-full rounded border-0 bg-white px-3 py-2 text-sm text-text placeholder:text-text/50"
+                        autocomplete="off"
+                        data-suggest-url="{{ route('search.suggest') }}"
+                    >
+                </form>
+                <div id="global-search-suggest" class="absolute left-0 right-0 z-40 mt-1 hidden max-h-80 overflow-auto rounded border border-black/10 bg-card text-sm text-text shadow-lg" role="listbox"></div>
+            </div>
 
             @auth
                 <div class="relative flex items-center gap-3 text-sm">
@@ -56,11 +61,11 @@
                         'Leads' => 'leads.index',
                         'Accounts' => 'accounts.index',
                         'Contacts' => 'contacts.index',
-                        'Opportunities' => null,
-                        'Cases' => null,
+                        'Opportunities' => 'opportunities.index',
+                        'Cases' => 'cases.index',
                         'Tasks' => null,
                         'Calendar' => null,
-                        'Reports' => null,
+                        'Reports' => 'reports.index',
                         'Dashboards' => null,
                     ];
                 @endphp
@@ -97,5 +102,57 @@
     </footer>
 
     @stack('scripts')
+    <script>
+        (() => {
+            const input = document.getElementById('global-search');
+            const panel = document.getElementById('global-search-suggest');
+            if (! input || ! panel) return;
+
+            let timer = null;
+            const labels = { leads: 'Leads', accounts: 'Accounts', contacts: 'Contacts', opportunities: 'Opportunities', cases: 'Cases' };
+
+            const hide = () => panel.classList.add('hidden');
+            const show = (html) => {
+                panel.innerHTML = html;
+                panel.classList.toggle('hidden', ! html);
+            };
+
+            input.addEventListener('input', () => {
+                clearTimeout(timer);
+                const q = input.value.trim();
+                if (q.length < 2) {
+                    hide();
+                    return;
+                }
+                timer = setTimeout(async () => {
+                    try {
+                        const url = new URL(input.dataset.suggestUrl, window.location.origin);
+                        url.searchParams.set('q', q);
+                        const res = await fetch(url, { headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' } });
+                        const data = await res.json();
+                        const groups = data.groups || {};
+                        let html = '';
+                        for (const [key, items] of Object.entries(groups)) {
+                            if (! items.length) continue;
+                            html += `<div class="border-b border-black/10 px-3 py-2 font-semibold text-primary">${labels[key] || key}</div>`;
+                            for (const item of items) {
+                                html += `<a href="${item.url}" class="block px-3 py-2 text-text no-underline hover:bg-secondary/5" role="option"><span class="font-medium">${item.label}</span><span class="block text-xs text-text/60">${item.meta || ''}</span></a>`;
+                            }
+                        }
+                        if (! html) {
+                            html = '<p class="px-3 py-2 text-text/70">No matches</p>';
+                        }
+                        show(html);
+                    } catch (e) {
+                        hide();
+                    }
+                }, 250);
+            });
+
+            document.addEventListener('click', (e) => {
+                if (! panel.contains(e.target) && e.target !== input) hide();
+            });
+        })();
+    </script>
 </body>
 </html>

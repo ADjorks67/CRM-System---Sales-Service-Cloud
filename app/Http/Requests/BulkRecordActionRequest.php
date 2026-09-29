@@ -20,8 +20,20 @@ class BulkRecordActionRequest extends FormRequest
     {
         $actions = ['change_owner', 'delete'];
 
-        if ($this->routeIs('leads.bulk')) {
+        if ($this->routeIs('leads.bulk') || $this->routeIs('cases.bulk')) {
             $actions[] = 'change_status';
+        }
+
+        if ($this->routeIs('opportunities.bulk')) {
+            $actions[] = 'archive';
+        }
+
+        $statusRule = ['required_if:action,change_status', 'nullable', 'string'];
+
+        if ($this->routeIs('cases.bulk')) {
+            $statusRule[] = PicklistOptions::inRule('case_status');
+        } else {
+            $statusRule[] = Rule::in(array_keys(PicklistOptions::editableLeadStatuses()));
         }
 
         return [
@@ -29,12 +41,7 @@ class BulkRecordActionRequest extends FormRequest
             'ids' => ['required', 'array', 'min:1'],
             'ids.*' => ['integer'],
             'owner_id' => ['required_if:action,change_owner', 'nullable', 'integer', Rule::exists('users', 'id')],
-            'status' => [
-                'required_if:action,change_status',
-                'nullable',
-                'string',
-                Rule::in(array_keys(PicklistOptions::editableLeadStatuses())),
-            ],
+            'status' => $statusRule,
             'notify_new_owner' => ['sometimes', 'boolean'],
             'transfer_open_activities' => ['sometimes', 'boolean'],
             'notes' => ['nullable', 'string', 'max:1000'],
