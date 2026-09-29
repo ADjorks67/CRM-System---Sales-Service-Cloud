@@ -15,6 +15,7 @@ use App\Services\BulkRecordActionService;
 use App\Services\OwnershipHistoryService;
 use App\Services\RecentRecordService;
 use App\Services\StageService;
+use App\Services\TaskQueryService;
 use App\Support\ListQuery;
 use App\Support\PicklistOptions;
 use Illuminate\Http\RedirectResponse;
@@ -32,6 +33,7 @@ class OpportunityController extends Controller
         private readonly OwnershipHistoryService $ownershipHistoryService,
         private readonly BulkRecordActionService $bulkRecordActionService,
         private readonly RecentRecordService $recentRecordService,
+        private readonly TaskQueryService $taskQueryService,
     ) {}
 
     protected function ownershipHistory(): OwnershipHistoryService
@@ -127,6 +129,7 @@ class OpportunityController extends Controller
 
         return view('opportunities.show', [
             'opportunity' => $opportunity,
+            'openTasks' => $this->taskQueryService->openRelatedTo('opportunity', $opportunity->id, $request->user()),
             'owners' => User::query()->orderBy('name')->get(['id', 'name']),
             'stages' => PicklistOptions::options('opportunity_stage'),
             'stageValues' => PicklistOptions::values('opportunity_stage'),

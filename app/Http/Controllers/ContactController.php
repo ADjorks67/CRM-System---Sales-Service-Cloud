@@ -13,6 +13,7 @@ use App\Models\Opportunity;
 use App\Models\User;
 use App\Services\BulkRecordActionService;
 use App\Services\OwnershipHistoryService;
+use App\Services\TaskQueryService;
 use App\Support\ListQuery;
 use App\Support\PicklistOptions;
 use Illuminate\Http\RedirectResponse;
@@ -26,6 +27,7 @@ class ContactController extends Controller
     public function __construct(
         private readonly OwnershipHistoryService $ownershipHistoryService,
         private readonly BulkRecordActionService $bulkRecordActionService,
+        private readonly TaskQueryService $taskQueryService,
     ) {}
 
     protected function ownershipHistory(): OwnershipHistoryService
@@ -121,6 +123,7 @@ class ContactController extends Controller
         return view('contacts.show', [
             'contact' => $contact,
             'accountOpportunities' => $accountOpportunities,
+            'openTasks' => $this->taskQueryService->openRelatedTo('contact', $contact->id, $request->user()),
             'owners' => User::query()->orderBy('name')->get(['id', 'name']),
             'salutationLabel' => PicklistOptions::options('salutation')[$contact->salutation] ?? $contact->salutation,
             'leadSourceLabel' => PicklistOptions::options('lead_source')[$contact->lead_source] ?? $contact->lead_source,

@@ -112,7 +112,22 @@
         <x-related-list title="Products" empty="No products linked to this opportunity." />
         <x-related-list title="Quotes" empty="No quotes for this opportunity." />
         <x-related-list title="Activity History" empty="No activity history yet." />
-        <x-related-list title="Open Activities" empty="No open activities." />
+        <x-related-list title="Open Activities" empty="No open tasks.">
+            @if (($openTasks ?? collect())->isNotEmpty())
+                <ul class="divide-y divide-black/10 text-sm">
+                    @foreach ($openTasks as $task)
+                        <li class="flex flex-wrap items-center justify-between gap-2 py-2">
+                            <a href="{{ route('tasks.show', $task) }}">{{ $task->subject }}</a>
+                            <span class="text-text/60">{{ $task->due_date?->toDateString() ?? 'No due date' }}</span>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+            <p class="mt-2 text-xs text-text/60">
+                <a href="{{ route('tasks.create', ['related_type' => 'opportunity', 'related_id' => $opportunity->id]) }}">New Task</a>
+                · Events arrive with Dev B calendar
+            </p>
+        </x-related-list>
 
         <x-related-list title="Stage History" :empty="$opportunity->stageHistories->isEmpty() ? 'No stage changes recorded.' : null">
             @if ($opportunity->stageHistories->isNotEmpty())

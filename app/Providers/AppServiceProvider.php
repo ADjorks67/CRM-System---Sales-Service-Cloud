@@ -5,8 +5,10 @@ namespace App\Providers;
 use App\Models\Account;
 use App\Models\Contact;
 use App\Models\CrmCase;
+use App\Models\Event;
 use App\Models\Lead;
 use App\Models\Opportunity;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -29,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
             'lead' => Lead::class,
             'opportunity' => Opportunity::class,
             'case' => CrmCase::class,
+            'task' => Task::class,
+            'event' => Event::class,
             'user' => User::class,
         ]);
 

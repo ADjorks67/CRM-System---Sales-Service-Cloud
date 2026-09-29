@@ -75,4 +75,4 @@ composer run dev
 
 ## Next
 
-Phase 4 — Tasks, calendar, lead conversion, email/queues, report/dashboard builders.
+Phase 4 — see [PHASE_4_DEV_A.md](PHASE_4_DEV_A.md) (Dev A: tasks, email, import) and PROJECT_PLAN Dev B track (calendar, conversion, builders).

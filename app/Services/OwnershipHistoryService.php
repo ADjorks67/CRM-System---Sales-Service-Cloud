@@ -2,10 +2,14 @@
 
 namespace App\Services;
 
+use App\Models\Event;
 use App\Models\OwnershipHistory;
+use App\Models\Task;
 use App\Models\User;
+use App\Notifications\OwnershipChangedNotification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class OwnershipHistoryService
 {
@@ -19,7 +23,7 @@ class OwnershipHistoryService
 
             $record->forceFill(['owner_id' => $newOwner->id])->save();
 
-            return OwnershipHistory::query()->create([
+            $history = OwnershipHistory::query()->create([
                 'ownable_type' => $record->getMorphClass(),
                 'ownable_id' => $record->getKey(),
                 'previous_owner_id' => $previousOwnerId,
@@ -29,6 +33,37 @@ class OwnershipHistoryService
                 'transfer_open_activities' => (bool) ($options['transfer_open_activities'] ?? false),
                 'notes' => $options['notes'] ?? null,
             ]);
+
+            if ($history->transfer_open_activities) {
+                $this->transferOpenActivities($record, $newOwner);
+            }
+
+            if ($history->notify_new_owner && (int) $newOwner->id !== (int) $changedBy->id) {
+                Notification::send(
+                    $newOwner,
+                    new OwnershipChangedNotification($record, $history, $changedBy),
+                );
+            }
+
+            return $history;
         });
+    }
+
+    /**
+     * Reassign open tasks and future events related to the record.
+     */
+    private function transferOpenActivities(Model $record, User $newOwner): void
+    {
+        Task::query()
+            ->open()
+            ->where('related_type', $record->getMorphClass())
+            ->where('related_id', $record->getKey())
+            ->update(['owner_id' => $newOwner->id]);
+
+        Event::query()
+            ->open()
+            ->where('related_type', $record->getMorphClass())
+            ->where('related_id', $record->getKey())
+            ->update(['owner_id' => $newOwner->id]);
     }
 }

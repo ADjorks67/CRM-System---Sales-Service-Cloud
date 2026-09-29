@@ -261,6 +261,8 @@ Each phase assumes **all previous phases’ exit criteria** are met. Below: what
 
 **Exit:** all P1 items; critical journeys covered by tests.
 
+**Status:** Phase 4 Dev A exit met — Tasks, email/queues, Event schema (no calendar UI), CSV import/export. See [PHASE_4_DEV_A.md](PHASE_4_DEV_A.md). Dev B track (calendar, conversion, builders, HOME widgets) remains separate.
+
 ---
 
 ### Phase 5 — Enhancements (P2)

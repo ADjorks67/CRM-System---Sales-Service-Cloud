@@ -11,6 +11,7 @@ use App\Models\Account;
 use App\Models\User;
 use App\Services\BulkRecordActionService;
 use App\Services\OwnershipHistoryService;
+use App\Services\TaskQueryService;
 use App\Support\ListQuery;
 use App\Support\PicklistOptions;
 use Illuminate\Http\RedirectResponse;
@@ -24,6 +25,7 @@ class AccountController extends Controller
     public function __construct(
         private readonly OwnershipHistoryService $ownershipHistoryService,
         private readonly BulkRecordActionService $bulkRecordActionService,
+        private readonly TaskQueryService $taskQueryService,
     ) {}
 
     protected function ownershipHistory(): OwnershipHistoryService
@@ -90,7 +92,7 @@ class AccountController extends Controller
             ->with('success', 'Account created successfully.');
     }
 
-    public function show(Account $account): View
+    public function show(Request $request, Account $account): View
     {
         $this->authorize('view', $account);
 
@@ -106,6 +108,7 @@ class AccountController extends Controller
 
         return view('accounts.show', [
             'account' => $account,
+            'openTasks' => $this->taskQueryService->openRelatedTo('account', $account->id, $request->user()),
             'owners' => User::query()->orderBy('name')->get(['id', 'name']),
             'typeLabel' => PicklistOptions::options('account_type')[$account->type] ?? $account->type,
             'industryLabel' => PicklistOptions::options('industry')[$account->industry] ?? $account->industry,
