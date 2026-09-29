@@ -242,8 +242,16 @@ composer run dev
 |---|---|
 | FR-DASH-003 timed auto-refresh | Phase 5 per PROJECT_PLAN |
 | Excel export | Locked decision: CSV + browser print only |
-| Task transfer / FR-HOME-004 live widget | Dev A Tasks |
+| Task transfer / FR-HOME-004 live widget | **Wired** after Dev A merge — uses `TaskQueryService` |
 | Drag-resize dashboard widgets in editor | Placement via grid_x/w/h fields; view uses CSS grid |
+| Duplicate Dev A `events` migration | Soft no-op when Dev B `events` table already exists |
+
+### Merge notes (Dev A + Dev B)
+
+- Morph map: `task` + `event`
+- Event column is `is_all_day` (not Dev A’s `all_day`); `scopeOpen` / `scopeStartingToday` kept for ownership transfer and `EventQueryService`
+- Primary nav: Tasks + Calendar + Dashboards; Import/Export linked in footer (keeps SRS 10 primary tabs)
+- Home uses `TaskQueryService::dueToday` and `EventQueryService::todayForUser`
 
 ### Tests
 
