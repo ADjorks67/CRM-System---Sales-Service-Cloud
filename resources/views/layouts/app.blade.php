@@ -31,6 +31,21 @@
                     autocomplete="off"
                 >
             </form>
+
+            @auth
+                <div class="relative flex items-center gap-3 text-sm">
+                    <span class="hidden sm:inline text-white/90">{{ auth()->user()->name }}</span>
+                    @can('viewAny', App\Models\User::class)
+                        <a href="{{ route('users.index') }}" class="inline-flex min-h-11 items-center rounded px-2 text-white no-underline hover:bg-white/10">Users</a>
+                    @endcan
+                    <form method="post" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="inline-flex min-h-11 items-center rounded px-2 text-white hover:bg-white/10">
+                            Sign out
+                        </button>
+                    </form>
+                </div>
+            @endauth
         </div>
 
         <nav class="border-t border-white/15" aria-label="Primary">
@@ -39,7 +54,7 @@
                     $tabs = [
                         'Home' => 'home',
                         'Leads' => null,
-                        'Accounts' => null,
+                        'Accounts' => 'accounts.index',
                         'Contacts' => null,
                         'Opportunities' => null,
                         'Cases' => null,
@@ -56,7 +71,7 @@
                                 href="{{ route($routeName) }}"
                                 @class([
                                     'inline-flex min-h-11 items-center whitespace-nowrap rounded px-3 py-2 text-white no-underline hover:bg-white/10',
-                                    'bg-white/15 font-semibold' => request()->routeIs($routeName),
+                                    'bg-white/15 font-semibold' => request()->routeIs($routeName) || request()->routeIs(str_replace('.index', '.*', $routeName)),
                                 ])
                             >{{ $label }}</a>
                         @else
@@ -69,17 +84,8 @@
     </header>
 
     <main id="main-content" class="mx-auto w-full max-w-7xl flex-1 px-4 py-6">
-        @if (session('success'))
-            <div class="mb-4 rounded border border-success/30 bg-success/10 px-4 py-3 text-sm text-success" role="status">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="mb-4 rounded border border-error/30 bg-error/10 px-4 py-3 text-sm text-error" role="alert">
-                {{ session('error') }}
-            </div>
-        @endif
+        <x-toast type="success" />
+        <x-toast type="error" />
 
         @yield('content')
     </main>

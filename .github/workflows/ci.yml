@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
-    branches: [main, develop]
+    branches: [main]
 
 jobs:
   tests:
@@ -15,12 +15,12 @@ jobs:
         image: postgres:18-alpine
         env:
           POSTGRES_DB: crm_testing
-          POSTGRES_USER: crm
+          POSTGRES_USER: postgres
           POSTGRES_PASSWORD: secret
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U crm -d crm_testing"
+          --health-cmd="pg_isready -U postgres -d crm_testing"
           --health-interval=5s
           --health-timeout=5s
           --health-retries=10
@@ -32,7 +32,7 @@ jobs:
       DB_HOST: 127.0.0.1
       DB_PORT: 5432
       DB_DATABASE: crm_testing
-      DB_USERNAME: crm
+      DB_USERNAME: postgres
       DB_PASSWORD: secret
       CACHE_STORE: array
       SESSION_DRIVER: array

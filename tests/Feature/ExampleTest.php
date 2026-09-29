@@ -1,11 +1,26 @@
 <?php
 
-test('the home page returns a successful response', function () {
-    $response = $this->get(route('home'));
+use App\Enums\RoleSlug;
+use App\Models\User;
+use Database\Seeders\RolePermissionSeeder;
 
-    $response->assertOk();
-    $response->assertSee('Home', false);
-    $response->assertSee('Leads', false);
+beforeEach(function () {
+    $this->seed(RolePermissionSeeder::class);
+});
+
+test('the home page requires authentication', function () {
+    $this->get(route('home'))->assertRedirect(route('login'));
+});
+
+test('authenticated users can view the home page', function () {
+    $user = User::factory()->withRole(RoleSlug::SalesRepresentative->value)->create();
+
+    $this->actingAs($user)
+        ->get(route('home'))
+        ->assertOk()
+        ->assertSee('Home', false)
+        ->assertSee('Leads', false)
+        ->assertSee('Accounts', false);
 });
 
 test('chart and calendar blade components render registration hooks', function () {
