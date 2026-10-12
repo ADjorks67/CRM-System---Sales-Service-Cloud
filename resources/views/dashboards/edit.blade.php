@@ -17,6 +17,6 @@
         @csrf
         @method('PUT')
         @include('dashboards._form')
-        <button type="submit" class="inline-flex min-h-11 w-fit items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white">Save</button>
+        <button type="submit" class="crm-btn-primary">Save</button>
     </form>
 @endsection

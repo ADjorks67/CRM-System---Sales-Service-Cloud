@@ -46,8 +46,8 @@
 
 <div class="space-y-3" data-dashboard-widgets data-max-widgets="20">
     <div class="flex flex-wrap items-center justify-between gap-2">
-        <h2 class="text-base font-semibold text-primary">Widgets <span class="text-sm font-normal text-text/60">(max 20)</span></h2>
-        <button type="button" class="inline-flex min-h-11 items-center rounded border border-black/20 px-3 py-2 text-sm" data-add-widget title="Add widget" aria-label="Add widget">
+        <h2 class="text-base font-semibold text-primary">Widgets <span class="text-sm font-normal text-muted">(max 20)</span></h2>
+        <button type="button" class="crm-btn-secondary" data-add-widget title="Add widget" aria-label="Add widget">
             Add widget
         </button>
     </div>

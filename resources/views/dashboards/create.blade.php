@@ -15,6 +15,6 @@
     <form method="post" action="{{ route('dashboards.store') }}" class="grid max-w-3xl gap-4">
         @csrf
         @include('dashboards._form', ['dashboard' => null])
-        <button type="submit" class="inline-flex min-h-11 w-fit items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white">Create</button>
+        <button type="submit" class="crm-btn-primary">Create</button>
     </form>
 @endsection

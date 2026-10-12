@@ -6,9 +6,9 @@
     <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
             <h1>Users</h1>
-            <p class="text-sm text-text/70">System Administrator user management.</p>
+            <p class="text-sm text-muted">System Administrator user management.</p>
         </div>
-        <a href="{{ route('users.create') }}" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white no-underline hover:bg-secondary/90">
+        <a href="{{ route('users.create') }}" class="crm-btn-primary">
             New User
         </a>
     </div>
@@ -38,7 +38,7 @@
         empty="No users found."
     >
         @foreach ($users as $index => $user)
-            <tr @class(['border-t border-black/10', 'bg-page/60' => $index % 2 === 1, 'hover:bg-secondary/5'])>
+            <tr @class(['border-t border-border', 'bg-page/80' => $index % 2 === 1, 'hover:bg-page'])>
                 @foreach ($columns as $key)
                     @continue(! isset($columnMap[$key]))
                     <td class="px-3 py-3">

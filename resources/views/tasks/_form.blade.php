@@ -22,7 +22,7 @@
         />
         <div class="space-y-1">
             <label for="related_id" class="block text-sm font-medium text-text">Related To Record</label>
-            <select id="related_id" name="related_id" class="min-h-11 w-full rounded border border-black/20 bg-card px-3 py-2 text-sm">
+            <select id="related_id" name="related_id" class="min-h-11 w-full rounded border border-border bg-card px-3 py-2 text-sm">
                 <option value="">Select…</option>
                 @foreach ($relatedOptions as $type => $options)
                     <optgroup label="{{ $relatedTypes[$type] ?? $type }}" data-related-type="{{ $type }}">
@@ -38,7 +38,7 @@
             </select>
         </div>
         <label class="flex min-h-11 items-center gap-2 text-sm md:col-span-2">
-            <input type="checkbox" name="reminder_set" value="1" class="size-4 rounded border-black/20" @checked(old('reminder_set', $task->reminder_set ?? false))>
+            <input type="checkbox" name="reminder_set" value="1" class="size-4 rounded border-border" @checked(old('reminder_set', $task->reminder_set ?? false))>
             Set reminder
         </label>
         <x-form-field name="reminder_at" label="Reminder Date/Time" type="datetime-local" :value="old('reminder_at', isset($task) && $task->reminder_at ? $task->reminder_at->format('Y-m-d\TH:i') : '')" />

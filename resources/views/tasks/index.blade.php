@@ -3,13 +3,13 @@
 @section('title', 'Tasks — '.config('app.name'))
 
 @section('content')
-    <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+    <div class="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-border pb-4">
         <div>
-            <h1>Tasks</h1>
-            <p class="text-sm text-text/70">Open activities (FR-TASK-001).</p>
+            <h1 class="font-headline">Tasks</h1>
+            <p class="text-sm text-muted">Open activities (FR-TASK-001).</p>
         </div>
         @can('create', App\Models\Task::class)
-            <a href="{{ route('tasks.create') }}" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white no-underline hover:bg-secondary/90">
+            <a href="{{ route('tasks.create') }}" class="crm-btn-primary">
                 New Task
             </a>
         @endcan
@@ -20,9 +20,8 @@
             <a
                 href="{{ route('tasks.index', ['view' => $key]) }}"
                 @class([
-                    'inline-flex min-h-11 items-center rounded px-4 py-2 no-underline',
-                    'bg-secondary text-white font-semibold' => $view === $key,
-                    'border border-black/20 bg-card text-text' => $view !== $key,
+                    'crm-btn-primary' => $view === $key,
+                    'crm-btn-secondary' => $view !== $key,
                 ])
             >{{ $label }}</a>
         @endforeach
@@ -31,8 +30,8 @@
     <form method="get" action="{{ route('tasks.index') }}" class="mb-4 flex flex-wrap gap-2">
         <input type="hidden" name="view" value="{{ $view }}">
         <label for="task-search" class="sr-only">Search tasks</label>
-        <input id="task-search" type="search" name="q" value="{{ request('q') }}" placeholder="Search tasks…" class="min-h-11 min-w-[14rem] flex-1 rounded border border-black/20 bg-card px-3 py-2 text-sm">
-        <button type="submit" class="inline-flex min-h-11 items-center rounded border border-black/20 bg-card px-4 py-2 text-sm">Search</button>
+        <input id="task-search" type="search" name="q" value="{{ request('q') }}" placeholder="Search tasks…" class="crm-input min-w-[14rem] flex-1">
+        <button type="submit" class="crm-btn-secondary">Search</button>
     </form>
 
     @php
@@ -60,7 +59,7 @@
         <div class="mb-3 flex flex-wrap items-end gap-2">
             <x-form-field name="action" label="Bulk action" :options="['change_owner' => 'Change Owner', 'delete' => 'Delete']" class="min-w-[12rem]" />
             <x-form-field name="owner_id" label="New owner" :options="$owners->mapWithKeys(fn ($u) => [$u->id => $u->name])->all()" class="min-w-[12rem]" />
-            <button type="submit" class="inline-flex min-h-11 items-center rounded border border-black/20 bg-card px-4 py-2 text-sm" onclick="return confirm('Apply bulk action to selected tasks?')">Apply</button>
+            <button type="submit" class="crm-btn-secondary" onclick="return confirm('Apply bulk action to selected tasks?')">Apply</button>
         </div>
 
         <x-data-table
@@ -73,9 +72,9 @@
             empty="No tasks yet."
         >
             @foreach ($tasks as $index => $task)
-                <tr @class(['border-t border-black/10', 'bg-page/60' => $index % 2 === 1, 'hover:bg-secondary/5'])>
+                <tr @class(['border-t border-border', 'bg-page/80' => $index % 2 === 1, 'hover:bg-page'])>
                     <td class="px-3 py-3">
-                        <input type="checkbox" name="ids[]" value="{{ $task->id }}" class="size-4 rounded border-black/20" aria-label="Select {{ $task->subject }}">
+                        <input type="checkbox" name="ids[]" value="{{ $task->id }}" class="size-4 rounded border-border" aria-label="Select {{ $task->subject }}">
                     </td>
                     @foreach ($columns as $key)
                         @continue(! isset($columnMap[$key]))

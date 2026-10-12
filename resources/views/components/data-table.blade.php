@@ -8,19 +8,19 @@
     'hasRows' => true,
 ])
 
-<div {{ $attributes->merge(['class' => 'overflow-x-auto rounded bg-card shadow-[var(--shadow-card)]']) }}>
+<div {{ $attributes->merge(['class' => 'crm-card overflow-x-auto']) }}>
     <table class="min-w-full border-collapse text-sm">
-        <thead class="bg-primary/5 text-left">
+        <thead class="bg-surface text-left">
             <tr>
                 @foreach ($columns as $key => $label)
-                    <th scope="col" class="px-3 py-3 font-semibold text-primary">
+                    <th scope="col" class="border-b border-border px-3 py-3 font-semibold text-primary">
                         @if (in_array($key, $sortable, true) && $sort !== null)
                             @php
                                 $nextDir = ($sort === $key && $direction === 'asc') ? 'desc' : 'asc';
                             @endphp
                             <a
                                 href="{{ request()->fullUrlWithQuery(['sort' => $key, 'direction' => $nextDir]) }}"
-                                class="inline-flex min-h-11 items-center gap-1 text-primary no-underline hover:underline"
+                                class="inline-flex min-h-11 items-center gap-1 text-primary no-underline hover:text-secondary"
                             >
                                 {{ $label }}
                                 @if ($sort === $key)
@@ -39,7 +39,7 @@
                 {{ $slot }}
             @else
                 <tr>
-                    <td colspan="{{ max(count($columns), 1) }}" class="px-3 py-8 text-center text-text/60">
+                    <td colspan="{{ max(count($columns), 1) }}" class="px-3 py-10 text-center text-muted">
                         {{ $empty }}
                     </td>
                 </tr>
@@ -48,7 +48,7 @@
     </table>
 
     @if ($paginator instanceof \Illuminate\Contracts\Pagination\Paginator)
-        <div class="border-t border-black/10 px-3 py-3 text-xs text-text/70">
+        <div class="border-t border-border px-3 py-3 text-xs text-muted">
             Showing {{ $paginator->firstItem() ?? 0 }}–{{ $paginator->lastItem() ?? 0 }} of {{ $paginator->total() }}
             <div class="mt-2">
                 {{ $paginator->links() }}

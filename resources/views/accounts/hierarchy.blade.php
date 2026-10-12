@@ -12,12 +12,12 @@
     <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
             <h1>Account Hierarchy</h1>
-            <p class="text-sm text-text/70">
+            <p class="text-sm text-muted">
                 Subgraph rooted at <strong>{{ $root->name }}</strong>
                 (viewing from <a href="{{ route('accounts.show', $account) }}">{{ $account->name }}</a>).
             </p>
         </div>
-        <a href="{{ route('accounts.show', $account) }}" class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm no-underline">Back to account</a>
+        <x-ui.back :href="route('accounts.show', $account)" label="Back to account" />
     </div>
 
     @include('accounts.partials.hierarchy', [

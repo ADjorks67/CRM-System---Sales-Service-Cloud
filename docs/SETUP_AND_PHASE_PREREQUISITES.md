@@ -33,36 +33,24 @@ This section documents work already completed so both developers can clone, run,
 | Frontend production build | Done | `npm run build` succeeds |
 | Application key | Done | Present in local `.env` |
 
-### 2.2 PostgreSQL via Docker Compose
+### 2.2 PostgreSQL on the machine (Herd / Windows)
 
-Herd Pro “services” are not available on this machine’s Herd plan, and a local Windows PostgreSQL instance on port **5432** required an unknown password. The team-standard local DB is therefore **Docker Compose**.
+Local development uses a PostgreSQL install on port **5432**. Docker Compose is not part of the local stack. CI still starts its own Postgres in GitHub Actions.
 
-| Service | Container | Host ports | Why |
-|---|---|---|---|
-| PostgreSQL 18 | `crm-postgres` | **5433 → 5432** | App + test database; 5433 avoids clash with Windows Postgres on 5432 |
-| Mailpit | `crm-mailpit` | **1025** (SMTP), **8025** (UI) | Capture local email without a real mail server |
+**Databases:**
 
-**Credentials (local Docker only — see `.env.example`):**
+- `crm_database` — the app
+- `crm_testing` — Pest / PHPUnit (`phpunit.xml`)
+- User: `postgres`. Password lives in `.env` only.
 
-- Database: `crm_database` (app), `crm_testing` (tests, created by `docker/postgres/init.sql`)
-- User / password: `postgres` / `secret`
-
-**Why this setup is required:** every later phase persists CRM data (users, accounts, leads, cases, etc.). Using PostgreSQL from day one avoids SQLite-only behaviour and MySQL-specific SQL. Mailpit is required once Phase 1+ sends password-reset and notification emails.
-
-**Key files:**
-
-- `compose.yaml` — Postgres + Mailpit
-- `docker/postgres/init.sql` — creates `crm_testing`
-- `scripts/apply-docker-env.php` — aligns `.env` with Docker Postgres/Mailpit
-- `.env.example` — documented defaults for new clones
+**Why this setup is required:** every later phase persists CRM data (users, accounts, leads, cases, etc.). Using PostgreSQL from day one avoids SQLite-only behaviour and MySQL-specific SQL.
 
 **Daily start:**
 
 ```bash
-docker compose up -d
 php artisan migrate
 composer run dev
-# Mailpit UI: http://localhost:8025
+# Or open the Herd site: http://crm-sales-cloud-service.test
 ```
 
 ### 2.3 Application configuration
@@ -70,9 +58,9 @@ composer run dev
 | Change | Why |
 |---|---|
 | `DB_CONNECTION=pgsql` in `.env` / `.env.example` | Lock stack to PostgreSQL |
-| `phpunit.xml` → PostgreSQL `crm_testing` on port 5433 | Tests match production DB (NFR / CRM data rules) |
+| `phpunit.xml` → PostgreSQL `crm_testing` on port 5432 | Tests match production DB (NFR / CRM data rules) |
 | `SESSION_LIFETIME=120` | SRS auth timeout (2 hours) |
-| Mail → SMTP `127.0.0.1:1025` | Ready for Mailpit |
+| Mail → `log` locally | Password-reset mail is written to the log unless SMTP is configured |
 | Default app name `CRM System` | Branding in layout / config |
 | Removed SQLite bootstrap from `composer.json` | Prevent accidental SQLite creation |
 
@@ -134,7 +122,7 @@ Tracked in [PHASE_0_GOVERNANCE_CHECKLIST.md](PHASE_0_GOVERNANCE_CHECKLIST.md). S
 **Completed governance (this pass):** Chart.js + FullCalendar agreed, installed (`package.json`), registered in Vite
 (`resources/js/charts.js`, `resources/js/calendar.js`, `resources/js/lib/*`), and exposed as `<x-chart>` / `<x-calendar>`.
 
-**Phase 0 exit criteria (from plan):** both developers can clone, run (`docker compose up -d`, migrate, serve), and open a PR that passes CI.
+**Phase 0 exit criteria (from plan):** both developers can clone, migrate, serve, and open a PR that passes CI.
 
 ### 2.9 Phase 1 Foundation (implemented)
 
@@ -153,11 +141,10 @@ See [PHASE_1_FOUNDATION.md](PHASE_1_FOUNDATION.md) and [SRS_DISTILLED.md](SRS_DI
 **Daily start (updated):**
 
 ```bash
-docker compose up -d
 php artisan migrate --seed
 composer run dev
 # Login: admin@crm.test / Password1!
-# Mailpit: http://localhost:8025
+# Herd: http://crm-sales-cloud-service.test
 ```
 
 ---
@@ -310,14 +297,9 @@ Event table uses Dev B schema (`is_all_day`, `show_as`, `calendar_type`, …). D
 
 **Why:** Hardening without complete features wastes effort; load/security tests need realistic data and routes.
 
-**Status (2026-09-29):** Phase 5 exit is met. Phase 6 **implementation plan** is ready; coding not started until 6.0 freeze + permission answers:
+**Status (2026-09-30):** Phase 6 **exit met** — Gate 6.6 signed; `php artisan test --compact` 172 passed. See [PHASE_6.md](PHASE_6.md) §8–§11 and [PHASE_6_CHECKLIST.md](PHASE_6_CHECKLIST.md).
 
-- Index / sub-phases: [PHASE_6.md](PHASE_6.md)
-- Executable matrix: [PHASE_6_CHECKLIST.md](PHASE_6_CHECKLIST.md)
-
-**Sub-phases:** 6.0 freeze → 6.1 coverage → 6.2 performance → 6.3 security → 6.4 a11y → 6.5 GDPR (NFR-SEC-005) → 6.6 gate.
-
-**Permission required before some work:** coverage driver in CI, load-test tool, GDPR erase/export rules, `composer audit` CI step — see PHASE_6.md §5.
+**Sub-phases:** 6.0–6.6 complete. Deferred to Phase 7: CDN, APM SaaS, DB backups (30-day), TLS prove on staging/prod, full browser UAT, deploy Dockerfile/Cloud.
 
 **Locked (2026-09-29):** pcov+CI coverage; k6; axe a11y; GDPR admin anonymize; health in 6.3; archive in 6.2; no external pen-test; **`composer audit` in CI** (fail on high).
 
@@ -329,11 +311,13 @@ Event table uses Dev B schema (`is_all_day`, `show_as`, `calendar_type`, …). D
 
 | Prerequisite | Why |
 |---|---|
-| Phase 6 gates green | Do not ship known critical defects |
+| Phase 6 gates green | Met 2026-09-30 |
 | Staging environment + secrets management | UAT without touching production |
-| Backup strategy for PostgreSQL | 30-day retention requirement |
+| Backup strategy for PostgreSQL | 30-day retention requirement (**NFR-REL-003**) |
 | Production Dockerfile / host plan | Repeatable deploys and rollback |
 | Runbooks (deploy, rollback, health) | Handover to operators |
+| TLS on staging/prod | **NFR-SEC-001** |
+| Docs pack + tag `v1.0.0` | SRS §9.4–9.5 |
 
 **Why:** Deployment assumes a tested build; ops docs and backups are mandatory for production CRM data (GDPR / continuity).
 
@@ -372,13 +356,11 @@ Skipping a layer (for example building Opportunities before Accounts, or email b
 | `docs/PHASE_6.md` | Phase 6 sub-phases 6.0–6.6 |
 | `docs/PHASE_6_CHECKLIST.md` | FR/NFR matrix and gate checklist |
 | `Master plan/crm-*.mdc` | Domain / Laravel / Postgres / frontend rules |
-| `compose.yaml` | Local Postgres + Mailpit |
 | `.env.example` | Documented environment defaults |
 | `.github/workflows/ci.yml` | Automated quality gate |
 | `resources/views/layouts/app.blade.php` | App chrome for all modules |
 | `resources/css/app.css` | SRS design tokens |
 | `phpunit.xml` | PostgreSQL test database settings |
-| `scripts/apply-docker-env.php` | Point `.env` at Docker services |
 
 ---
 

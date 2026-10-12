@@ -317,14 +317,15 @@ php artisan test --compact
 |---|---|
 | Docs / kickoff | Done |
 | 6.0 Scope freeze | Done — §5 locked (incl. composer audit CI) |
-| 6.1 Coverage & matrix | In progress — authz matrix + a11y/GDPR smoke tests |
-| 6.2 Performance (+ archive) | In progress — composite indexes + `PHASE_6_PERF_NOTES.md` |
-| 6.3 Security (+ health) | Started — `/health`, `composer audit` in CI |
-| 6.4 A11y / responsive (+ axe) | In progress — axe `/login` clean; AccessibilitySmokeTest; manual matrix open |
-| 6.5 GDPR | Started — admin Privacy UI, export JSON, anonymize + `gdpr_audits` |
-| 6.6 Gate | Not started |
+| 6.1 Coverage & matrix | Done — FR matrix + AuthorizationMatrixTest |
+| 6.2 Performance (+ archive) | Done — indexes, LargeDatasetSeeder, archive job, PERF_NOTES |
+| 6.3 Security (+ health) | Done — `/health`, composer audit CI, OWASP checklist |
+| 6.4 A11y / responsive (+ axe) | Done — axe + AccessibilitySmokeTest; browser UAT → Phase 7 |
+| 6.5 GDPR | Done — admin Privacy export/anonymize + audits |
+| 6.6 Gate | **Done** — 2026-09-30; `php artisan test --compact` 172 passed |
 
-**Feature freeze for RC:** Phase 5 Done assumed.
+**Feature freeze for RC:** Phase 5 Done assumed.  
+**RC note:** Run `npm run build` (or Vite dev) before HTTP feature tests that hit `@vite` page entries.
 
 ---
 
@@ -347,7 +348,41 @@ php artisan test --compact
 
 ---
 
-## 10. Related docs
+## 10. PII inventory (NFR-SEC-005)
+
+Admin Privacy tools export/anonymize these subjects only:
+
+| Subject | Primary table | PII fields (representative) |
+|---|---|---|
+| Contact | `contacts` | name parts, phones, email, fax, mailing address, birthdate, description |
+| Lead | `leads` | name, company, email, phones, address, description |
+| User | `users` | name, email, role, MFA flags (password hashes never exported) |
+
+Related Opportunities/Cases/Activities are **not** deleted; anonymize preserves IDs for history. Audit rows land in `gdpr_audits`.
+
+---
+
+## 11. Phase 7 prerequisites (handoff)
+
+| Prerequisite | Notes |
+|---|---|
+| Phase 6 gate green | Met 2026-09-30 |
+| Staging + secrets | Dev/staging/prod env separation; no secrets in git |
+| TLS 1.2+ on staging/prod | **NFR-SEC-001** — terminate TLS at host/CDN (Laravel Cloud or reverse proxy); force `SESSION_SECURE_COOKIE=true` in prod |
+| Daily Postgres backups ≥ 30 days | **NFR-REL-003** — platform backups + quarterly restore drill |
+| APM / alerting | **NFR-REL-005** product (health already shipped) |
+| CDN for static assets | **NFR-SCAL-003** |
+| Production Dockerfile / Cloud host plan | SRS §9.4 |
+| CI/CD deploy + migrate + rollback runbook | Extend beyond current test-only CI |
+| Docs pack | Arch, schema, OpenAPI (`docs/openapi.yaml`), deploy, user/admin guides |
+| UAT browser matrix | Firefox / Edge / Safari smoke deferred from 6.4 |
+| Tag `v1.0.0` after UAT | PROJECT_PLAN Phase 7 |
+
+**Deferred (not Phase 6 blockers):** external pen-test, real AV product, APM SaaS, CDN, DB backup ops, full k6 100-VU soak on staging.
+
+---
+
+## 12. Related docs
 
 | Doc | Role |
 |---|---|

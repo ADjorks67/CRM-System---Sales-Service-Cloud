@@ -6,14 +6,14 @@
     <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
             <h1>Saved Searches</h1>
-            <p class="text-sm text-text/70">Your advanced searches (FR-SRCH-003).</p>
+            <p class="text-sm text-muted">Your advanced searches (FR-SRCH-003).</p>
         </div>
-        <a href="{{ route('search.advanced.create') }}" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white no-underline">New advanced search</a>
+        <a href="{{ route('search.advanced.create') }}" class="crm-btn-primary">New advanced search</a>
     </div>
 
     <div class="overflow-x-auto rounded bg-card shadow-[var(--shadow-card)]">
         <table class="min-w-full text-left text-sm">
-            <thead class="border-b border-black/10 bg-black/[0.03]">
+            <thead class="border-b border-border bg-black/[0.03]">
                 <tr>
                     <th class="px-3 py-2 font-semibold">Name</th>
                     <th class="px-3 py-2 font-semibold">Object</th>
@@ -37,7 +37,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td class="px-3 py-4 text-text/70" colspan="4">No saved searches yet.</td></tr>
+                    <tr><td class="px-3 py-4 text-muted" colspan="4">No saved searches yet.</td></tr>
                 @endforelse
             </tbody>
         </table>

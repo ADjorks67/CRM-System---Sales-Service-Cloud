@@ -37,7 +37,7 @@
     <div class="flex flex-wrap items-center justify-between gap-2">
         <h2 id="shipping-heading" class="text-base font-semibold text-primary">Shipping Address</h2>
         <label class="flex min-h-11 items-center gap-2 text-sm">
-            <input type="checkbox" name="copy_billing_to_shipping" value="1" class="size-4 rounded border-black/20" data-copy-billing @checked(old('copy_billing_to_shipping'))>
+            <input type="checkbox" name="copy_billing_to_shipping" value="1" class="size-4 rounded border-border" data-copy-billing @checked(old('copy_billing_to_shipping'))>
             Copy Billing Address to Shipping Address
         </label>
     </div>

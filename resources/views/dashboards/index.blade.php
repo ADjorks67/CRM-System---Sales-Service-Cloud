@@ -3,26 +3,26 @@
 @section('title', 'Dashboards — '.config('app.name'))
 
 @section('content')
-    <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+    <div class="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-border pb-4">
         <div>
-            <h1>Dashboards</h1>
-            <p class="text-sm text-text/70">FR-DASH-001 — folders and dashboard cards.</p>
+            <h1 class="font-headline">Dashboards</h1>
+            <p class="text-sm text-muted">FR-DASH-001 — folders and dashboard cards.</p>
         </div>
         @can('create', App\Models\Dashboard::class)
-            <a href="{{ route('dashboards.create') }}" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white no-underline">New Dashboard</a>
+            <a href="{{ route('dashboards.create') }}" class="crm-btn-primary">New Dashboard</a>
         @endcan
     </div>
 
     <div class="grid gap-4">
         @forelse ($groups as $folder => $dashboards)
-            <section class="rounded bg-card p-4 shadow-[var(--shadow-card)]">
+            <section class="crm-card p-4 sm:p-5">
                 <h2 class="mb-3 text-base font-semibold text-primary">{{ ucfirst($folder) }}</h2>
-                <ul class="divide-y divide-black/10 text-sm">
+                <ul class="divide-y divide-border text-sm">
                     @foreach ($dashboards as $dashboard)
                         <li class="flex flex-wrap items-center justify-between gap-2 py-2">
                             <div>
                                 <a href="{{ route('dashboards.show', $dashboard) }}" class="font-medium">{{ $dashboard->name }}</a>
-                                <p class="text-text/60">{{ $dashboard->owner?->name ?? '—' }}</p>
+                                <p class="text-muted">{{ $dashboard->owner?->name ?? '—' }}</p>
                             </div>
                             <div class="flex flex-wrap gap-3">
                                 <a href="{{ route('dashboards.show', $dashboard) }}" class="text-secondary no-underline">View</a>
@@ -41,7 +41,7 @@
                 </ul>
             </section>
         @empty
-            <p class="text-sm text-text/70">No dashboards yet.</p>
+            <p class="text-sm text-muted">No dashboards yet.</p>
         @endforelse
     </div>
 @endsection

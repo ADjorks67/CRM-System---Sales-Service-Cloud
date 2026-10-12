@@ -15,7 +15,7 @@
         <h1>{{ $sub ? 'Edit' : 'Subscribe to' }} {{ $savedReport->name }}</h1>
     </div>
 
-    <form method="post" action="{{ $sub ? route('subscriptions.update', $sub) : route('subscriptions.store', $savedReport) }}" class="max-w-xl space-y-4 rounded bg-card p-6 shadow-[var(--shadow-card)]">
+    <form method="post" action="{{ $sub ? route('subscriptions.update', $sub) : route('subscriptions.store', $savedReport) }}" class="max-w-xl space-y-4 crm-card p-6">
         @csrf
         @if ($sub)
             @method('PUT')
@@ -23,7 +23,7 @@
 
         <label class="block text-sm">
             <span class="mb-1 block font-medium">Frequency</span>
-            <select name="frequency" id="frequency" class="min-h-11 w-full rounded border border-black/20 bg-page px-3 py-2 text-sm" required>
+            <select name="frequency" id="frequency" class="min-h-11 w-full rounded border border-border bg-page px-3 py-2 text-sm" required>
                 @foreach (['daily' => 'Daily', 'weekly' => 'Weekly', 'monthly' => 'Monthly'] as $value => $label)
                     <option value="{{ $value }}" @selected(old('frequency', $sub?->frequency ?? 'daily') === $value)>{{ $label }}</option>
                 @endforeach
@@ -32,7 +32,7 @@
 
         <label class="block text-sm" id="dow-wrap">
             <span class="mb-1 block font-medium">Day of week</span>
-            <select name="day_of_week" class="min-h-11 w-full rounded border border-black/20 bg-page px-3 py-2 text-sm">
+            <select name="day_of_week" class="min-h-11 w-full rounded border border-border bg-page px-3 py-2 text-sm">
                 @foreach (['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'] as $i => $day)
                     <option value="{{ $i }}" @selected((int) old('day_of_week', $sub?->day_of_week ?? 1) === $i)>{{ $day }}</option>
                 @endforeach
@@ -41,15 +41,15 @@
 
         <label class="block text-sm" id="dom-wrap">
             <span class="mb-1 block font-medium">Day of month (1–28)</span>
-            <input type="number" name="day_of_month" min="1" max="28" value="{{ old('day_of_month', $sub?->day_of_month ?? 1) }}" class="min-h-11 w-full rounded border border-black/20 bg-page px-3 py-2 text-sm">
+            <input type="number" name="day_of_month" min="1" max="28" value="{{ old('day_of_month', $sub?->day_of_month ?? 1) }}" class="min-h-11 w-full rounded border border-border bg-page px-3 py-2 text-sm">
         </label>
 
         <label class="block text-sm">
             <span class="mb-1 block font-medium">Time of day</span>
-            <input type="time" name="time_of_day" value="{{ old('time_of_day', $timeValue) }}" required class="min-h-11 w-full rounded border border-black/20 bg-page px-3 py-2 text-sm">
+            <input type="time" name="time_of_day" value="{{ old('time_of_day', $timeValue) }}" required class="min-h-11 w-full rounded border border-border bg-page px-3 py-2 text-sm">
         </label>
 
-        <button type="submit" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white">Save subscription</button>
+        <button type="submit" class="crm-btn-primary">Save subscription</button>
     </form>
 @endsection
 

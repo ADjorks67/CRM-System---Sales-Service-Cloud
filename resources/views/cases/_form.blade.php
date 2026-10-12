@@ -10,7 +10,7 @@
     <div class="grid gap-4 md:grid-cols-2">
         @if ($crmCase)
             <div class="md:col-span-2">
-                <p class="text-sm text-text/70">Case Number: <span class="font-medium text-text">{{ $crmCase->case_number }}</span></p>
+                <p class="text-sm text-muted">Case Number: <span class="font-medium text-text">{{ $crmCase->case_number }}</span></p>
             </div>
         @endif
         <x-form-field name="subject" label="Subject" :value="old('subject', $crmCase->subject ?? '')" class="md:col-span-2" />

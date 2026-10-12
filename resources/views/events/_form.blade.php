@@ -13,7 +13,7 @@
         <x-form-field name="starts_at" label="Start" type="datetime-local" :value="$defaultStart" required />
         <x-form-field name="ends_at" label="End" type="datetime-local" :value="$defaultEnd" required />
         <label class="flex min-h-11 items-center gap-2 text-sm md:col-span-2">
-            <input type="checkbox" name="is_all_day" value="1" class="size-4 rounded border-black/20" @checked(old('is_all_day', $event->is_all_day ?? ($prefill['is_all_day'] ?? false)))>
+            <input type="checkbox" name="is_all_day" value="1" class="size-4 rounded border-border" @checked(old('is_all_day', $event->is_all_day ?? ($prefill['is_all_day'] ?? false)))>
             All-Day Event
         </label>
         <x-form-field name="location" label="Location" :value="old('location', $event->location ?? '')" />
@@ -23,7 +23,7 @@
         <x-form-field name="related_type" label="Related To Type" :value="old('related_type', $event->related_type ?? '')" :options="$relatedTypes" />
         <x-form-field name="related_id" label="Related To Id" type="number" :value="old('related_id', $event->related_id ?? '')" min="1" />
         <label class="flex min-h-11 items-center gap-2 text-sm md:col-span-2">
-            <input type="checkbox" name="is_private" value="1" class="size-4 rounded border-black/20" @checked(old('is_private', $event->is_private ?? false))>
+            <input type="checkbox" name="is_private" value="1" class="size-4 rounded border-border" @checked(old('is_private', $event->is_private ?? false))>
             Private (only visible to owner)
         </label>
     </div>

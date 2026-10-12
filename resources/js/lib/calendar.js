@@ -43,7 +43,7 @@ export function createCrmCalendar(elementOrSelector, options = {}) {
         selectable: true,
         nowIndicator: true,
         dayMaxEvents: true,
-        eventColor: '#0176d3',
+        eventColor: '#E6C85C',
         ...options,
         plugins: options.plugins || defaultPlugins,
     });

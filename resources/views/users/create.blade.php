@@ -3,15 +3,18 @@
 @section('title', 'New User — '.config('app.name'))
 
 @section('content')
-    <h1 class="mb-4">New User</h1>
+    <div class="mb-4">
+        <x-ui.back :href="route('users.index')" label="Back to Users" />
+        <h1 class="mt-2">New User</h1>
+    </div>
 
-    <form method="post" action="{{ route('users.store') }}" class="max-w-2xl space-y-4 rounded bg-card p-6 shadow-[var(--shadow-card)]">
+    <form method="post" action="{{ route('users.store') }}" class="max-w-2xl space-y-4 crm-card p-6">
         @csrf
         @include('users._form')
 
         <div class="flex flex-wrap gap-2 pt-2">
-            <button type="submit" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white">Save</button>
-            <a href="{{ route('users.index') }}" class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm text-text no-underline">Cancel</a>
+            <button type="submit" class="crm-btn-primary">Save</button>
+            <a href="{{ route('users.index') }}" class="crm-btn-secondary">Cancel</a>
         </div>
     </form>
 @endsection

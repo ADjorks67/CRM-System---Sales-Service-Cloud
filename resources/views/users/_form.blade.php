@@ -28,7 +28,7 @@
         type="checkbox"
         name="is_active"
         value="1"
-        class="size-4 rounded border-black/20"
+        class="size-4 rounded border-border"
         @checked(old('is_active', $user->is_active ?? true))
     >
     Active

@@ -1,10 +1,10 @@
 @if ($dashboard->widgets->isEmpty())
-    <p class="text-sm text-text/70 col-span-full">No widgets on this dashboard yet. Edit the dashboard to add charts, tables, or metrics.</p>
+    <p class="text-sm text-muted col-span-full">No widgets on this dashboard yet. Edit the dashboard to add charts, tables, or metrics.</p>
 @else
     @foreach ($dashboard->widgets as $index => $widget)
         @php $payload = $widgetPayloads[$index] ?? []; @endphp
         <section
-            class="rounded bg-card p-4 shadow-[var(--shadow-card)]"
+            class="crm-card p-4 sm:p-5"
             style="grid-column: {{ $widget->grid_x + 1 }} / span {{ $widget->grid_w }}; grid-row: span {{ $widget->grid_h }};"
             data-widget-id="{{ $widget->id }}"
         >
@@ -22,7 +22,7 @@
             @elseif (($payload['widget_type'] ?? $widget->widget_type) === 'metric' || ($payload['widget_type'] ?? $widget->widget_type) === 'gauge')
                 @php $metric = $payload['metric'] ?? null; @endphp
                 <p class="text-3xl font-semibold text-primary">{{ $metric['value'] ?? 0 }}{{ $metric['suffix'] ?? '' }}</p>
-                <p class="text-sm text-text/70">{{ $metric['label'] ?? 'Records' }}</p>
+                <p class="text-sm text-muted">{{ $metric['label'] ?? 'Records' }}</p>
             @elseif (($payload['chart'] ?? null) && ($payload['widget_type'] ?? $widget->widget_type) === 'chart')
                 <x-chart :type="$payload['chart']['type']" :config="$payload['chart']" height="12rem" :aria-label="$widget->title" />
             @else
@@ -32,7 +32,7 @@
                     $columnLabels = $payload['column_labels'] ?? [];
                 @endphp
                 @if (count($columns) === 0 || (method_exists($rows, 'isEmpty') ? $rows->isEmpty() : empty($rows)))
-                    <p class="text-sm text-text/70">No data for this widget.</p>
+                    <p class="text-sm text-muted">No data for this widget.</p>
                 @else
                     <div class="max-h-64 overflow-auto">
                         <table class="min-w-full text-left text-xs">

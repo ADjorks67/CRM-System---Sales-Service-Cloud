@@ -6,16 +6,16 @@
     <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
             <h1>Search</h1>
-            <p class="text-sm text-text/70">Global search across Leads, Accounts, Contacts, Opportunities, and Cases (FR-SRCH-001).</p>
+            <p class="text-sm text-muted">Global search across Leads, Accounts, Contacts, Opportunities, and Cases (FR-SRCH-001).</p>
         </div>
-        <a href="{{ route('search.advanced.create') }}" class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm no-underline">Advanced search</a>
+        <a href="{{ route('search.advanced.create') }}" class="crm-btn-secondary">Advanced search</a>
     </div>
 
-    <form method="get" action="{{ route('search.index') }}" class="mb-6 flex flex-wrap gap-2 rounded bg-card p-4 shadow-[var(--shadow-card)]">
+    <form method="get" action="{{ route('search.index') }}" class="mb-6 flex flex-wrap gap-2 crm-card p-4 sm:p-5">
         <label for="search-q" class="sr-only">Search query</label>
-        <input id="search-q" type="search" name="q" value="{{ $q }}" minlength="2" required placeholder="Search…" class="min-h-11 min-w-[14rem] flex-1 rounded border border-black/20 bg-page px-3 py-2 text-sm">
+        <input id="search-q" type="search" name="q" value="{{ $q }}" minlength="2" required placeholder="Search…" class="min-h-11 min-w-[14rem] flex-1 rounded border border-border bg-page px-3 py-2 text-sm">
         <x-form-field name="type" label="Object" :value="$type ?? ''" :options="['' => 'All objects'] + $objectLabels" class="min-w-[12rem]" />
-        <button type="submit" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white">Search</button>
+        <button type="submit" class="crm-btn-primary">Search</button>
     </form>
 
     @if ($recentQueries->isNotEmpty())
@@ -24,7 +24,7 @@
             <ul class="flex flex-wrap gap-2 text-sm">
                 @foreach ($recentQueries as $recent)
                     <li>
-                        <a href="{{ route('search.index', ['q' => $recent]) }}" class="rounded border border-black/10 bg-card px-3 py-1 no-underline hover:bg-secondary/5">{{ $recent }}</a>
+                        <a href="{{ route('search.index', ['q' => $recent]) }}" class="rounded border border-border bg-card px-3 py-1 no-underline hover:bg-page">{{ $recent }}</a>
                     </li>
                 @endforeach
             </ul>
@@ -32,12 +32,12 @@
     @endif
 
     @if (mb_strlen($q) < 2)
-        <p class="text-sm text-text/70">Enter at least 2 characters to search.</p>
+        <p class="text-sm text-muted">Enter at least 2 characters to search.</p>
     @elseif ($results->isEmpty())
-        <p class="text-sm text-text/70">No matches for “{{ $q }}”.</p>
+        <p class="text-sm text-muted">No matches for “{{ $q }}”.</p>
     @else
-        <p class="mb-3 text-sm text-text/70">{{ $results->count() }} result(s)</p>
-        <ul class="divide-y divide-black/10 rounded bg-card shadow-[var(--shadow-card)]">
+        <p class="mb-3 text-sm text-muted">{{ $results->count() }} result(s)</p>
+        <ul class="divide-y divide-border rounded bg-card shadow-[var(--shadow-card)]">
             @foreach ($results as $record)
                 @php
                     $typeKey = match (true) {
@@ -61,7 +61,7 @@
                 <li class="flex flex-wrap items-center justify-between gap-2 px-4 py-3 text-sm">
                     <div>
                         <a href="{{ $url }}" class="font-medium">{{ $label }}</a>
-                        <p class="text-text/60">{{ $objectLabels[$typeKey] ?? ucfirst($typeKey) }}</p>
+                        <p class="text-muted">{{ $objectLabels[$typeKey] ?? ucfirst($typeKey) }}</p>
                     </div>
                     <a href="{{ $url }}" class="text-secondary no-underline">Open</a>
                 </li>

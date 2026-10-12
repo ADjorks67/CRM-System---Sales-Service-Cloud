@@ -5,7 +5,7 @@
 @section('content')
     <div class="mb-4">
         <h1>API Tokens</h1>
-        <p class="text-sm text-text/70">Personal Bearer tokens for REST API v1 (SRS §8.3). See <a href="{{ route('api.docs') }}" class="text-secondary">API docs</a>.</p>
+        <p class="text-sm text-muted">Personal Bearer tokens for REST API v1 (SRS §8.3). See <a href="{{ route('api.docs') }}" class="text-secondary">API docs</a>.</p>
     </div>
 
     @if (! empty($plainToken))
@@ -15,22 +15,22 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('api-tokens.store') }}" class="mb-6 flex flex-wrap items-end gap-2 rounded bg-card p-4 shadow-[var(--shadow-card)]">
+    <form method="post" action="{{ route('api-tokens.store') }}" class="mb-6 flex flex-wrap items-end gap-2 crm-card p-4 sm:p-5">
         @csrf
         <label class="block min-w-[12rem] flex-1 text-sm">
             <span class="mb-1 block font-medium">Name</span>
-            <input type="text" name="name" required maxlength="120" class="min-h-11 w-full rounded border border-black/20 bg-page px-3 py-2 text-sm">
+            <input type="text" name="name" required maxlength="120" class="min-h-11 w-full rounded border border-border bg-page px-3 py-2 text-sm">
         </label>
         <label class="block text-sm">
             <span class="mb-1 block font-medium">Expires (optional)</span>
-            <input type="datetime-local" name="expires_at" class="min-h-11 rounded border border-black/20 bg-page px-3 py-2 text-sm">
+            <input type="datetime-local" name="expires_at" class="min-h-11 rounded border border-border bg-page px-3 py-2 text-sm">
         </label>
-        <button type="submit" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white">Create token</button>
+        <button type="submit" class="crm-btn-primary">Create token</button>
     </form>
 
     <div class="overflow-x-auto rounded bg-card shadow-[var(--shadow-card)]">
         <table class="min-w-full text-left text-sm">
-            <thead class="border-b border-black/10 bg-black/[0.03]">
+            <thead class="border-b border-border bg-black/[0.03]">
                 <tr>
                     <th class="px-3 py-2 font-semibold">Name</th>
                     <th class="px-3 py-2 font-semibold">Created</th>
@@ -55,7 +55,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td class="px-3 py-4 text-text/70" colspan="5">No tokens yet.</td></tr>
+                    <tr><td class="px-3 py-4 text-muted" colspan="5">No tokens yet.</td></tr>
                 @endforelse
             </tbody>
         </table>

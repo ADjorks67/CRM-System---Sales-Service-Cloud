@@ -35,7 +35,7 @@
                             @class([
                                 'rounded px-2 py-1 text-left no-underline hover:bg-secondary/10',
                                 'font-semibold text-secondary' => $isPast,
-                                'text-text/70' => ! $isPast && ! $isCurrent,
+                                'text-muted' => ! $isPast && ! $isCurrent,
                             ])
                         >
                             {{ $item['label'] }}
@@ -47,7 +47,7 @@
                             'rounded px-2 py-1',
                             'bg-secondary/15 font-semibold text-secondary ring-1 ring-secondary/30' => $isCurrent,
                             'font-medium text-secondary' => $isPast && ! $isCurrent,
-                            'text-text/60' => ! $isPast && ! $isCurrent,
+                            'text-muted' => ! $isPast && ! $isCurrent,
                         ])
                     >
                         {{ $item['label'] }}

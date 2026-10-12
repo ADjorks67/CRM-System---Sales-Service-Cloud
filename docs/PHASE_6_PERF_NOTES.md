@@ -40,3 +40,9 @@ See `scripts/load/README.md` (k6). Start with `k6 run scripts/load/health.js`.
 ## Note on `ilike '%term%'`
 
 Leading-wildcard search cannot fully use btree indexes; Phase 6 adds supporting indexes for equality/range filters and first_name lookups. Full trigram (`pg_trgm`) is **not** enabled yet — ask before adding the extension.
+
+## Gate evidence (2026-09-30)
+
+- Full suite: **172 passed** / 588 assertions after `npm run build`.
+- Archive job + indexes covered by Pest.
+- k6 scripts present under `scripts/load/`; 100-VU soak reserved for staging (Phase 7).

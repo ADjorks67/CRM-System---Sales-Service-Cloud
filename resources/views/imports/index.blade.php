@@ -6,9 +6,9 @@
     <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
         <div>
             <h1>Import Data</h1>
-            <p class="text-sm text-text/70">CSV import with field mapping for Leads, Accounts, Contacts, and Opportunities.</p>
+            <p class="text-sm text-muted">CSV import with field mapping for Leads, Accounts, Contacts, and Opportunities.</p>
         </div>
-        <a href="{{ route('exports.index') }}" class="inline-flex min-h-11 items-center rounded border border-black/20 bg-card px-4 py-2 text-sm no-underline">Export CSV</a>
+        <a href="{{ route('exports.index') }}" class="crm-btn-secondary">Export CSV</a>
     </div>
 
     @if (session('import_error_count'))
@@ -18,7 +18,7 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('imports.preview') }}" enctype="multipart/form-data" class="max-w-xl space-y-4 rounded bg-card p-4 shadow-[var(--shadow-card)]">
+    <form method="post" action="{{ route('imports.preview') }}" enctype="multipart/form-data" class="max-w-xl space-y-4 crm-card p-4 sm:p-5">
         @csrf
         <x-form-field name="object" label="Object" :options="$objects" />
         <div>
@@ -29,10 +29,10 @@
             @enderror
         </div>
         <label class="flex items-center gap-2 text-sm">
-            <input type="checkbox" name="update_or_insert" value="1" class="size-4 rounded border-black/20" @checked(old('update_or_insert', true))>
+            <input type="checkbox" name="update_or_insert" value="1" class="size-4 rounded border-border" @checked(old('update_or_insert', true))>
             Update existing records when a match is found
         </label>
-        <button type="submit" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white hover:bg-secondary/90">
+        <button type="submit" class="crm-btn-primary">
             Continue to mapping
         </button>
     </form>

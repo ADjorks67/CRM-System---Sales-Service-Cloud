@@ -10,12 +10,12 @@
 
 <x-related-list title="Notes & Attachments" :empty="$items->isEmpty() ? 'No attachments yet.' : null">
     @if ($items->isNotEmpty())
-        <ul class="divide-y divide-black/10 text-sm">
+        <ul class="divide-y divide-border text-sm">
             @foreach ($items as $attachment)
                 <li class="flex flex-wrap items-center justify-between gap-2 py-2">
                     <div>
                         <span class="font-medium">{{ $attachment->original_name }}</span>
-                        <span class="text-text/60">({{ number_format($attachment->size_bytes / 1024, 1) }} KB)</span>
+                        <span class="text-muted">({{ number_format($attachment->size_bytes / 1024, 1) }} KB)</span>
                     </div>
                     <div class="flex flex-wrap gap-2">
                         @if ($attachment->isImage())
@@ -42,9 +42,9 @@
             <input type="hidden" name="attachable_id" value="{{ $attachable->getKey() }}">
             <label class="block min-w-[14rem] flex-1 text-sm">
                 <span class="mb-1 block font-medium">Upload file (max 25MB)</span>
-                <input type="file" name="file" required class="min-h-11 w-full rounded border border-black/20 bg-page px-3 py-2 text-sm">
+                <input type="file" name="file" required class="min-h-11 w-full rounded border border-border bg-page px-3 py-2 text-sm">
             </label>
-            <button type="submit" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white">Upload</button>
+            <button type="submit" class="crm-btn-primary">Upload</button>
         </form>
         @error('file')
             <p class="mt-1 text-sm text-error">{{ $message }}</p>

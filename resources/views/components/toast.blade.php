@@ -15,7 +15,7 @@
 
 @if ($message)
     <div
-        {{ $attributes->merge(['class' => "mb-4 rounded border px-4 py-3 text-sm {$styles}", 'role' => $type === 'error' ? 'alert' : 'status']) }}
+        {{ $attributes->merge(['class' => "mb-4 rounded-xl border px-4 py-3 text-sm {$styles}", 'role' => $type === 'error' ? 'alert' : 'status']) }}
         data-crm-toast
     >
         {{ $message }}

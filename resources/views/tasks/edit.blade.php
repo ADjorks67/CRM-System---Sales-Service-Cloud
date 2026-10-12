@@ -3,16 +3,19 @@
 @section('title', 'Edit Task — '.config('app.name'))
 
 @section('content')
-    <h1 class="mb-4">Edit Task</h1>
+    <div class="mb-4">
+        <x-ui.back :href="route('tasks.show', $task)" label="Back to Task" />
+        <h1 class="mt-2">Edit Task</h1>
+    </div>
 
-    <form method="post" action="{{ route('tasks.update', $task) }}" class="max-w-4xl space-y-4 rounded bg-card p-6 shadow-[var(--shadow-card)]">
+    <form method="post" action="{{ route('tasks.update', $task) }}" class="max-w-4xl space-y-4 crm-card p-6">
         @csrf
         @method('PUT')
         @include('tasks._form')
 
         <div class="flex flex-wrap gap-2 pt-2">
-            <button type="submit" name="save_action" value="save" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white">Save</button>
-            <a href="{{ route('tasks.show', $task) }}" class="inline-flex min-h-11 items-center rounded border border-black/20 px-4 py-2 text-sm text-text no-underline">Cancel</a>
+            <button type="submit" name="save_action" value="save" class="crm-btn-primary">Save</button>
+            <a href="{{ route('tasks.show', $task) }}" class="crm-btn-secondary">Cancel</a>
         </div>
     </form>
 @endsection

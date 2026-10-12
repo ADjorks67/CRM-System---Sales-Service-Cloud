@@ -3,7 +3,7 @@
     $widget = $widget ?? [];
 @endphp
 
-<fieldset class="rounded border border-black/10 p-4" data-widget-row>
+<fieldset class="rounded border border-border p-4" data-widget-row>
     <div class="mb-3 flex items-center justify-between gap-2">
         <legend class="px-0 text-sm font-semibold text-primary" data-widget-heading>Widget {{ is_numeric($index) ? ((int) $index + 1) : '' }}</legend>
         <button type="button" class="text-sm text-error underline" data-remove-widget title="Remove widget" aria-label="Remove widget">Remove</button>

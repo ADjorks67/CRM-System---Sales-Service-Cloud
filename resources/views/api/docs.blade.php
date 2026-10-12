@@ -5,7 +5,7 @@
 @section('content')
     <div class="mb-4">
         <h1>REST API v1</h1>
-        <p class="text-sm text-text/70">OpenAPI reference for Leads, Accounts, Contacts, Opportunities, and Cases (SRS §8.3).</p>
+        <p class="text-sm text-muted">OpenAPI reference for Leads, Accounts, Contacts, Opportunities, and Cases (SRS §8.3).</p>
     </div>
 
     <div class="space-y-4 rounded bg-card p-6 text-sm shadow-[var(--shadow-card)]">

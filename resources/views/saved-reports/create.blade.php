@@ -15,6 +15,6 @@
     <form method="post" action="{{ route('saved-reports.store') }}" class="grid max-w-3xl gap-4">
         @csrf
         @include('saved-reports._form', ['savedReport' => null])
-        <button type="submit" class="inline-flex min-h-11 w-fit items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white">Save &amp; Preview</button>
+        <button type="submit" class="crm-btn-primary">Save &amp; Preview</button>
     </form>
 @endsection

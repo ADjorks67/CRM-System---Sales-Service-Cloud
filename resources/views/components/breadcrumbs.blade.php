@@ -3,12 +3,12 @@
 ])
 
 @if (count($items) > 0)
-    <nav class="mb-3 text-sm text-text/70" aria-label="Breadcrumb">
+    <nav class="text-sm text-muted" aria-label="Breadcrumb">
         <ol class="flex flex-wrap items-center gap-1">
             @foreach ($items as $index => $item)
                 <li class="inline-flex items-center gap-1">
                     @if ($index > 0)
-                        <span class="text-text/40" aria-hidden="true">/</span>
+                        <span class="text-muted/60" aria-hidden="true">/</span>
                     @endif
                     @if (! empty($item['url']) && ! $loop->last)
                         <a href="{{ $item['url'] }}" class="text-secondary no-underline hover:underline">{{ $item['label'] }}</a>

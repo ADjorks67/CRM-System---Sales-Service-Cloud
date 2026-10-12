@@ -4,7 +4,7 @@
 
 @section('content')
     <h1 class="mb-4">Reset password</h1>
-    <p class="mb-6 text-sm text-text/70">Choose a new password (min. 8 characters, upper, lower, and a number). You cannot reuse your last 5 passwords.</p>
+    <p class="mb-6 text-sm text-muted">Choose a new password (min. 8 characters, upper, lower, and a number). You cannot reuse your last 5 passwords.</p>
 
     <form method="post" action="{{ route('password.update') }}" class="space-y-4">
         @csrf
@@ -15,10 +15,10 @@
         <x-form-field name="password_confirmation" label="Confirm password" type="password" required autocomplete="new-password" />
 
         <div class="flex flex-wrap items-center gap-3 pt-2">
-            <button type="submit" class="inline-flex min-h-11 items-center rounded bg-secondary px-4 py-2 text-sm font-semibold text-white hover:bg-secondary/90">
+            <button type="submit" class="crm-btn-primary">
                 Reset password
             </button>
-            <a href="{{ route('login') }}" class="text-sm">Back to sign in</a>
+            <x-ui.back :href="route('login')" label="Back to sign in" />
         </div>
     </form>
 @endsection

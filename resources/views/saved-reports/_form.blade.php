@@ -13,7 +13,7 @@
     <input type="hidden" name="report_type" value="{{ $reportType }}">
 @endif
 
-<fieldset class="rounded border border-black/10 p-4">
+<fieldset class="rounded border border-border p-4">
     <legend class="px-1 text-sm font-semibold text-primary">Columns</legend>
     <div class="grid gap-2 sm:grid-cols-2">
         @foreach ($fields as $key => $field)
@@ -25,7 +25,7 @@
     </div>
 </fieldset>
 
-<fieldset class="rounded border border-black/10 p-4">
+<fieldset class="rounded border border-border p-4">
     <legend class="px-1 text-sm font-semibold text-primary">Group By (optional)</legend>
     <x-form-field
         name="definition[group_by]"
@@ -35,7 +35,7 @@
     />
 </fieldset>
 
-<fieldset class="rounded border border-black/10 p-4">
+<fieldset class="rounded border border-border p-4">
     <legend class="px-1 text-sm font-semibold text-primary">Chart (optional)</legend>
     <div class="grid gap-3 sm:grid-cols-2">
         <x-form-field name="definition[chart][type]" label="Chart type" :value="old('definition.chart.type', $definition['chart']['type'] ?? 'bar')" :options="['bar' => 'Bar', 'donut' => 'Donut', 'line' => 'Line']" />
@@ -43,7 +43,7 @@
     </div>
 </fieldset>
 
-<fieldset class="rounded border border-black/10 p-4">
+<fieldset class="rounded border border-border p-4">
     <legend class="px-1 text-sm font-semibold text-primary">Filter</legend>
     @php $filter = $definition['filters'][0] ?? []; @endphp
     <div class="grid gap-3 sm:grid-cols-3">

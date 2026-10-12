@@ -5,12 +5,12 @@
 @section('content')
     <div class="mb-4">
         <h1>My Report Subscriptions</h1>
-        <p class="text-sm text-text/70">Scheduled CSV email delivery (FR-RPT-006).</p>
+        <p class="text-sm text-muted">Scheduled CSV email delivery (FR-RPT-006).</p>
     </div>
 
     <div class="overflow-x-auto rounded bg-card shadow-[var(--shadow-card)]">
         <table class="min-w-full text-left text-sm">
-            <thead class="border-b border-black/10 bg-black/[0.03]">
+            <thead class="border-b border-border bg-black/[0.03]">
                 <tr>
                     <th class="px-3 py-2 font-semibold">Report</th>
                     <th class="px-3 py-2 font-semibold">Frequency</th>
@@ -36,7 +36,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td class="px-3 py-4 text-text/70" colspan="5">No subscriptions yet. Open a saved report and click Subscribe.</td></tr>
+                    <tr><td class="px-3 py-4 text-muted" colspan="5">No subscriptions yet. Open a saved report and click Subscribe.</td></tr>
                 @endforelse
             </tbody>
         </table>
